@@ -14,6 +14,7 @@ import com.example.myapplication.R
 import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.dto.User
+import com.example.myapplication.packet.LoginCheckPacket
 import retrofit2.Call
 import retrofit2.Response
 
@@ -46,17 +47,17 @@ class LoginActivity : AppCompatActivity() {
             }
 
 
-            FunClient.retrofit.tryLogin(userId, userPw).enqueue(object:retrofit2.Callback<User>{
-                override fun onResponse(call: Call<User>, response: Response<User>) {
+            FunClient.retrofit.tryLogin(LoginCheckPacket(userId, userPw)).enqueue(object:retrofit2.Callback<Boolean>{
+                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                     Log.d("retrofit try login", "try success")
-
-                    if(call == null){
+                    val isSuccess = response.body() as Boolean
+                    if(isSuccess == false){
                         displayWarningDialog("아이디 또는 비밀번호를 확인해주세요")
                         Log.d("retrofit try login", "login fail")
                     }
                 }
 
-                override fun onFailure(call: Call<User>, t: Throwable) {
+                override fun onFailure(call: Call<Boolean>, t: Throwable) {
                     Log.d("retrofit try login", "onFailure : ${t.message}")
                 }
 

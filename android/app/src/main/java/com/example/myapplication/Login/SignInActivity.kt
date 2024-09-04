@@ -34,6 +34,9 @@ class SignInActivity : AppCompatActivity() {
             val userId = binding.edUserId.text.toString()
             val userPw = binding.edUserPw.text.toString()
             val userEmail = binding.edUserEmail.text.toString()
+            val userName = binding.edUserName.text.toString()
+            val address = binding.edUserAddress.text.toString()
+
 
             if(userId.isEmpty()){
                 displayWarningDialog("아이디를 입력해주세요")
@@ -50,28 +53,42 @@ class SignInActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if(userName.isEmpty()){
+                displayWarningDialog("이름을 입력해주세요")
+                return@setOnClickListener
+            }
+
+            if(address.isEmpty()){
+                displayWarningDialog("주소를 입력해주세요")
+                return@setOnClickListener
+            }
+
+
             val user = User(
                 0,
                 userId,
                 userPw,
-                userEmail
+                userEmail,
+                userName,
+                address,
+                ""
             )
 
-            FunClient.retrofit.signIn(user).enqueue(object : Callback<Boolean>{
-                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-                    val isSuccess = response.body() as Boolean
-                    if(isSuccess){
+            FunClient.retrofit.signIn(user).enqueue(object : Callback<String>{
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    val msg = response.body() as String
+
+                    if(msg == "Already exist ID"){
+                        displayWarningDialog("이미 존재하는 아이디 입니다")
+                    }else{
                         Log.d("retrofit try sign in", "successful")
                         startActivity(Intent(this@SignInActivity, LoginActivity::class.java))
                         finish()
                         return
                     }
-                    else{
-                        displayWarningDialog("아이디가 이미 존재합니다.")
-                    }
                 }
 
-                override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                override fun onFailure(call: Call<String>, t: Throwable) {
                     Log.d("retrofit try sign in", "onFailure : ${t.message}")
                 }
 
