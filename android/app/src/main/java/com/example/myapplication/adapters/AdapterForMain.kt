@@ -1,11 +1,14 @@
-package com.example.myapplication
+package com.example.myapplication.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.myapplication.favorite.FavoriteFragment
 import com.example.myapplication.home.HomeFragment
+import com.example.myapplication.myPage.MyFragment
+import com.example.myapplication.search.SearchFragment
 
-class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+class AdapterForMain(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
 
     override fun getItemCount(): Int {
         return 4

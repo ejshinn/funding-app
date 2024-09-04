@@ -1,13 +1,21 @@
 package com.example.myapplication.home
 
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.R
+import com.example.myapplication.adapters.AdapterForAll
+import com.example.myapplication.adapters.AdapterForBanner
+import com.example.myapplication.adapters.AdapterForCategory
+import com.example.myapplication.adapters.AdapterForProduct
+import com.example.myapplication.adapters.AdapterForProductHoriz
 import com.example.myapplication.databinding.FragmentHomeBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -25,9 +33,11 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var viewPager: ViewPager2
-//    private val handler = Handler(Looper.getMainLooper())
-//    private lateinit var imageSliderAdapter: ImageSliderAdapter
+    private lateinit var binding: FragmentHomeBinding
+    private lateinit var bannerView: ViewPager2
+
+    private val handler = Handler(Looper.getMainLooper())
+    private lateinit var imageSliderAdapter: AdapterForBanner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,22 +51,52 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentHomeBinding.inflate(layoutInflater)
 
-        // ViewPager2 초기화
-        viewPager = binding.bennerView
+        binding = FragmentHomeBinding.inflate(layoutInflater)
 
-        // drawable 폴더에 있는 이미지 리소스 ID를 리스트로 정의
-//        val imageList = listOf(R.drawable.image1, R.drawable.image2, R.drawable.image3)
+        bannerView = binding.bannerView
+        val imageList = listOf(R.drawable.home1, R.drawable.home2, R.drawable.home3)
+        imageSliderAdapter = AdapterForBanner(imageList)
+        bannerView.adapter = imageSliderAdapter
+        setupAutoSlide()
 
-        // 어댑터 설정
-//        imageSliderAdapter = ImageSliderAdapter(imageList)
-//        viewPager.adapter = imageSliderAdapter
+        val categoryView = binding.categoryRecyclerView
+        val categoryList = listOf(R.drawable.category1)
+        categoryView.adapter = AdapterForCategory(categoryList)
+        categoryView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
-        // 자동 슬라이드 설정
-//        setupAutoSlide()
+        val populView = binding.populRecyclerView
+        val productList = listOf("")
+        populView.adapter = AdapterForProduct(productList)
+        populView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+
+        val productHorizView = binding.productRecycleViewHoriental
+        val productHoriz = listOf("dd")
+        val gridLayoutManager = GridLayoutManager(this.context, 3)
+        gridLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        productHorizView.layoutManager = gridLayoutManager
+        productHorizView.adapter = AdapterForProductHoriz(productHoriz)
+
+        val productAllView = binding.allProductRecyclerView
+        val productAllList = listOf("")
+        val gridLayoutManager2 = GridLayoutManager(this.context, 2)
+        productAllView.layoutManager = gridLayoutManager2
+        productAllView.adapter = AdapterForAll(productAllList)
 
         return binding.root
+    }
+
+    private fun setupAutoSlide() {
+        val runnable = object : Runnable {
+            override fun run() {
+                val nextItem = (bannerView.currentItem + 1) % imageSliderAdapter.itemCount
+                bannerView.setCurrentItem(nextItem, true)
+                handler.postDelayed(this, 3000)
+            }
+        }
+
+        // 자동 슬라이드 시작
+        handler.postDelayed(runnable, 3000)
     }
 
     companion object {

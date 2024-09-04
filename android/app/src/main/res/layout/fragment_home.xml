@@ -13,51 +13,86 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="vertical" >
 
             <androidx.viewpager2.widget.ViewPager2
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:id="@+id/bennerView" />
+                    android:id="@+id/bannerView"
+                    android:layout_margin="0dp">
+
+            </androidx.viewpager2.widget.ViewPager2>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/categoryRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
+                    android:orientation="horizontal"
+                    android:padding="16dp" />
 
-            <FrameLayout
+            <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:padding="16dp">
 
                 <TextView
-                        android:text="TextView"
+                        android:text="인기 프로젝트"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView" />
+                        android:id="@+id/textView"
+                        android:textStyle="bold"
+                        android:textSize="18sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/populRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-            </FrameLayout>
+                        android:layout_height="wrap_content" />
+            </LinearLayout>
 
-            <FrameLayout
+            <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                <TextView
+                        android:text="프로젝트 가로"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView2"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/productRecycleViewHoriental"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-            </FrameLayout>
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:clipToPadding="false"
+                        android:clipChildren="false" />
+            </LinearLayout>
 
-            <FrameLayout
+            <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                <TextView
+                        android:text="이런 프로젝트 어때요?"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView3"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/allProductRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-            </FrameLayout>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
