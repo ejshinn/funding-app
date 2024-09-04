@@ -1,11 +1,17 @@
 package com.example.myapplication.search
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
+import com.example.myapplication.adapters.AdapterForAll
+import com.example.myapplication.adapters.AdapterForSearch
+import com.example.myapplication.databinding.FragmentSearchBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +41,21 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        val binding = FragmentSearchBinding.inflate(layoutInflater)
+        val searchView = binding.searchView
+////        searchView.isIconified = false // 검색창 기본 확장 상태
+//        searchView.setIconifiedByDefault(false) // 돋보기 아이콘을 클릭하지 않아도 확장되도록 설정
+////        searchView.isFocusable = true
+////        searchView.isFocusableInTouchMode = true
+//        searchView.requestFocus()
+//        searchView.queryHint = "검색어를 입력하세요"
+        searchView.findViewById<View>(androidx.appcompat.R.id.search_plate).setBackgroundColor(Color.TRANSPARENT)
+
+        val gridLayoutManager = GridLayoutManager(this.context, 5, GridLayoutManager.HORIZONTAL, false)
+        binding.recyclerView.layoutManager = gridLayoutManager
+        binding.recyclerView.adapter = AdapterForSearch()
+
+        return binding.root
     }
 
     companion object {
