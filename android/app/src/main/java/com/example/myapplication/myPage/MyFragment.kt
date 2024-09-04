@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
+import com.example.myapplication.adapters.AdapterForMy
+import com.example.myapplication.databinding.FragmentMyBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,8 +37,13 @@ class MyFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my, container, false)
+
+        val binding = FragmentMyBinding.inflate(layoutInflater)
+
+        binding.recyclerView2.adapter = AdapterForMy()
+        binding.recyclerView2.layoutManager = LinearLayoutManager(this.context)
+
+        return binding.root
     }
 
     companion object {

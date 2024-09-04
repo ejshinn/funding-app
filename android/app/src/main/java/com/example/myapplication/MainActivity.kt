@@ -22,10 +22,10 @@ class MainActivity : AppCompatActivity() {
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
-                0 -> tab.text = "HOME"
-                1 -> tab.text = "SEARCH"
-                2 -> tab.text = "FAVORITE"
-                else -> tab.text = "MY"
+                0 -> tab.setIcon(R.drawable.tab_home)
+                1 -> tab.setIcon(R.drawable.tab_search)
+                2 -> tab.setIcon(R.drawable.tab_favorite)
+                else -> tab.setIcon(R.drawable.tab_my)
             }
         }.attach()
 
