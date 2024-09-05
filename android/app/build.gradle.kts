@@ -52,4 +52,6 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation ("com.squareup.picasso:picasso:2.71828")
+
 }

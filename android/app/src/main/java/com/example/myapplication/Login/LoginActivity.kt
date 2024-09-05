@@ -1,6 +1,5 @@
 package com.example.myapplication.Login
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,11 +8,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.myapplication.MainActivity
+import com.example.myapplication.activity.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.databinding.ActivityLoginBinding
-import com.example.myapplication.dto.User
 import com.example.myapplication.packet.LoginCheckPacket
 import retrofit2.Call
 import retrofit2.Response
