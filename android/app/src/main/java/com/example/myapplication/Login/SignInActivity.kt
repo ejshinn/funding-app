@@ -11,6 +11,9 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.R
 import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.databinding.ActivitySignInBinding
+import com.example.myapplication.dto.Favorite
+import com.example.myapplication.dto.Project
+import com.example.myapplication.dto.Support
 import com.example.myapplication.dto.User
 import retrofit2.Call
 import retrofit2.Callback
@@ -71,7 +74,9 @@ class SignInActivity : AppCompatActivity() {
                 userEmail,
                 userName,
                 address,
-                ""
+                listOf<Project>(),
+                listOf<Support>(),
+                listOf<Favorite>()
             )
 
             FunClient.retrofit.signIn(user).enqueue(object : Callback<String>{
@@ -91,7 +96,6 @@ class SignInActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<String>, t: Throwable) {
                     Log.d("retrofit try sign in", "onFailure : ${t.message}")
                 }
-
             })
         }
 
