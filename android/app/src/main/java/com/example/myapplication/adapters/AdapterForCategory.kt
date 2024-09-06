@@ -1,8 +1,10 @@
 package com.example.myapplication.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.activity.CategoryActivity
 import com.example.myapplication.databinding.ItemCategoryBinding
 
 class AdapterForCategory(var categoryList: List<Int>): RecyclerView.Adapter<AdapterForCategory.Holder>() {
@@ -13,11 +15,21 @@ class AdapterForCategory(var categoryList: List<Int>): RecyclerView.Adapter<Adap
     }
 
     override fun getItemCount(): Int {
-//        return categoryList.size
-        return 8
+        return categoryList.size
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+
+        val category = categoryList[position]
+
+        holder.binding.imageView2.setImageResource(category)
+
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, CategoryActivity::class.java)
+            intent.putExtra("category", category)
+            context.startActivity(intent)
+        }
 
     }
 }
