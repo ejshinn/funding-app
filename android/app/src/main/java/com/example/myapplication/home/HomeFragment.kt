@@ -61,7 +61,19 @@ class HomeFragment : Fragment() {
         setupAutoSlide()
 
         val categoryView = binding.categoryRecyclerView
-        val categoryList = listOf(R.drawable.category1)
+        val categoryList = listOf(
+            R.drawable.cate1,
+            R.drawable.cate2,
+            R.drawable.cate3,
+            R.drawable.cate4,
+            R.drawable.cate5,
+            R.drawable.cate6,
+            R.drawable.cate7,
+            R.drawable.cate8,
+            R.drawable.cate9,
+            R.drawable.cate10,
+            R.drawable.cate11,
+            )
         categoryView.adapter = AdapterForCategory(categoryList)
         categoryView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 

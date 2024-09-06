@@ -13,11 +13,10 @@ class AdapterForCategory(var categoryList: List<Int>): RecyclerView.Adapter<Adap
     }
 
     override fun getItemCount(): Int {
-//        return categoryList.size
-        return 8
+        return categoryList.size
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-
+        holder.binding.imageView2.setImageResource(categoryList[position])
     }
 }
