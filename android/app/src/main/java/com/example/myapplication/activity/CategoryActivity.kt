@@ -1,11 +1,13 @@
-package com.example.myapplication
+package com.example.myapplication.activity
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.R
 import com.example.myapplication.adapters.AdapterForCategoryDetail
 import com.example.myapplication.databinding.ActivityCategoryBinding
 
@@ -23,9 +25,19 @@ class CategoryActivity : AppCompatActivity() {
             insets
         }
 
+        supportActionBar?.show()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "카테고리 뷰"
+
         val projectList = listOf("")
         binding.recyclerView.adapter = AdapterForCategoryDetail(projectList)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        finish()
+        return true
+    }
+
 }
