@@ -1,13 +1,17 @@
 package com.example.myapplication.Retrofit
 
+import com.example.myapplication.dto.Category
 import com.example.myapplication.dto.Project
 import com.example.myapplication.dto.User
+import com.example.myapplication.retrofitPacket.FavoritePacket
 import com.example.myapplication.retrofitPacket.LoginCheckPacket
-import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.example.myapplication.retrofitPacket.SupportPacket
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface FunInterface {
 
@@ -17,12 +21,70 @@ interface FunInterface {
     @POST("/signIn")
     fun signIn(@Body user:User) : Call<String>
 
+    @GET("/user/{userId}")
+    fun getUser(@Path("userId") userId: Int) : Call<User>
 
     /* ----------------------------------------*/
 
-    @GET("/project")
-    fun getProjectList() :Call<List<ProjectDetail>>
+    // 상세 보기용
+    @GET("/project/{projectId}")
+    fun getProjectDetail(@Path("projectId") projectId: Int) :Call<Project>
 
+    @GET("/project/list")
+    fun getProjectList() :Call<List<Project>>
+
+
+    // 프로젝트 인기순
+    @GET("/project/list/ranking")
+    fun getProjectRankingList() : Call<List<Project>>
+
+
+    // 검색 Key로 시작하는 title을 가진 프로젝트 리스트 (10 ~ 20)?
+    @GET("/project/search")
+    fun getProjectSearch(@Body searchKey:String) : Call<List<Project>>
+
+
+    //프로젝트 작성
     @POST("/project/write")
     fun writeProject(@Body project:Project) :Call<Void>
+
+
+    /*-----------------------------------------*/
+
+    // 프로젝트에 좋아요 누른 유저 수
+    @GET("/favorite/user")
+    fun getFavoriteUserCount(@Body projectId:Int) : Call<Int>
+
+    // 자신이 좋아요 누른 프로젝트 리스트
+    @GET("/favorite/project")
+    fun getFavoriteProject(@Body userId:Int) : Call<List<Project>>
+
+    @POST("/favorite")
+    fun createFavorite(@Body favoritePacket: FavoritePacket) :Call<Void>
+
+    //FavoriteDelPacket => projectId + userId
+    @DELETE("/favorite/delete")
+    fun deleteFavorite(@Body favoritePacket: FavoritePacket) : Call<Void>
+
+    /*-----------------------------------------*/
+
+    // 후원한 유저 수
+    @GET("/support/user")
+    fun getSupportUserCount(@Body projectId: Int) : Call<Int>
+
+    // 자신이 후원한 프로젝트 리스트
+    @GET("/support/project")
+    fun getSupportingProject(@Body userId:Int) : Call<List<Project>>
+
+    @POST("/support")
+    fun createSupport(@Body supportPacket: SupportPacket) : Call<Void>
+
+    //SupportDelPacket => projectId + userId
+    @DELETE("/support/delete")
+    fun getSupportDelete(@Body supportPacket: SupportPacket) : Call<Void>
+
+    /*-----------------------------------------*/
+
+    @GET("/category/{categoryId}")
+    fun getCategory(@Path("categoryId") categoryId:Int) : Call<Category>
 }
