@@ -24,6 +24,9 @@ interface FunInterface {
     @GET("/user/{userId}")
     fun getUser(@Path("userId") userId: Int) : Call<User>
 
+    @POST("/logOut")
+    fun logOut(@Body user: User) : Call<Void>
+
     /* ----------------------------------------*/
 
     // 상세 보기용
