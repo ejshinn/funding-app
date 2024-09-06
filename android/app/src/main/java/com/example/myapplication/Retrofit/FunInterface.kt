@@ -5,6 +5,7 @@ import com.example.myapplication.dto.Project
 import com.example.myapplication.dto.User
 import com.example.myapplication.retrofitPacket.FavoritePacket
 import com.example.myapplication.retrofitPacket.LoginCheckPacket
+import com.example.myapplication.retrofitPacket.ProjectDetail
 import com.example.myapplication.retrofitPacket.SupportPacket
 import retrofit2.Call
 import retrofit2.http.Body
@@ -19,7 +20,7 @@ interface FunInterface {
     fun tryLogin(@Body loginCheckPacket: LoginCheckPacket) : Call<Boolean>
 
     @POST("/signIn")
-    fun signIn(@Body user:User) : Call<String>
+    fun signIn(@Body user:User) : Call<Boolean>
 
     @GET("/user/{userId}")
     fun getUser(@Path("userId") userId: Int) : Call<User>
@@ -49,7 +50,7 @@ interface FunInterface {
 
     //프로젝트 작성
     @POST("/project/write")
-    fun writeProject(@Body project:Project) :Call<Void>
+    fun writeProject(@Body project: ProjectDetail) :Call<Void>
 
 
     /*-----------------------------------------*/
