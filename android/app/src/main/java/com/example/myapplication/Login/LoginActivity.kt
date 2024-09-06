@@ -33,14 +33,14 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        FunClient.retrofit.getProjectList().enqueue(object:retrofit2.Callback<List<ProjectDetail>>{
-            override fun onResponse(call: Call<List<ProjectDetail>>, response: Response<List<ProjectDetail>>) {
+        FunClient.retrofit.getProjectList().enqueue(object:retrofit2.Callback<List<Project>>{
+            override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
 //                val dataMap = response.body() as Map<>
                 Log.d("retrofit getProjectList", "-------")
 
             }
 
-            override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+            override fun onFailure(call: Call<List<Project>>, t: Throwable) {
                 Log.d("retrofit getProjectList", "${t.message}")
             }
         })
@@ -80,46 +80,18 @@ class LoginActivity : AppCompatActivity() {
 
 
         binding.btnTryLogin.setOnClickListener{
-            FunClient.retrofit.getProjectList().enqueue(object:retrofit2.Callback<List<ProjectDetail>>{
-                override fun onResponse(call: Call<List<ProjectDetail>>, response: Response<List<ProjectDetail>>) {
+            FunClient.retrofit.getProjectList().enqueue(object:retrofit2.Callback<List<Project>>{
+                override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
 //                val dataMap = response.body() as Map<>
                     Log.d("retrofit getProjectList", "-------")
 
                 }
 
-                override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+                override fun onFailure(call: Call<List<Project>>, t: Throwable) {
                     Log.d("retrofit getProjectList", "${t.message}")
                 }
             })
-//            val userId = binding.edUserId.text.toString()
-//            val userPw = binding.edUserPw.text.toString()
-//
-//            if(userId.isEmpty()){
-//                displayWarningDialog("아이디를 입력해주세요.")
-//                return@setOnClickListener
-//            }
-//
-//            if(userPw.isEmpty()){
-//                displayWarningDialog("비밀번호를 입력해주세요")
-//                return@setOnClickListener
-//            }
-//
-//
-//            FunClient.retrofit.tryLogin(LoginCheckPacket(userId, userPw)).enqueue(object:retrofit2.Callback<Boolean>{
-//                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-//                    Log.d("retrofit try login", "try success")
-//                    val isSuccess = response.body() as Boolean
-//                    if(isSuccess == false){
-//                        displayWarningDialog("아이디 또는 비밀번호를 확인해주세요")
-//                        Log.d("retrofit try login", "login fail")
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<Boolean>, t: Throwable) {
-//                    Log.d("retrofit try login", "onFailure : ${t.message}")
-//                }
-//
-//            })
+
         }
 
         binding.btnGoSignIn.setOnClickListener{
