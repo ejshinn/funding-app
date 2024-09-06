@@ -11,7 +11,7 @@ data class ProjectDetail(
     val contents:String,
     val startDate: String,
     val endDate: String,
-    val prtPrice:Int,
+    val perPrice:Int,
     val userId:Int,
     val categoryId:Int
 )

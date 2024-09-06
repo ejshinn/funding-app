@@ -36,6 +36,8 @@ class RetrofitTestActivity : AppCompatActivity() {
 
         FunClient.retrofit.getUser(1).enqueue(object: retrofit2.Callback<User>{
             override fun onResponse(call: Call<User>, response: Response<User>) {
+
+
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
