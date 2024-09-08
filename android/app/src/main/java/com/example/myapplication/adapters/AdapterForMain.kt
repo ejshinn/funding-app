@@ -3,10 +3,10 @@ package com.example.myapplication.adapters
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.myapplication.favorite.FavoriteFragment
-import com.example.myapplication.home.HomeFragment
-import com.example.myapplication.myPage.MyFragment
-import com.example.myapplication.search.SearchFragment
+import com.example.myapplication.fragments.FavoriteFragment
+import com.example.myapplication.fragments.HomeFragment
+import com.example.myapplication.fragments.MyFragment
+import com.example.myapplication.fragments.SearchFragment
 
 class AdapterForMain(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
 
