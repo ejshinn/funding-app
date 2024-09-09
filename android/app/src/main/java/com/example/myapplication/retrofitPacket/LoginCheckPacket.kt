@@ -1,4 +1,4 @@
-package com.example.myapplication.packet
+package com.example.myapplication.retrofitPacket
 
 data class LoginCheckPacket(
     val userId:String,

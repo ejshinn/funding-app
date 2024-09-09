@@ -11,6 +11,9 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.R
 import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.databinding.ActivitySignInBinding
+import com.example.myapplication.dto.Favorite
+import com.example.myapplication.dto.Project
+import com.example.myapplication.dto.Support
 import com.example.myapplication.dto.User
 import retrofit2.Call
 import retrofit2.Callback
@@ -65,33 +68,34 @@ class SignInActivity : AppCompatActivity() {
 
 
             val user = User(
-                0,
                 userId,
                 userPw,
                 userEmail,
                 userName,
                 address,
-                ""
+                listOf<Project>(),
+                listOf<Support>(),
+                listOf<Favorite>()
             )
 
-            FunClient.retrofit.signIn(user).enqueue(object : Callback<String>{
-                override fun onResponse(call: Call<String>, response: Response<String>) {
-                    val msg = response.body() as String
+            FunClient.retrofit.signIn(user).enqueue(object : Callback<Boolean>{
+                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                    val result = response.body() as Boolean
 
-                    if(msg == "Already exist ID"){
-                        displayWarningDialog("이미 존재하는 아이디 입니다")
-                    }else{
+                    if(result == true){
                         Log.d("retrofit try sign in", "successful")
                         startActivity(Intent(this@SignInActivity, LoginActivity::class.java))
                         finish()
                         return
                     }
+                    else{
+                        displayWarningDialog("이미 존재하는 아이디 입니다")
+                    }
                 }
 
-                override fun onFailure(call: Call<String>, t: Throwable) {
+                override fun onFailure(call: Call<Boolean>, t: Throwable) {
                     Log.d("retrofit try sign in", "onFailure : ${t.message}")
                 }
-
             })
         }
 
