@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer> {
 
+
     //find
     //save
     //delete
@@ -18,11 +19,14 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
     List<ProjectEntity> findAllByTitleStartingWith(String key);
 
 
-    List<ProjectEntity> findTop13ByOrderByStartDate();
+    List<ProjectEntity> findTop8ByOrderByStartDate();
     //
 //    List<ProjectEntity> findTop13OrderBy();
 
 //    List<ProjectEntity> findTop13();
+
+    List<ProjectEntity> findTop6By();
+
 
     @Query("select p from ProjectEntity as p order by p.startDate")
     List<ProjectEntity> querySelectAllOrderByStartDate();
@@ -30,7 +34,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
 
 
     // 마감 임박순으로 size 만큼
-    @Query(value = "select p from ProjectEntity as p order by (p.endDate - now())", nativeQuery = true)
-    List<ProjectEntity> findAllOrderByDeadLine(@Param("size") int size);
+    @Query(value = "select p from ProjectEntity as p order by (p.endDate - now())")
+    List<ProjectEntity> findTop9By();
 
 }

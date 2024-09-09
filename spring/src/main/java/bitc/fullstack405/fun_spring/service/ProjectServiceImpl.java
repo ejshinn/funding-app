@@ -6,9 +6,13 @@ import bitc.fullstack405.fun_spring.repository.CategoryRepository;
 import bitc.fullstack405.fun_spring.repository.ProjectRepository;
 import bitc.fullstack405.fun_spring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,14 +44,14 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<ProjectDto> getProjectListRanking() {
 
-        return projectRepository.findTop13ByOrderByStartDate().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedHashSet::new)).stream().toList();
+        return projectRepository.findTop8ByOrderByStartDate().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedHashSet::new)).stream().toList();
     }
 
     // 검색    (  임시로 만듦  )
     @Override
     public List<ProjectDto> getProjectListSearch(String key) {
 
-        return projectRepository.findAllByTitleStartingWith(key).stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedHashSet::new)).stream().toList();
+        return projectRepository.findAllByTitleStartingWith(key).stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
     }
 
     // 작성
@@ -74,10 +78,19 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     @Override
-    public List<ProjectDto> getProjectListByDeadLine(int size) {
+    public List<ProjectDto> getProjectListByDeadLine() {
 //        projectRepository.findAll
 
-        return projectRepository.querySelectAllOrderByStartDate().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedHashSet::new)).stream().toList();
+        return projectRepository.findTop9By().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
 //        return projectRepository.findAllOrderByDeadLine(size);
+    }
+
+    @Override
+    public List<ProjectDto> getHomeScrollProject(int pageNum) {
+        Page<ProjectEntity> page = projectRepository.findAll(
+                PageRequest.of(pageNum, 6, Sort.Direction.ASC, "startDate")
+        );
+
+        return page.getContent().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
     }
 }

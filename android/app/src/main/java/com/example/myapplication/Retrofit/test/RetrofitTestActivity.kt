@@ -13,6 +13,7 @@ import com.example.myapplication.dto.Category
 import com.example.myapplication.dto.Project
 import com.example.myapplication.dto.User
 import com.example.myapplication.retrofitPacket.FavoritePacket
+import com.example.myapplication.retrofitPacket.HomeInitPacket
 import com.example.myapplication.retrofitPacket.ProjectDetail
 import com.example.myapplication.retrofitPacket.UserPacket
 import retrofit2.Call
@@ -57,13 +58,26 @@ class RetrofitTestActivity : AppCompatActivity() {
 //            }
 //
 //        })
+//
+//        FunClient.retrofit.getUser("test1").enqueue(object : retrofit2.Callback<UserPacket>{
+//            override fun onResponse(call: Call<UserPacket>, response: Response<UserPacket>) {
+//                Log.d("test", "Test")
+//            }
+//
+//            override fun onFailure(call: Call<UserPacket>, t: Throwable) {
+//            }
+//
+//        })
 
-        FunClient.retrofit.getUser("test1").enqueue(object : retrofit2.Callback<UserPacket>{
-            override fun onResponse(call: Call<UserPacket>, response: Response<UserPacket>) {
+        FunClient.retrofit.getHomeInitData().enqueue(object :retrofit2.Callback<HomeInitPacket>{
+            override fun onResponse(
+                call: Call<HomeInitPacket>,
+                response: Response<HomeInitPacket>
+            ) {
                 Log.d("test", "Test")
             }
 
-            override fun onFailure(call: Call<UserPacket>, t: Throwable) {
+            override fun onFailure(call: Call<HomeInitPacket>, t: Throwable) {
             }
 
         })

@@ -4,6 +4,7 @@ import com.example.myapplication.dto.Category
 import com.example.myapplication.dto.Project
 import com.example.myapplication.dto.User
 import com.example.myapplication.retrofitPacket.FavoritePacket
+import com.example.myapplication.retrofitPacket.HomeInitPacket
 import com.example.myapplication.retrofitPacket.LoginCheckPacket
 import com.example.myapplication.retrofitPacket.ProjectDetail
 import com.example.myapplication.retrofitPacket.SupportPacket
@@ -16,6 +17,10 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface FunInterface {
+    @GET("/")
+    fun getHomeInitData():Call<HomeInitPacket>
+    @GET("/homeScroll")
+    fun getScrollProject(@Body pageNum:Int):Call<List<ProjectDetail>>
 
     @POST("/login")
     fun tryLogin(@Body loginCheckPacket: LoginCheckPacket) : Call<Boolean>

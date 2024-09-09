@@ -69,7 +69,7 @@ public class ProjectController {
 
     @GetMapping("/project/deadline")
     public List<ProjectDto> deadlineProject(){
-        var list = projectService.getProjectListByDeadLine(13);
+        var list = projectService.getProjectListByDeadLine();
         return list;
     }
 }
