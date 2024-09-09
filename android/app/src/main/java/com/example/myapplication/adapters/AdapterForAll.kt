@@ -1,9 +1,11 @@
 package com.example.myapplication.adapters
 
+import android.content.Intent
 import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.activity.DetailActivity
 import com.example.myapplication.databinding.ItemProductAllBinding
 import com.example.myapplication.dto.Project
 
@@ -17,10 +19,16 @@ class AdapterForAll(var projectList: List<Project>): RecyclerView.Adapter<Adapte
     }
 
     override fun getItemCount(): Int {
-//        return productList.size
-        return 16
+        return projectList.size
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        val project = projectList[position]
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("project", project)
+            context.startActivity(intent)
+        }
     }
 }

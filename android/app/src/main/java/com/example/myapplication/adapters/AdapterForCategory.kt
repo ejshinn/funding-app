@@ -32,6 +32,5 @@ class AdapterForCategory(var categoryList: List<Category>): RecyclerView.Adapter
             intent.putExtra("category", category)
             context.startActivity(intent)
         }
-
     }
 }

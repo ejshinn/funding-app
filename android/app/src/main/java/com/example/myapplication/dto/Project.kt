@@ -1,5 +1,6 @@
 package com.example.myapplication.dto
 
+import java.io.Serializable
 import java.time.LocalDateTime
 
 
@@ -17,4 +18,4 @@ data class Project(
     val supportList:List<Support>,
     val favoriteList:List<Favorite>,
     val category: Category
-)
+): Serializable

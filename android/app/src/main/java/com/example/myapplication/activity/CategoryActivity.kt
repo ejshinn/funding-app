@@ -11,6 +11,7 @@ import com.example.myapplication.R
 import com.example.myapplication.adapters.AdapterForCategoryDetail
 import com.example.myapplication.databinding.ActivityCategoryBinding
 import com.example.myapplication.dto.Category
+import com.example.myapplication.dto.Project
 
 class CategoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +33,7 @@ class CategoryActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = category?.title
 
-        val projectList = listOf("")
+        val projectList = listOf<Project>()
         binding.recyclerView.adapter = AdapterForCategoryDetail(projectList)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
