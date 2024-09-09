@@ -37,8 +37,7 @@ class HomeFragment : Fragment() {
     private lateinit var deadlineAdapter: AdapterForProductHoriz
     private lateinit var allAdapter: AdapterForAll
 
-    var currentPage = 1
-    val itemsPerPage = 10
+    var currentPage = 0
     val productAllList = mutableListOf<ProjectDetail>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +64,7 @@ class HomeFragment : Fragment() {
                     Log.d("deadlineProjectList", "${deadlineProjectList}")
                     deadlineAdapter.notifyDataSetChanged()
 
-                    val scrollProjectList :List<ProjectDetail> = data.scrollProjects
+                    val scrollProjectList :MutableList<ProjectDetail> = data.scrollProjects.toMutableList()
                     allAdapter.projectList = scrollProjectList
                     Log.d("scrollProjectList", "${scrollProjectList}")
                     allAdapter.notifyDataSetChanged()
@@ -142,32 +141,34 @@ class HomeFragment : Fragment() {
 
                 if (lastVisibleItemPosition == totalItemCount - 1) {
                     currentPage++
-//                    loadMoreData(currentPage)
+                    loadMoreData(currentPage)
                 }
             }
         })
 
-//        loadMoreData(currentPage)
-
         return binding.root
     }
 
-//    fun loadMoreData(page: Int) {
-//        FunClient.retrofit.getProjectList(page, itemsPerPage).enqueue(object : retrofit2.Callback<List<Project>> {
-//            override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
-//                if (response.isSuccessful) {
-//                    response.body()?.let { newData ->
-//                        productAllList.addAll(newData)
-//                        allAdapter.notifyDataSetChanged()
-//                    }
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<List<Project>>, t: Throwable) {
-//                Log.e("RetrofitError", "Failed to load more data: ${t.message}")
-//            }
-//        })
-//    }
+    fun loadMoreData(page: Int) {
+
+        FunClient.retrofit.getScrollProject(page).enqueue(object :retrofit2.Callback<List<ProjectDetail>>{
+            override fun onResponse(
+                call: Call<List<ProjectDetail>>,
+                response: Response<List<ProjectDetail>>
+            ) {
+                response.body()?.let { newData ->
+                    allAdapter.projectList.addAll(newData)
+                    allAdapter.notifyDataSetChanged()
+                    Log.d("resultData", "${newData}")
+                }
+            }
+
+            override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+                Log.e("RetrofitError", "Failed to load more data: ${t.message}")
+            }
+
+        })
+    }
 
     private fun setupAutoSlide() {
         val runnable = object : Runnable {

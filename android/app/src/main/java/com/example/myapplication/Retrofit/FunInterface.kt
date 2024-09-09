@@ -19,8 +19,9 @@ import retrofit2.http.Path
 interface FunInterface {
     @GET("/")
     fun getHomeInitData():Call<HomeInitPacket>
-    @GET("/homeScroll")
-    fun getScrollProject(@Body pageNum:Int):Call<List<ProjectDetail>>
+
+    @GET("/homeScroll/{pageNum}")
+    fun getScrollProject(@Path("pageNum") pageNum:Int):Call<List<ProjectDetail>>
 
     @POST("/login")
     fun tryLogin(@Body loginCheckPacket: LoginCheckPacket) : Call<Boolean>

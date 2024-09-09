@@ -8,7 +8,7 @@ import com.example.myapplication.databinding.ItemProductAllBinding
 import com.example.myapplication.dto.Project
 import com.example.myapplication.retrofitPacket.ProjectDetail
 
-class AdapterForAll(var projectList: List<ProjectDetail>): RecyclerView.Adapter<AdapterForAll.Holder>() {
+class AdapterForAll(var projectList: MutableList<ProjectDetail>): RecyclerView.Adapter<AdapterForAll.Holder>() {
     class Holder(val bindng: ItemProductAllBinding): RecyclerView.ViewHolder(bindng.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
