@@ -70,7 +70,7 @@
                 android:text="6일 남음"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textViewSub"
+                android:id="@+id/textViewDeadline"
                 android:textSize="12sp"
                 android:background="#F6DCDC"
                 android:textColor="@color/orange"
