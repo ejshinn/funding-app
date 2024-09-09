@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.adapters.AdapterForCategoryDetail
 import com.example.myapplication.databinding.ActivityCategoryBinding
+import com.example.myapplication.dto.Category
 
 class CategoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,9 +26,11 @@ class CategoryActivity : AppCompatActivity() {
             insets
         }
 
+        val category = intent.getSerializableExtra("category") as? Category
+
         supportActionBar?.show()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "카테고리 뷰"
+        supportActionBar?.title = category?.title
 
         val projectList = listOf("")
         binding.recyclerView.adapter = AdapterForCategoryDetail(projectList)

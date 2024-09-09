@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.activity.CategoryActivity
 import com.example.myapplication.databinding.ItemCategoryBinding
+import com.example.myapplication.dto.Category
 
-class AdapterForCategory(var categoryList: List<Int>): RecyclerView.Adapter<AdapterForCategory.Holder>() {
+class AdapterForCategory(var categoryList: List<Category>): RecyclerView.Adapter<AdapterForCategory.Holder>() {
     class Holder(val binding: ItemCategoryBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -22,7 +23,8 @@ class AdapterForCategory(var categoryList: List<Int>): RecyclerView.Adapter<Adap
 
         val category = categoryList[position]
 
-        holder.binding.imageView2.setImageResource(category)
+        holder.binding.imageView2.setImageResource(category.image!!)
+        holder.binding.textViewTitle.text = category.title
 
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context

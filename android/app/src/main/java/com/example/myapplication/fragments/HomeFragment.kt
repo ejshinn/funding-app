@@ -20,6 +20,8 @@ import com.example.myapplication.adapters.AdapterForCategory
 import com.example.myapplication.adapters.AdapterForProduct
 import com.example.myapplication.adapters.AdapterForProductHoriz
 import com.example.myapplication.databinding.FragmentHomeBinding
+import com.example.myapplication.dto.Category
+import com.example.myapplication.dto.CategoryManager
 import com.example.myapplication.dto.Project
 import retrofit2.Call
 import retrofit2.Response
@@ -76,20 +78,10 @@ class HomeFragment : Fragment() {
         setupAutoSlide()
 
         val categoryView = binding.categoryRecyclerView
-        val categoryList = listOf(
-            R.drawable.cate1,
-            R.drawable.cate2,
-            R.drawable.cate3,
-            R.drawable.cate4,
-            R.drawable.cate5,
-            R.drawable.cate6,
-            R.drawable.cate7,
-            R.drawable.cate8,
-            R.drawable.cate9,
-            R.drawable.cate10,
-            R.drawable.cate11,
-            )
-        categoryView.adapter = AdapterForCategory(categoryList)
+
+
+
+        categoryView.adapter = AdapterForCategory(CategoryManager.categoryList)
         categoryView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
         // 인기순
@@ -124,12 +116,12 @@ class HomeFragment : Fragment() {
 
                 if (lastVisibleItemPosition == totalItemCount - 1) {
                     currentPage++
-                    loadMoreData(currentPage)
+//                    loadMoreData(currentPage)
                 }
             }
         })
 
-        loadMoreData(currentPage)
+//        loadMoreData(currentPage)
 
         return binding.root
     }
