@@ -3,7 +3,7 @@ package com.example.myapplication.dto
 
 
 data class Favorite(
-    val favoriteId: String,
+    val favoriteId: Int,
     val user:User,
     val project:Project
 )

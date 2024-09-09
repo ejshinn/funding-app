@@ -3,48 +3,63 @@ package com.example.myapplication.fragments
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.R
+import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.adapters.AdapterForAll
 import com.example.myapplication.adapters.AdapterForBanner
 import com.example.myapplication.adapters.AdapterForCategory
 import com.example.myapplication.adapters.AdapterForProduct
 import com.example.myapplication.adapters.AdapterForProductHoriz
 import com.example.myapplication.databinding.FragmentHomeBinding
+import com.example.myapplication.dto.Project
+import retrofit2.Call
+import retrofit2.Response
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var bannerView: ViewPager2
-
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var imageSliderAdapter: AdapterForBanner
 
+    private lateinit var populAdapter: AdapterForProduct
+    private lateinit var deadlineAdapter: AdapterForProductHoriz
+    private lateinit var allAdapter: AdapterForAll
+
+    var currentPage = 1
+    val itemsPerPage = 10
+    val productAllList = mutableListOf<Project>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+        FunClient.retrofit.getProjectRankingList().enqueue(object: retrofit2.Callback<List<Project>>{
+            override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
+                response.body()?.let { data ->
+
+                    // 인기순
+//                    populAdapter.projectList = data
+//                    populAdapter.notifyDataSetChanged()
+
+                    // 마감순
+
+                    // 전체
+                }
+            }
+            override fun onFailure(call: Call<List<Project>>, t: Throwable) {
+                Log.e("API_ERROR", "Failed to fetch data: ${t.message}", t)
+            }
+        })
+
     }
 
     override fun onCreateView(
@@ -77,25 +92,63 @@ class HomeFragment : Fragment() {
         categoryView.adapter = AdapterForCategory(categoryList)
         categoryView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
+        // 인기순
         val populView = binding.populRecyclerView
-        val productList = listOf("")
-        populView.adapter = AdapterForProduct(productList)
+        val productList = listOf<Project>()
+        populAdapter = AdapterForProduct(productList)
+        populView.adapter = populAdapter
         populView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
+        // 마감순
         val productHorizView = binding.productRecycleViewHoriental
-        val productHoriz = listOf("dd")
+        val deadlineList = listOf<Project>()
         val gridLayoutManager = GridLayoutManager(this.context, 3)
         gridLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         productHorizView.layoutManager = gridLayoutManager
-        productHorizView.adapter = AdapterForProductHoriz(productHoriz)
+        deadlineAdapter = AdapterForProductHoriz(deadlineList)
+        productHorizView.adapter = deadlineAdapter
 
+        // 전체
         val productAllView = binding.allProductRecyclerView
-        val productAllList = listOf("")
         val gridLayoutManager2 = GridLayoutManager(this.context, 2)
         productAllView.layoutManager = gridLayoutManager2
-        productAllView.adapter = AdapterForAll(productAllList)
+        allAdapter = AdapterForAll(productAllList)
+        productAllView.adapter = allAdapter
+
+        productAllView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val totalItemCount = gridLayoutManager2.itemCount
+                val lastVisibleItemPosition = gridLayoutManager2.findLastVisibleItemPosition()
+
+                if (lastVisibleItemPosition == totalItemCount - 1) {
+                    currentPage++
+                    loadMoreData(currentPage)
+                }
+            }
+        })
+
+        loadMoreData(currentPage)
 
         return binding.root
+    }
+
+    fun loadMoreData(page: Int) {
+        FunClient.retrofit.getProjectList(page, itemsPerPage).enqueue(object : retrofit2.Callback<List<Project>> {
+            override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { newData ->
+                        productAllList.addAll(newData)
+                        allAdapter.notifyDataSetChanged()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Project>>, t: Throwable) {
+                Log.e("RetrofitError", "Failed to load more data: ${t.message}")
+            }
+        })
     }
 
     private fun setupAutoSlide() {
@@ -111,23 +164,6 @@ class HomeFragment : Fragment() {
         handler.postDelayed(runnable, 3000)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
+
 }

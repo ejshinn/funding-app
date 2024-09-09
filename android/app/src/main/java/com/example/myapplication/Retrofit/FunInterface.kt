@@ -37,6 +37,9 @@ interface FunInterface {
     @GET("/project/list")
     fun getProjectList() :Call<List<Project>>
 
+    @GET("projects")
+    fun getProjectList(@Path("page") page: Int, @Path("size") size: Int): Call<List<Project>>
+
 
     // 프로젝트 인기순
     @GET("/project/list/ranking")

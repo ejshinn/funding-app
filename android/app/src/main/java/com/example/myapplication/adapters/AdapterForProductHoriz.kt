@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ItemProductBinding
 import com.example.myapplication.databinding.ItemProductHorizonBinding
+import com.example.myapplication.dto.Project
 
-class AdapterForProductHoriz(var productList: List<String>): RecyclerView.Adapter<AdapterForProductHoriz.Holder>() {
+class AdapterForProductHoriz(var projectList: List<Project>): RecyclerView.Adapter<AdapterForProductHoriz.Holder>() {
     class Holder(binding: ItemProductHorizonBinding):RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {

@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ItemProductBinding
+import com.example.myapplication.dto.Project
 
-class AdapterForProduct(var productList: List<String>): RecyclerView.Adapter<AdapterForProduct.Holder>() {
+class AdapterForProduct(var projectList: List<Project>): RecyclerView.Adapter<AdapterForProduct.Holder>() {
     class Holder(val binding: ItemProductBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -13,10 +14,12 @@ class AdapterForProduct(var productList: List<String>): RecyclerView.Adapter<Ada
     }
 
     override fun getItemCount(): Int {
-//        return productList.size
-        return 8
+        return projectList.size
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        val project = projectList[position]
+        holder.binding.textViewUser.text = project.user.name
+        holder.binding.textViewTitle.text = project.title
     }
 }

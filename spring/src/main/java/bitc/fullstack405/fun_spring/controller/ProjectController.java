@@ -9,8 +9,10 @@ import org.springframework.data.projection.EntityProjection;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
-@RestController("/project")
+@RestController
+@RequestMapping("/project")
 public class ProjectController {
 
     @Autowired
@@ -20,7 +22,7 @@ public class ProjectController {
     private UserService userService;
 
     // 상세보기
-    @GetMapping("/project/{projectId}")
+    @GetMapping("/{projectId}")
     public ProjectEntity getProjectDetail(@PathVariable(name = "projectId") int projectId) {
         ProjectEntity project;
         project = projectService.getProjectDetail(projectId);
@@ -29,7 +31,7 @@ public class ProjectController {
     }
 
     // 리스트
-    @GetMapping("/project/list")
+    @GetMapping("/list")
     public Object getProjectList() {
         List<ProjectEntity> list;
         list = projectService.getProjectList();
@@ -38,7 +40,8 @@ public class ProjectController {
     }
 
     // 프로젝트 인기순
-    @GetMapping("/project/list/ranking")
+//    @CrossOrigin(origins = "http://10.100.105.203:8080")
+    @GetMapping("/list/ranking")
     public Object getProjectRankingList() {
         List<ProjectEntity> list;
         list = projectService.getProjectListRanking();
@@ -47,7 +50,7 @@ public class ProjectController {
     }
 
     // 검색 Key로 시작하는 title을 가진 프로젝트 리스트
-    @GetMapping("/project/search")
+    @GetMapping("/search")
     public Object getProjectSearch(@RequestBody String project) {
         List<ProjectEntity> list;
         list = projectService.getProjectListSearch(project);
@@ -56,7 +59,7 @@ public class ProjectController {
     }
 
     // 프로젝트 작성
-    @GetMapping("/project/write")
+    @GetMapping("/write")
     public void writeProject(
             @RequestParam int projectId,
             @RequestParam int goalAmount,
