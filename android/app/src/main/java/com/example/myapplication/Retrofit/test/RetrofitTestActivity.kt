@@ -12,7 +12,7 @@ import com.example.myapplication.dto.Category
 import com.example.myapplication.dto.Project
 import com.example.myapplication.dto.User
 import com.example.myapplication.retrofitPacket.FavoritePacket
-import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.example.myapplication.retrofitPacket.ProjectPacket
 import retrofit2.Call
 import retrofit2.Response
 
@@ -54,7 +54,7 @@ class RetrofitTestActivity : AppCompatActivity() {
 
         })
 
-        val projectDetail = ProjectDetail(
+        val projectDetail = ProjectPacket(
             0,
             0,
             "title",
@@ -62,7 +62,7 @@ class RetrofitTestActivity : AppCompatActivity() {
             "20240906",
             "20241013",
             0,
-            1,
+            "test1",
             1
         )
 

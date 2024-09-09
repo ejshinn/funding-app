@@ -1,5 +1,6 @@
 package com.example.myapplication.Login
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,10 +14,7 @@ import com.example.myapplication.R
 import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.dto.Project
-import com.example.myapplication.dto.User
-import com.example.myapplication.retrofitPacket.LoginCheckPacket
-import com.example.myapplication.retrofitPacket.ProjectDetail
-import com.example.myapplication.retrofitPacket.UserPacket
+import com.example.myapplication.utils.Const
 import retrofit2.Call
 import retrofit2.Response
 
@@ -33,58 +31,15 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        FunClient.retrofit.getProjectList().enqueue(object:retrofit2.Callback<List<Project>>{
-            override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
-//                val dataMap = response.body() as Map<>
-                Log.d("retrofit getProjectList", "-------")
-
-            }
-
-            override fun onFailure(call: Call<List<Project>>, t: Throwable) {
-                Log.d("retrofit getProjectList", "${t.message}")
-            }
-        })
-//
-//        val project = Project(
-//            1,
-//            1000,
-//            "send",
-//            "sedding",
-//            "1111",
-//            "22222",
-//            100,
-//            User(
-//                1L,
-//                "11",
-//                "11",
-//                "11",
-//                "11",
-//                "11",
-//                listOf(),
-//                listOf(),
-//                listOf()
-//            ),
-//            listOf(),
-//            listOf()
-//        )
-//        FunClient.retrofit.writeProject(project).enqueue(object: retrofit2.Callback<Void>{
-//            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-//                Log.d("retrofit", "success")
-//            }
-//
-//            override fun onFailure(call: Call<Void>, t: Throwable) {
-//                Log.d("retrofit", "fail")
-//            }
-//
-//        })
-
-
         binding.btnTryLogin.setOnClickListener{
             FunClient.retrofit.getProjectList().enqueue(object:retrofit2.Callback<List<Project>>{
                 override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
-//                val dataMap = response.body() as Map<>
-                    Log.d("retrofit getProjectList", "-------")
 
+                    Log.d("retrofit getProjectList", "-------")
+                    val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
+                    val editor = shared.edit()
+                    editor.putString(Const.SHARED_PREF_LOGIN_KEY, "true")
+                    editor.commit()
                 }
 
                 override fun onFailure(call: Call<List<Project>>, t: Throwable) {
