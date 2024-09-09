@@ -1,6 +1,6 @@
 package com.example.myapplication.Login
 
-import android.content.DialogInterface
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,12 +9,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.myapplication.MainActivity
+import com.example.myapplication.activity.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.databinding.ActivityLoginBinding
-import com.example.myapplication.dto.User
-import com.example.myapplication.packet.LoginCheckPacket
+import com.example.myapplication.dto.Project
+import com.example.myapplication.utils.Const
 import retrofit2.Call
 import retrofit2.Response
 
@@ -31,37 +31,22 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-
         binding.btnTryLogin.setOnClickListener{
-            val userId = binding.edUserId.text.toString()
-            val userPw = binding.edUserPw.text.toString()
+            FunClient.retrofit.getProjectList().enqueue(object:retrofit2.Callback<List<Project>>{
+                override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
 
-            if(userId.isEmpty()){
-                displayWarningDialog("아이디를 입력해주세요.")
-                return@setOnClickListener
-            }
-
-            if(userPw.isEmpty()){
-                displayWarningDialog("비밀번호를 입력해주세요")
-                return@setOnClickListener
-            }
-
-
-            FunClient.retrofit.tryLogin(LoginCheckPacket(userId, userPw)).enqueue(object:retrofit2.Callback<Boolean>{
-                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-                    Log.d("retrofit try login", "try success")
-                    val isSuccess = response.body() as Boolean
-                    if(isSuccess == false){
-                        displayWarningDialog("아이디 또는 비밀번호를 확인해주세요")
-                        Log.d("retrofit try login", "login fail")
-                    }
+                    Log.d("retrofit getProjectList", "-------")
+                    val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
+                    val editor = shared.edit()
+                    editor.putString(Const.SHARED_PREF_LOGIN_KEY, "true")
+                    editor.commit()
                 }
 
-                override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                    Log.d("retrofit try login", "onFailure : ${t.message}")
+                override fun onFailure(call: Call<List<Project>>, t: Throwable) {
+                    Log.d("retrofit getProjectList", "${t.message}")
                 }
-
             })
+
         }
 
         binding.btnGoSignIn.setOnClickListener{

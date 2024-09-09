@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewTotal"
                 android:textSize="16sp"
-                android:textColor="#FF1D1D"
+                android:textColor="@color/orange"
                 android:textStyle="bold" />
 
         <TextView
@@ -73,7 +73,7 @@
                 android:id="@+id/textViewSub"
                 android:textSize="12sp"
                 android:background="#F6DCDC"
-                android:textColor="#FA1E1E"
+                android:textColor="@color/orange"
                 android:padding="2dp" />
     </LinearLayout>
 
