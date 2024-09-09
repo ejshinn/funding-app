@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ItemProductBinding
 import com.example.myapplication.dto.Project
+import com.example.myapplication.retrofitPacket.ProjectDetail
 
-class AdapterForProduct(var projectList: List<Project>): RecyclerView.Adapter<AdapterForProduct.Holder>() {
+class AdapterForProduct(var projectList: List<ProjectDetail>): RecyclerView.Adapter<AdapterForProduct.Holder>() {
     class Holder(val binding: ItemProductBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -19,7 +20,11 @@ class AdapterForProduct(var projectList: List<Project>): RecyclerView.Adapter<Ad
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val project = projectList[position]
-        holder.binding.textViewUser.text = project.user.name
-        holder.binding.textViewTitle.text = project.title
+        holder.binding.apply {
+            textViewUser.text = project.user.name
+            textViewTitle.text = project.title
+            textViewTotal.text = project.percent()
+            textViewDeadline.text = project.calculateDday()
+        }
     }
 }

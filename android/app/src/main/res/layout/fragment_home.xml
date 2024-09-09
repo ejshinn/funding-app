@@ -57,7 +57,7 @@
                     android:padding="16dp">
 
                 <TextView
-                        android:text="프로젝트 가로"
+                        android:text="얼마 남지 않았어요!"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView2"
@@ -70,7 +70,9 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:clipToPadding="false"
-                        android:clipChildren="false" />
+                        android:clipChildren="false"
+                        android:paddingEnd="70dp"
+                        />
             </LinearLayout>
 
             <LinearLayout

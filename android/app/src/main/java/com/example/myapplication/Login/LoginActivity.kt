@@ -14,6 +14,7 @@ import com.example.myapplication.R
 import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.dto.Project
+import com.example.myapplication.retrofitPacket.LoginCheckPacket
 import com.example.myapplication.utils.Const
 import retrofit2.Call
 import retrofit2.Response
@@ -32,17 +33,21 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnTryLogin.setOnClickListener{
-            FunClient.retrofit.getProjectList().enqueue(object:retrofit2.Callback<List<Project>>{
-                override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
+            val loginCheckPacket = LoginCheckPacket(
+                binding.edUserId.text.toString(),
+                binding.edUserPw.text.toString()
+            )
 
-                    Log.d("retrofit getProjectList", "-------")
+            FunClient.retrofit.tryLogin(loginCheckPacket).enqueue(object:retrofit2.Callback<Boolean>{
+                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                     val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
                     val editor = shared.edit()
                     editor.putString(Const.SHARED_PREF_LOGIN_KEY, "true")
                     editor.commit()
+                    Log.d("retrofit getProjectList", "-------")
                 }
 
-                override fun onFailure(call: Call<List<Project>>, t: Throwable) {
+                override fun onFailure(call: Call<Boolean>, t: Throwable) {
                     Log.d("retrofit getProjectList", "${t.message}")
                 }
             })

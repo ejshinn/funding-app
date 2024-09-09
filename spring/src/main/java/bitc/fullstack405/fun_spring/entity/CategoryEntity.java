@@ -1,7 +1,6 @@
 package bitc.fullstack405.fun_spring.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +25,7 @@ public class CategoryEntity {
     @Column(length = 30, nullable = false)
     private String title; // 카테고리
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<ProjectEntity> projectList = new ArrayList<>();
 }

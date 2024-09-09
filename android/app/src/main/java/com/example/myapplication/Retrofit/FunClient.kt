@@ -7,7 +7,6 @@ object FunClient {
     val retrofit:FunInterface = Retrofit.Builder()
         //TODO: ip 주소 변경 필요
         .baseUrl("http://10.100.105.203:8080")
-//        .baseUrl("http://10.0.2.2:8080")
         .addConverterFactory(GsonConverterFactory.create())
 //        .addConverterFactory(Json.asConverterFactory(MediaType.parse("application/json")!!))
         .build()

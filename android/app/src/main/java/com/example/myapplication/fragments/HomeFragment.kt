@@ -23,6 +23,8 @@ import com.example.myapplication.databinding.FragmentHomeBinding
 import com.example.myapplication.dto.Category
 import com.example.myapplication.dto.CategoryManager
 import com.example.myapplication.dto.Project
+import com.example.myapplication.retrofitPacket.HomeInitPacket
+import com.example.myapplication.retrofitPacket.ProjectDetail
 import retrofit2.Call
 import retrofit2.Response
 
@@ -37,29 +39,44 @@ class HomeFragment : Fragment() {
     private lateinit var deadlineAdapter: AdapterForProductHoriz
     private lateinit var allAdapter: AdapterForAll
 
-    var currentPage = 1
-    val itemsPerPage = 10
-    val productAllList = mutableListOf<Project>()
+    var currentPage = 0
+    val productAllList = mutableListOf<ProjectDetail>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        FunClient.retrofit.getProjectRankingList().enqueue(object: retrofit2.Callback<List<Project>>{
-            override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
+        FunClient.retrofit.getHomeInitData().enqueue(object :retrofit2.Callback<HomeInitPacket>{
+            override fun onResponse(
+                call: Call<HomeInitPacket>,
+                response: Response<HomeInitPacket>
+            ) {
                 response.body()?.let { data ->
 
-                    // 인기순
-//                    populAdapter.projectList = data
-//                    populAdapter.notifyDataSetChanged()
+                    val bannerDataList: List<String> = data.bannerUrl
+//                    imageSliderAdapter.imageList = bannerDataList
+                    imageSliderAdapter.notifyDataSetChanged()
 
-                    // 마감순
+                    val popularProjectList: List<ProjectDetail> = data.popularProjects
+                    populAdapter.projectList = popularProjectList
+                    Log.d("popularProjectList", "${popularProjectList}")
+                    populAdapter.notifyDataSetChanged()
 
-                    // 전체
+                    val deadlineProjectList:List<ProjectDetail> = data.deadlineProjects
+                    deadlineAdapter.projectList = deadlineProjectList
+                    Log.d("deadlineProjectList", "${deadlineProjectList}")
+                    deadlineAdapter.notifyDataSetChanged()
+
+                    val scrollProjectList :MutableList<ProjectDetail> = data.scrollProjects.toMutableList()
+                    allAdapter.projectList = scrollProjectList
+                    Log.d("scrollProjectList", "${scrollProjectList}")
+                    allAdapter.notifyDataSetChanged()
                 }
             }
-            override fun onFailure(call: Call<List<Project>>, t: Throwable) {
+
+            override fun onFailure(call: Call<HomeInitPacket>, t: Throwable) {
                 Log.e("API_ERROR", "Failed to fetch data: ${t.message}", t)
             }
+
         })
 
     }
@@ -86,14 +103,14 @@ class HomeFragment : Fragment() {
 
         // 인기순
         val populView = binding.populRecyclerView
-        val productList = listOf<Project>()
+        val productList = listOf<ProjectDetail>()
         populAdapter = AdapterForProduct(productList)
         populView.adapter = populAdapter
         populView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
         // 마감순
         val productHorizView = binding.productRecycleViewHoriental
-        val deadlineList = listOf<Project>()
+        val deadlineList = listOf<ProjectDetail>()
         val gridLayoutManager = GridLayoutManager(this.context, 3)
         gridLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         productHorizView.layoutManager = gridLayoutManager
@@ -116,28 +133,29 @@ class HomeFragment : Fragment() {
 
                 if (lastVisibleItemPosition == totalItemCount - 1) {
                     currentPage++
-//                    loadMoreData(currentPage)
+                    loadMoreData(currentPage)
                 }
             }
         })
-
-//        loadMoreData(currentPage)
 
         return binding.root
     }
 
     fun loadMoreData(page: Int) {
-        FunClient.retrofit.getProjectList(page, itemsPerPage).enqueue(object : retrofit2.Callback<List<Project>> {
-            override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
-                if (response.isSuccessful) {
-                    response.body()?.let { newData ->
-                        productAllList.addAll(newData)
-                        allAdapter.notifyDataSetChanged()
-                    }
+
+        FunClient.retrofit.getScrollProject(page).enqueue(object :retrofit2.Callback<List<ProjectDetail>>{
+            override fun onResponse(
+                call: Call<List<ProjectDetail>>,
+                response: Response<List<ProjectDetail>>
+            ) {
+                response.body()?.let { newData ->
+                    allAdapter.projectList.addAll(newData)
+                    allAdapter.notifyDataSetChanged()
+                    Log.d("resultData", "${newData}")
                 }
             }
 
-            override fun onFailure(call: Call<List<Project>>, t: Throwable) {
+            override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
                 Log.e("RetrofitError", "Failed to load more data: ${t.message}")
             }
         })
