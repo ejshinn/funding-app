@@ -1,5 +1,6 @@
 package com.example.myapplication.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
@@ -30,6 +31,9 @@ class MainActivity : AppCompatActivity() {
             }
         }.attach()
 
+        binding.floatingActionButton.setOnClickListener {
+            startActivity(Intent(this, MessageActivity::class.java))
+        }
 
     }
 }

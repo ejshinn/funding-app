@@ -15,12 +15,13 @@
             android:theme="@style/Theme.MyApplication"
             android:usesCleartextTraffic="true"
             tools:targetApi="31">
-
-        <activity android:name=".activity.CategoryActivity"
-                android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
-        <activity android:name=".activity.DetailActivity" />
-
-        <!-- <activity -->
+        <activity
+                android:name=".activity.MessageActivity"
+                android:exported="false" />
+        <activity
+                android:name=".activity.CategoryActivity"
+                android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity android:name=".activity.DetailActivity" /> <!-- <activity -->
         <!-- android:name=".Login.SignInActivity" -->
         <!-- android:exported="false"> -->
         <!-- </activity> -->
@@ -33,8 +34,8 @@
         <!-- </intent-filter> -->
         <!-- </activity> -->
         <activity
-            android:name=".activity.MainActivity"
-            android:exported="true" >
+                android:name=".activity.MainActivity"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
