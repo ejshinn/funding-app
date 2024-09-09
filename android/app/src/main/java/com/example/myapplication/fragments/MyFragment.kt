@@ -57,7 +57,7 @@ class MyFragment : Fragment() {
         //////추가
         val shared = activity?.getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
         val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
-        val userId = shared?.getInt(Const.SHARED_PREF_LOGIN_ID, -1)
+        val userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false")
 
         Log.d("MyFragment", "isLoggedIn: $isLoggedIn")
         Log.d("MyFragment", "User ID: $userId")
@@ -72,6 +72,7 @@ class MyFragment : Fragment() {
             FunClient.retrofit.getUser(userId!!).enqueue(object: retrofit2.Callback<UserPacket>{
                 override fun onResponse(call: Call<UserPacket>, response: Response<UserPacket>) {
                     binding.textViewId.setText(response.body()!!.name)
+                    Log.d("MyFragment", "$userId.name")
                 }
 
                 override fun onFailure(call: Call<UserPacket>, t: Throwable) {

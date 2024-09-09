@@ -93,9 +93,4 @@ public class ProjectServiceImpl implements ProjectService {
 
         return page.getContent().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
     }
-
-    @Override
-    public List<ProjectDto> getProjectListByCategory(int categoryId) {
-        return projectRepository.findAllByCategory_CategoryId(categoryId).stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
-    }
 }

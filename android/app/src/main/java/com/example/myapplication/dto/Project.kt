@@ -1,5 +1,7 @@
 package com.example.myapplication.dto
 
+import java.time.LocalDateTime
+
 
 data class Project(
     val projectId: Int,
@@ -9,7 +11,7 @@ data class Project(
     val contents:String,
     val startDate: String,
     val endDate:String,
-    val prtPrice:Int,
+    val perPrice:Int,
     val thumbnail:String,
     val user:User,
     val supportList:List<Support>,

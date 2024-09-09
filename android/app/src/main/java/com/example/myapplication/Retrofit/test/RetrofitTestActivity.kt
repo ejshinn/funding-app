@@ -1,39 +1,87 @@
-//package com.example.myapplication.Retrofit.test
+package com.example.myapplication.Retrofit.test
+
+import android.os.Bundle
+import android.util.Log
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.example.myapplication.R
+import com.example.myapplication.Retrofit.FunClient
+import com.example.myapplication.databinding.ActivityRetrofitTestBinding
+import com.example.myapplication.dto.Category
+import com.example.myapplication.dto.Project
+import com.example.myapplication.dto.User
+import com.example.myapplication.retrofitPacket.FavoritePacket
+import com.example.myapplication.retrofitPacket.HomeInitPacket
+import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.example.myapplication.retrofitPacket.UserPacket
+import retrofit2.Call
+import retrofit2.Response
+
+/*
+ Retrofit 테스트 용 Activity
+ */
+
+class RetrofitTestActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+
+        val binding = ActivityRetrofitTestBinding.inflate(layoutInflater)
+        setContentView(R.layout.activity_retrofit_test)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+//        FunClient.retrofit.getProjectDetail(1).enqueue(object : retrofit2.Callback<ProjectDetail>{
+//            override fun onResponse(call: Call<ProjectDetail>, response: Response<ProjectDetail>) {
+//                Log.d("test", "Test")
 //
-//import android.os.Bundle
-//import androidx.activity.enableEdgeToEdge
-//import androidx.appcompat.app.AppCompatActivity
-//import androidx.core.view.ViewCompat
-//import androidx.core.view.WindowInsetsCompat
-//import com.example.myapplication.R
-//import com.example.myapplication.Retrofit.FunClient
-//import com.example.myapplication.databinding.ActivityRetrofitTestBinding
-//import com.example.myapplication.dto.Category
-//import com.example.myapplication.dto.Project
-//import com.example.myapplication.dto.User
-//import com.example.myapplication.retrofitPacket.FavoritePacket
-//import com.example.myapplication.retrofitPacket.ProjectDetail
-//import retrofit2.Call
-//import retrofit2.Response
+//            }
 //
-///*
-// Retrofit 테스트 용 Activity
-// */
+//            override fun onFailure(call: Call<ProjectDetail>, t: Throwable) {
+//                Log.d("test", "${t.message}")
+//            }
 //
-//class RetrofitTestActivity : AppCompatActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
+//        })
+
+
+//        FunClient.retrofit.getProjectRankingList().enqueue(object : retrofit2.Callback<List<ProjectDetail>>{
+//            override fun onResponse(call: Call<List<ProjectDetail>>, response: Response<List<ProjectDetail>>) {
+//                Log.d("test", "Test")
+//            }
 //
-//        val binding = ActivityRetrofitTestBinding.inflate(layoutInflater)
-//        setContentView(R.layout.activity_retrofit_test)
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
+//            override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+//            }
 //
+//        })
 //
+//        FunClient.retrofit.getUser("test1").enqueue(object : retrofit2.Callback<UserPacket>{
+//            override fun onResponse(call: Call<UserPacket>, response: Response<UserPacket>) {
+//                Log.d("test", "Test")
+//            }
+//
+//            override fun onFailure(call: Call<UserPacket>, t: Throwable) {
+//            }
+//
+//        })
+
+        FunClient.retrofit.getHomeInitData().enqueue(object :retrofit2.Callback<HomeInitPacket>{
+            override fun onResponse(
+                call: Call<HomeInitPacket>,
+                response: Response<HomeInitPacket>
+            ) {
+                Log.d("test", "Test")
+            }
+
+            override fun onFailure(call: Call<HomeInitPacket>, t: Throwable) {
+            }
+
+        })
+
 //        FunClient.retrofit.getUser(1).enqueue(object: retrofit2.Callback<User>{
 //            override fun onResponse(call: Call<User>, response: Response<User>) {
 //
@@ -98,6 +146,6 @@
 //            }
 //
 //        })
-//
-//    }
-//}
+
+    }
+}

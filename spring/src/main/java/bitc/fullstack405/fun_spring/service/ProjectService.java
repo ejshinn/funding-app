@@ -23,6 +23,4 @@ public interface ProjectService {
     List<ProjectDto> getProjectListByDeadLine();
 
     List<ProjectDto> getHomeScrollProject(int pageNum);
-
-    List<ProjectDto> getProjectListByCategory(int categoryId);
 }

@@ -24,8 +24,6 @@ interface FunInterface {
     @GET("/homeScroll")
     fun getScrollProject(@Body pageNum:Int):Call<List<ProjectDetail>>
 
-    /* ----------------------------------------*/
-
     @POST("/login")
     fun tryLogin(@Body loginCheckPacket: LoginCheckPacket) : Call<Boolean>
 
@@ -33,7 +31,7 @@ interface FunInterface {
     fun signIn(@Body user:UserPacket) : Call<Boolean>
 
     @GET("/user/{userId}")
-    fun getUser(@Path("userId") userId: Int) : Call<UserPacket>
+    fun getUser(@Path("userId") userId: String) : Call<UserPacket>
 
     @POST("/logOut")
     fun logOut(@Body user: UserPacket) : Call<Void>
@@ -47,19 +45,18 @@ interface FunInterface {
     @GET("/project/list")
     fun getProjectList() :Call<List<ProjectDetail>>
 
+    @GET("projects")
+    fun getProjectList(@Path("page") page: Int, @Path("size") size: Int): Call<List<Project>>
+
 
     // 프로젝트 인기순
     @GET("/project/list/ranking")
-    fun getProjectRankingList() : Call<List<ProjectDetail>>
-
-    @GET("/project/deadline")
-    fun getProjectDeadline() : Call<List<ProjectDetail>>
-
+    fun getProjectRankingList() : Call<List<Project>>
 
 
     // 검색 Key로 시작하는 title을 가진 프로젝트 리스트 (10 ~ 20)?
     @GET("/project/search")
-    fun getProjectSearch(@Body searchKey:String) : Call<List<ProjectDetail>>
+    fun getProjectSearch(@Body searchKey:String) : Call<List<Project>>
 
 
     //프로젝트 작성
