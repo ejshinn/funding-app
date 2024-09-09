@@ -2,12 +2,12 @@ package com.example.myapplication.Retrofit
 
 import com.example.myapplication.dto.Category
 import com.example.myapplication.dto.Project
-import com.example.myapplication.dto.User
 import com.example.myapplication.retrofitPacket.FavoritePacket
 import com.example.myapplication.retrofitPacket.HomeInitPacket
 import com.example.myapplication.retrofitPacket.LoginCheckPacket
 import com.example.myapplication.retrofitPacket.ProjectDetail
 import com.example.myapplication.retrofitPacket.SupportPacket
+import com.example.myapplication.retrofitPacket.UserFavoritePacket
 import com.example.myapplication.retrofitPacket.UserPacket
 import retrofit2.Call
 import retrofit2.http.Body
@@ -36,6 +36,12 @@ interface FunInterface {
     @POST("/logOut")
     fun logOut(@Body user: UserPacket) : Call<Void>
 
+    /*-----------------------------------------*/
+
+    @GET("/page/favorite")
+    fun getUserFavorite() :Call<UserFavoritePacket>
+
+
     /* ----------------------------------------*/
 
     // 상세 보기용
@@ -57,7 +63,7 @@ interface FunInterface {
 
     // 검색 Key로 시작하는 title을 가진 프로젝트 리스트 (10 ~ 20)?
     @GET("/project/search")
-    fun getProjectSearch(@Body searchKey:String) : Call<List<ProjectDetail>>
+    fun getProjectSearch(@Body searchKey:String) : Call<List<String>>
 
 
     //프로젝트 작성
@@ -67,6 +73,8 @@ interface FunInterface {
 
     @GET("/project/category/{categoryId}")
     fun getProjectByCategory(@Path("categoryId") categoryId: Int) : Call<List<ProjectDetail>>
+
+
 
 
     /*-----------------------------------------*/

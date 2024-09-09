@@ -40,4 +40,6 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
     @Query(value = "select p from ProjectEntity as p order by (p.endDate - now())")
     List<ProjectEntity> findTop9By();
 
+    @Query("select p from ProjectEntity as p where p.title between :e1 and :e2")
+    List<ProjectEntity> querySearchTitle(String e1, String e2);
 }
