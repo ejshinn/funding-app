@@ -4,6 +4,7 @@ import bitc.fullstack405.fun_spring.dto.HomeInitDto;
 import bitc.fullstack405.fun_spring.dto.ProjectDto;
 import bitc.fullstack405.fun_spring.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +29,7 @@ public class HomeController {
     }
 
     @GetMapping({"/homeScroll"})
-    public List<ProjectDto> getHomeScrollProject(@RequestBody int pageNum){
+    public List<ProjectDto> getHomeScrollProject(@Param("pageNum") int pageNum){
         return projectService.getHomeScrollProject(pageNum);
     }
 }

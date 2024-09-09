@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/project")
 public class ProjectController {
 
     @Autowired
@@ -23,7 +24,7 @@ public class ProjectController {
     private UserService userService;
 
     // 상세보기
-    @GetMapping("/project/{projectId}")
+    @GetMapping("/{projectId}")
     public ProjectDto getProjectDetail(@PathVariable(name = "projectId") int projectId) {
         ProjectDto project;
         project = projectService.getProjectDetail(projectId);
@@ -41,7 +42,6 @@ public class ProjectController {
     }
 
     // 프로젝트 인기순
-//    @CrossOrigin(origins = "http://10.100.105.203:8080")
     @GetMapping("/list/ranking")
     public Object getProjectRankingList() {
         List<ProjectDto> list;
@@ -69,9 +69,8 @@ public class ProjectController {
         projectService.getWriteProject(projectDto);
     }
 
-    @GetMapping("/project/deadline")
+    @GetMapping("/deadline")
     public List<ProjectDto> deadlineProject(){
-        var list = projectService.getProjectListByDeadLine();
-        return list;
+        return projectService.getProjectListByDeadLine();
     }
 }
