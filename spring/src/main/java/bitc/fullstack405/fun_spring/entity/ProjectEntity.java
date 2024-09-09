@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +37,10 @@ public class ProjectEntity {
     private String contents; // 내용
 
     @Column(name = "start_date", nullable = false)
-    private LocalDateTime startDate; // 시작일
+    private LocalDate startDate; // 시작일
 
     @Column(name = "end_date", nullable = false)
-    private LocalDateTime endDate; // 종료일
+    private LocalDate endDate; // 종료일
 
     @Column(name = "per_price", nullable = false)
     private int perPrice; // 개당 금액

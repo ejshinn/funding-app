@@ -43,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
                     val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
                     val editor = shared.edit()
                     editor.putString(Const.SHARED_PREF_LOGIN_KEY, "true")
+                    editor.putInt(Const.SHARED_PREF_LOGIN_ID, binding.edUserId.text.toString().toInt())
                     editor.commit()
                     Log.d("retrofit getProjectList", "-------")
                 }

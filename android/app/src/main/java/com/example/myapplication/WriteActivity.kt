@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
@@ -19,7 +20,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.databinding.ActivityWriteBinding
+import com.example.myapplication.retrofitPacket.ProjectWrite
+import com.example.myapplication.utils.Const
+import retrofit2.Call
+import retrofit2.Response
+
 
 
 class WriteActivity : AppCompatActivity() {
@@ -41,7 +48,7 @@ class WriteActivity : AppCompatActivity() {
 
         lateinit var category: String // 카테고리
         lateinit var title: String // 타이틀
-        //lateinit var imagePath: String // 이미지 절대 경로
+        var imagePath: String? = null // 이미지 절대 경로
         lateinit var contentText: String // 내용
         lateinit var goalAmount: String // 목표 금액
         lateinit var perPrice: String // 후원 금액(개당 금액)
@@ -70,52 +77,52 @@ class WriteActivity : AppCompatActivity() {
             )
         }
 
-//        // 현재 선택된 ImageView를 저장할 변수
-//        var selectedImageView: ImageView? = null
-//
-//        // 이미지 선택
-//        val requestGalleryLauncher = registerForActivityResult(
-//            ActivityResultContracts.StartActivityForResult()
-//        ) { result ->
-//            if (result.resultCode == RESULT_OK) {
-//                val imageUri: Uri? = result.data?.data
-//
-//                imageUri?.let { uri ->
-//                    // 절대 경로 가져옴
-//                    imagePath = getRealPathFromURI(uri).toString()
-//
-//                    // 선택된 ImageView에 이미지 설정
-//                    selectedImageView?.setImageURI(uri)
-//
-//                } ?: run {
-//                    Log.d("ImageLoad", "Image URI is null")
-//                }
-//            }
-//        }
-//
-//        fun pickImage() {
-//            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-//            intent.type = "image/*"
-//            requestGalleryLauncher.launch(intent)
-//        }
-//
-//        // imageView1 클릭
-//        binding.imageView1.setOnClickListener {
-//            selectedImageView = binding.imageView1
-//            pickImage()
-//        }
-//
-//        // imageView2 클릭
-//        binding.imageView2.setOnClickListener {
-//            selectedImageView = binding.imageView2
-//            pickImage()
-//        }
-//
-//        // imageView3 클릭
-//        binding.imageView3.setOnClickListener {
-//            selectedImageView = binding.imageView3
-//            pickImage()
-//        }
+        // 현재 선택된 ImageView를 저장할 변수
+        var selectedImageView: ImageView? = null
+
+        // 이미지 선택
+        val requestGalleryLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val imageUri: Uri? = result.data?.data
+
+                imageUri?.let { uri ->
+                    // 절대 경로 가져옴
+                    imagePath = getRealPathFromURI(uri).toString()
+
+                    // 선택된 ImageView에 이미지 설정
+                    selectedImageView?.setImageURI(uri)
+
+                } ?: run {
+                    Log.d("ImageLoad", "Image URI is null")
+                }
+            }
+        }
+
+        fun pickImage() {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            intent.type = "image/*"
+            requestGalleryLauncher.launch(intent)
+        }
+
+        // imageView1 클릭
+        binding.imageView1.setOnClickListener {
+            selectedImageView = binding.imageView1
+            pickImage()
+        }
+
+        // imageView2 클릭
+        binding.imageView2.setOnClickListener {
+            selectedImageView = binding.imageView2
+            pickImage()
+        }
+
+        // imageView3 클릭
+        binding.imageView3.setOnClickListener {
+            selectedImageView = binding.imageView3
+            pickImage()
+        }
 
         var calendar = Calendar.getInstance()
         var year = calendar.get(Calendar.YEAR)
@@ -150,7 +157,9 @@ class WriteActivity : AppCompatActivity() {
             Log.d("button click", "title: $title")
 
             // 이미지 절대 경로
-            //Log.d("button click", "image path: $imagePath")
+            if(imagePath != null) {
+                Log.d("button click", "imagePath: $imagePath")
+            }
 
             // 프로젝트 내용(텍스트)
             contentText = binding.edtContents.getText().toString()
@@ -172,19 +181,42 @@ class WriteActivity : AppCompatActivity() {
             perPrice = binding.edtPerPrice.text.toString()
             Log.d("button click", "perPrice: $perPrice")
 
-            Toast.makeText(this, "작성 완료", Toast.LENGTH_SHORT).show()
+            val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
+            val userId = shared?.getInt(Const.SHARED_PREF_LOGIN_ID, -1)
+
+            // db에 저장
+//            if(userId != -1) {
+//                if(title != "" && imagePath != null && contentText != "" && startDate != "" && endDate != "" && goalAmount != "" && perPrice != "") {
+//                    var projectWrite = ProjectWrite(0, goalAmount.toInt(), 0, title, contentText, startDate, endDate, perPrice.toInt(), imagePath!!, userId!!, category)
+//
+//                    FunClient.retrofit.writeProject(projectWrite).enqueue(object :retrofit2.Callback<Void> {
+//                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+//                            Toast.makeText(this@WriteActivity, "작성 완료", Toast.LENGTH_SHORT).show()
+//                        }
+//
+//                        override fun onFailure(call: Call<Void>, t: Throwable) {
+//                        }
+//                    })
+//                }
+//                else {
+//                    Toast.makeText(this, "내용을 모두 입력해 주세요", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//            else {
+//                Toast.makeText(this, "내용을 모두 입력해 주세요", Toast.LENGTH_SHORT).show()
+//            }
         }
     }
 
-//    // 이미지 절대 경로
-//    fun getRealPathFromURI(uri: Uri): String? {
-//        val projection = arrayOf(MediaStore.Images.Media.DATA)
-//        contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
-//            if (cursor.moveToFirst()) {
-//                val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-//                return cursor.getString(columnIndex)
-//            }
-//        }
-//        return null
-//    }
+    // 이미지 절대 경로
+    fun getRealPathFromURI(uri: Uri): String? {
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                return cursor.getString(columnIndex)
+            }
+        }
+        return null
+    }
 }

@@ -6,6 +6,7 @@ import com.example.myapplication.dto.User
 import com.example.myapplication.retrofitPacket.FavoritePacket
 import com.example.myapplication.retrofitPacket.LoginCheckPacket
 import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.example.myapplication.retrofitPacket.ProjectWrite
 import com.example.myapplication.retrofitPacket.SupportPacket
 import retrofit2.Call
 import retrofit2.http.Body
@@ -13,6 +14,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface FunInterface {
 
@@ -50,7 +52,7 @@ interface FunInterface {
 
     //프로젝트 작성
     @POST("/project/write")
-    fun writeProject(@Body project: ProjectDetail) :Call<Void>
+    fun writeProject(@Body project: ProjectWrite) :Call<Void>
 
 
     /*-----------------------------------------*/
@@ -61,7 +63,7 @@ interface FunInterface {
 
     // 자신이 좋아요 누른 프로젝트 리스트
     @GET("/favorite/project")
-    fun getFavoriteProject(@Body userId:Int) : Call<List<Project>>
+    fun getFavoriteProject(@Query("userId") userId: Int): Call<List<Project>>
 
     @POST("/favorite")
     fun createFavorite(@Body favoritePacket: FavoritePacket) :Call<Void>
