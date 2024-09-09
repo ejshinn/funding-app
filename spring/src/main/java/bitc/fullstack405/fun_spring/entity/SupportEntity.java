@@ -1,5 +1,6 @@
 package bitc.fullstack405.fun_spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -20,10 +21,12 @@ public class SupportEntity {
     @Column(nullable = false)
     private int amount; // 후원 금액
 
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @ToString.Exclude
     private UserEntity user; // fk
+
 
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
