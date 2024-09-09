@@ -63,34 +63,27 @@ class MyFragment : Fragment() {
         Log.d("MyFragment", "User ID: $userId")
 
         if (isLoggedIn) {
-            // 로그인 상태라면 constraintLayout을 보여주고, 로그인 버튼을 숨김
+            // 로그인 상태라면 constraintLayout을 보여줌
             binding.constraintLayout.visibility = View.VISIBLE
             binding.recyclerView2.visibility = View.VISIBLE
-            binding.buttonLogin.visibility = View.GONE
 
             // user 정보 가져오기
             FunClient.retrofit.getUser(userId!!).enqueue(object: retrofit2.Callback<UserPacket>{
                 override fun onResponse(call: Call<UserPacket>, response: Response<UserPacket>) {
-                    binding.textViewId.setText(response.body()!!.name)
-                    Log.d("MyFragment", "$userId.name")
+                    binding.textViewId.text = response.body()?.name
+                    Log.d("MyFragment", "${response.body()?.name}")
                 }
 
                 override fun onFailure(call: Call<UserPacket>, t: Throwable) {
-
                 }
             })
 
             binding.imageViewProfile.setImageResource(R.drawable.profile_temp)
         } else {
-            // 로그인 상태가 아니라면 constraintLayout을 숨기고, 로그인 버튼만 보임
-            binding.constraintLayout.visibility = View.GONE
-            binding.recyclerView2.visibility = View.GONE
-            binding.buttonLogin.visibility = View.VISIBLE
-
-            binding.buttonLogin.setOnClickListener {
-                val intent = Intent(activity, LoginActivity::class.java)
-                startActivity(intent)
-            }
+            // 로그인 상태가 아니라면 LoginActivity 열기
+            val intent = Intent(activity, LoginActivity::class.java)
+            startActivity(intent)
+            activity?.finish() // 현재 Fragment가 포함된 Activity를 종료하여 로그인 후 다시 돌아오지 않도록 함
         }
         //////
 

@@ -76,7 +76,7 @@ interface FunInterface {
 
     // 자신이 좋아요 누른 프로젝트 리스트
     @GET("/favorite/project")
-    fun getFavoriteProject(@Query("userId") userId: Int): Call<List<Project>>
+    fun getFavoriteProject(@Query("userId") userId: String): Call<List<Project>>
 
     @POST("/favorite")
     fun createFavorite(@Body favoritePacket: FavoritePacket) :Call<Void>

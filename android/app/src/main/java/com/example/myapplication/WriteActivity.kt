@@ -22,7 +22,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.databinding.ActivityWriteBinding
+import com.example.myapplication.retrofitPacket.CategoryPacket
 import com.example.myapplication.retrofitPacket.ProjectWrite
+import com.example.myapplication.retrofitPacket.UserPacket
 import com.example.myapplication.utils.Const
 import retrofit2.Call
 import retrofit2.Response
@@ -31,6 +33,21 @@ import retrofit2.Response
 
 class WriteActivity : AppCompatActivity() {
     lateinit var binding:ActivityWriteBinding
+    lateinit var user: UserPacket
+
+    val categoryMap = mapOf(
+        0 to CategoryPacket(1, "전체"),
+        1 to CategoryPacket(2, "캐릭터 · 굿즈"),
+        2 to CategoryPacket(3, "홈 · 리빙"),
+        3 to CategoryPacket(4, "테크 · 가전"),
+        4 to CategoryPacket(5, "반려동물"),
+        5 to CategoryPacket(6, "향수 · 뷰티"),
+        6 to CategoryPacket(7, "의류"),
+        7 to CategoryPacket(8, "잡화"),
+        8 to CategoryPacket(9, "음악"),
+        9 to CategoryPacket(10, "푸드"),
+        10 to CategoryPacket(11, "주얼리")
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +63,7 @@ class WriteActivity : AppCompatActivity() {
             insets
         }
 
-        lateinit var category: String // 카테고리
+        var selectedCategory: CategoryPacket? = null // 카테고리
         lateinit var title: String // 타이틀
         var imagePath: String? = null // 이미지 절대 경로
         lateinit var contentText: String // 내용
@@ -55,17 +72,15 @@ class WriteActivity : AppCompatActivity() {
         lateinit var startDate: String // 펀딩 일정(시작일)
         lateinit var endDate: String // 펀딩 일정(종료일)
 
-        // 프로젝트 카테고리 선택
+        // 카테고리 선택
         binding.spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // 선택된 항목의 값 가져오기
-                category = binding.spinnerCategory.selectedItem.toString()
-                // 선택된 항목을 Log로 출력
-                Log.d("category", "category: $category")
+                // 선택된 항목의 ID에 따라 CategoryPacket 생성
+                selectedCategory = categoryMap[position]
+                Log.d("category", "selectedCategory: $selectedCategory")
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -150,7 +165,7 @@ class WriteActivity : AppCompatActivity() {
         // 작성 완료 버튼 클릭
         binding.btnSubmit.setOnClickListener {
             // 카테고리 값 확인
-            Log.d("button click", "category: $category")
+            Log.d("button click", "category: $selectedCategory!!")
 
             // 프로젝트 제목
             title = binding.edtTitle.text.toString()
@@ -166,11 +181,11 @@ class WriteActivity : AppCompatActivity() {
             Log.d("button click", "contentText: $contentText")
 
             // 펀딩 일정(시작일)
-            startDate = binding.tvStartDate.getText().toString()
+            startDate = binding.tvStartDate.getText().toString() + "T00:00:00"
             Log.d("button click", "startDate: $startDate")
 
             // 펀딩 일정(종료일)
-            endDate = binding.tvEndDate.getText().toString()
+            endDate = binding.tvEndDate.getText().toString() + "T00:00:00"
             Log.d("button click", "endDate: $endDate")
 
             // 목표 금액
@@ -182,29 +197,47 @@ class WriteActivity : AppCompatActivity() {
             Log.d("button click", "perPrice: $perPrice")
 
             val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
-            val userId = shared?.getInt(Const.SHARED_PREF_LOGIN_ID, -1)
+            val userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false")
 
-            // db에 저장
-//            if(userId != -1) {
-//                if(title != "" && imagePath != null && contentText != "" && startDate != "" && endDate != "" && goalAmount != "" && perPrice != "") {
-//                    var projectWrite = ProjectWrite(0, goalAmount.toInt(), 0, title, contentText, startDate, endDate, perPrice.toInt(), imagePath!!, userId!!, category)
-//
-//                    FunClient.retrofit.writeProject(projectWrite).enqueue(object :retrofit2.Callback<Void> {
-//                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
-//                            Toast.makeText(this@WriteActivity, "작성 완료", Toast.LENGTH_SHORT).show()
-//                        }
-//
-//                        override fun onFailure(call: Call<Void>, t: Throwable) {
-//                        }
-//                    })
-//                }
-//                else {
-//                    Toast.makeText(this, "내용을 모두 입력해 주세요", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//            else {
-//                Toast.makeText(this, "내용을 모두 입력해 주세요", Toast.LENGTH_SHORT).show()
-//            }
+            // userId가 유효한지 확인
+            if (userId != "false") {
+                // User 정보를 서버에서 가져옴
+                FunClient.retrofit.getUser(userId!!).enqueue(object : retrofit2.Callback<UserPacket> {
+                    override fun onResponse(call: Call<UserPacket>, response: Response<UserPacket>) {
+                        if (response.isSuccessful) {
+                            val user = response.body()
+                            if (user != null) {
+                                // User 정보가 정상적으로 반환된 경우
+                                val projectWrite = ProjectWrite(
+                                    0, goalAmount.toInt(), 0, title, contentText, startDate, endDate, perPrice.toInt(), imagePath!!, user, selectedCategory!!
+                                )
+
+                                FunClient.retrofit.writeProject(projectWrite).enqueue(object : retrofit2.Callback<Void> {
+                                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                                        Toast.makeText(this@WriteActivity, "작성 완료", Toast.LENGTH_SHORT).show()
+                                    }
+
+                                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                                        Log.e("Submit", "Error: ${t.message}")
+                                        Toast.makeText(this@WriteActivity, "서버와의 연결이 실패했습니다", Toast.LENGTH_SHORT).show()
+                                    }
+                                })
+                            } else {
+                                Toast.makeText(this@WriteActivity, "사용자 정보를 가져올 수 없습니다", Toast.LENGTH_SHORT).show()
+                            }
+                        } else {
+                            Toast.makeText(this@WriteActivity, "서버 응답 오류", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<UserPacket>, t: Throwable) {
+                        Log.e("Submit", "Error: ${t.message}")
+                        Toast.makeText(this@WriteActivity, "서버와의 연결이 실패했습니다", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            } else {
+                Toast.makeText(this, "로그인 정보가 없습니다", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

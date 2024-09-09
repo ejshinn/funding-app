@@ -31,8 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:orientation="vertical"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="gone">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
             android:src="@drawable/tab_favorite"
@@ -63,17 +62,5 @@
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
         android:visibility="gone"/>
-
-    <!-- 로그인 버튼: 로그인하지 않은 상태일 때만 보임 -->
-    <Button
-        android:id="@+id/buttonLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="로그인"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"/> <!-- 초기 상태에서는 숨김 -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

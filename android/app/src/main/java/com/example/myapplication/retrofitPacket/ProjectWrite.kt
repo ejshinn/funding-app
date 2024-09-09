@@ -10,6 +10,6 @@ data class ProjectWrite(
     val endDate: String,
     val perPrice: Int,
     val thumbnail: String,
-    val userId: String,
-    val category: String
+    val user:UserPacket,
+    val category: CategoryPacket
 )

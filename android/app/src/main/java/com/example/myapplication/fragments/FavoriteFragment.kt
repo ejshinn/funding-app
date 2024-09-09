@@ -1,6 +1,7 @@
 package com.example.myapplication.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Visibility
+import com.example.myapplication.Login.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.adapters.FavoriteAdapter
@@ -51,24 +53,17 @@ class FavoriteFragment : Fragment() {
         val binding = FragmentFavoriteBinding.inflate(layoutInflater)
 
         val shared = activity?.getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
-        val userId = shared?.getInt(Const.SHARED_PREF_LOGIN_ID, -1)
+        val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
+        val userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false")
 
-        val recyclerView = binding.recyclerView
-        val emptyLayout = binding.frameLayout
-        val buttonLogin = binding.buttonLogin
-        Log.d("FavoriteFragment", "User ID: $userId")
+        // 로그인 상태
+        if(isLoggedIn) {
+            val recyclerView = binding.recyclerView
+            val emptyLayout = binding.frameLayout
+            Log.d("FavoriteFragment", "User ID: $userId")
 
-        // 로그인 안 한 상태면 로그인 버튼만 화면에 띄우기
-        if(userId == 1) {
-            buttonLogin.visibility = View.VISIBLE
-            recyclerView.visibility = View.GONE
-            emptyLayout.visibility = View.GONE
-        }
-        else {
             FunClient.retrofit.getFavoriteProject(userId!!).enqueue(object : retrofit2.Callback<List<Project>> {
                 override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
-                    buttonLogin.visibility = View.GONE
-
                     if (response.body().isNullOrEmpty()) {
                         // 프로젝트 목록이 비어있으면 빈 레이아웃을 보여줌
                         recyclerView.visibility = View.GONE
@@ -82,18 +77,21 @@ class FavoriteFragment : Fragment() {
                         val favoriteProjects = response.body() as MutableList<Project>
 
                         // 리사이클러뷰에 데이터 바인딩 (어댑터 설정)
-                         recyclerView.adapter = FavoriteAdapter(favoriteProjects)
-                         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-                         recyclerView.adapter?.notifyDataSetChanged()
+                        recyclerView.adapter = FavoriteAdapter(favoriteProjects)
+                        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+                        recyclerView.adapter?.notifyDataSetChanged()
                     }
                 }
 
                 override fun onFailure(call: Call<List<Project>>, t: Throwable) {
-                    Log.e("FavoriteFragment", "Failed to fetch favorite projects", t)
-                    recyclerView.visibility = View.GONE
-                    emptyLayout.visibility = View.VISIBLE
                 }
+
             })
+        } else{
+            // 로그인 상태가 아니라면 LoginActivity 열기
+            val intent = Intent(activity, LoginActivity::class.java)
+            startActivity(intent)
+            activity?.finish() // 현재 Fragment가 포함된 Activity를 종료하여 로그인 후 다시 돌아오지 않도록 함
         }
 
         return inflater.inflate(R.layout.fragment_favorite, container, false)
