@@ -22,6 +22,8 @@ interface FunInterface {
     @GET("/homeScroll")
     fun getScrollProject(@Body pageNum:Int):Call<List<ProjectDetail>>
 
+    /* ----------------------------------------*/
+
     @POST("/login")
     fun tryLogin(@Body loginCheckPacket: LoginCheckPacket) : Call<Boolean>
 
@@ -61,6 +63,10 @@ interface FunInterface {
     //프로젝트 작성
     @POST("/project/write")
     fun writeProject(@Body project: ProjectDetail) :Call<Void>
+
+
+    @GET("/project/category/{categoryId}")
+    fun getProjectByCategory(@Path("categoryId") categoryId: Int) : Call<List<ProjectDetail>>
 
 
     /*-----------------------------------------*/

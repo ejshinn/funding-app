@@ -25,6 +25,9 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
 
 //    List<ProjectEntity> findTop13();
 
+
+    List<ProjectEntity> findAllByCategory_CategoryId(int categoryId);
+
     List<ProjectEntity> findTop6By();
 
 

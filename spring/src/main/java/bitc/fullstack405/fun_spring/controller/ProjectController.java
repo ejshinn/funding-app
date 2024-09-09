@@ -72,4 +72,10 @@ public class ProjectController {
         var list = projectService.getProjectListByDeadLine();
         return list;
     }
+
+    @GetMapping("project/category/{categoryId}")
+    public List<ProjectDto> getProjectByCategory(@PathVariable int categoryId){
+        return projectService.getProjectListByCategory(categoryId);
+    }
+
 }
