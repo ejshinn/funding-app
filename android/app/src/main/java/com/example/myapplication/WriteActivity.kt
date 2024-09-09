@@ -41,7 +41,7 @@ class WriteActivity : AppCompatActivity() {
 
         lateinit var category: String // 카테고리
         lateinit var title: String // 타이틀
-        lateinit var imagePath: String // 이미지 절대 경로
+        //lateinit var imagePath: String // 이미지 절대 경로
         lateinit var contentText: String // 내용
         lateinit var goalAmount: String // 목표 금액
         lateinit var perPrice: String // 후원 금액(개당 금액)
@@ -70,52 +70,52 @@ class WriteActivity : AppCompatActivity() {
             )
         }
 
-        // 현재 선택된 ImageView를 저장할 변수
-        var selectedImageView: ImageView? = null
-
-        // 이미지 선택
-        val requestGalleryLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val imageUri: Uri? = result.data?.data
-
-                imageUri?.let { uri ->
-                    // 절대 경로 가져옴
-                    imagePath = getRealPathFromURI(uri).toString()
-
-                    // 선택된 ImageView에 이미지 설정
-                    selectedImageView?.setImageURI(uri)
-
-                } ?: run {
-                    Log.d("ImageLoad", "Image URI is null")
-                }
-            }
-        }
-
-        fun pickImage() {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            intent.type = "image/*"
-            requestGalleryLauncher.launch(intent)
-        }
-
-        // imageView1 클릭
-        binding.imageView1.setOnClickListener {
-            selectedImageView = binding.imageView1
-            pickImage()
-        }
-
-        // imageView2 클릭
-        binding.imageView2.setOnClickListener {
-            selectedImageView = binding.imageView2
-            pickImage()
-        }
-
-        // imageView3 클릭
-        binding.imageView3.setOnClickListener {
-            selectedImageView = binding.imageView3
-            pickImage()
-        }
+//        // 현재 선택된 ImageView를 저장할 변수
+//        var selectedImageView: ImageView? = null
+//
+//        // 이미지 선택
+//        val requestGalleryLauncher = registerForActivityResult(
+//            ActivityResultContracts.StartActivityForResult()
+//        ) { result ->
+//            if (result.resultCode == RESULT_OK) {
+//                val imageUri: Uri? = result.data?.data
+//
+//                imageUri?.let { uri ->
+//                    // 절대 경로 가져옴
+//                    imagePath = getRealPathFromURI(uri).toString()
+//
+//                    // 선택된 ImageView에 이미지 설정
+//                    selectedImageView?.setImageURI(uri)
+//
+//                } ?: run {
+//                    Log.d("ImageLoad", "Image URI is null")
+//                }
+//            }
+//        }
+//
+//        fun pickImage() {
+//            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+//            intent.type = "image/*"
+//            requestGalleryLauncher.launch(intent)
+//        }
+//
+//        // imageView1 클릭
+//        binding.imageView1.setOnClickListener {
+//            selectedImageView = binding.imageView1
+//            pickImage()
+//        }
+//
+//        // imageView2 클릭
+//        binding.imageView2.setOnClickListener {
+//            selectedImageView = binding.imageView2
+//            pickImage()
+//        }
+//
+//        // imageView3 클릭
+//        binding.imageView3.setOnClickListener {
+//            selectedImageView = binding.imageView3
+//            pickImage()
+//        }
 
         var calendar = Calendar.getInstance()
         var year = calendar.get(Calendar.YEAR)
@@ -176,15 +176,15 @@ class WriteActivity : AppCompatActivity() {
         }
     }
 
-    // 이미지 절대 경로
-    fun getRealPathFromURI(uri: Uri): String? {
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                return cursor.getString(columnIndex)
-            }
-        }
-        return null
-    }
+//    // 이미지 절대 경로
+//    fun getRealPathFromURI(uri: Uri): String? {
+//        val projection = arrayOf(MediaStore.Images.Media.DATA)
+//        contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
+//            if (cursor.moveToFirst()) {
+//                val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+//                return cursor.getString(columnIndex)
+//            }
+//        }
+//        return null
+//    }
 }

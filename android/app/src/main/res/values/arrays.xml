@@ -13,9 +13,4 @@
         <item>푸드</item>
         <item>주얼리</item>
     </string-array>
-
-    <string-array name="contents_type_array">
-        <item>이미지 업로드</item>
-        <item>글쓰기</item>
-    </string-array>
 </resources>
