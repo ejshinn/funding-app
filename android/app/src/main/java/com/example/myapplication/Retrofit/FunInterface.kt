@@ -4,10 +4,12 @@ import com.example.myapplication.dto.Category
 import com.example.myapplication.dto.Project
 import com.example.myapplication.dto.User
 import com.example.myapplication.retrofitPacket.FavoritePacket
+import com.example.myapplication.retrofitPacket.HomeInitPacket
 import com.example.myapplication.retrofitPacket.LoginCheckPacket
 import com.example.myapplication.retrofitPacket.ProjectDetail
 import com.example.myapplication.retrofitPacket.ProjectWrite
 import com.example.myapplication.retrofitPacket.SupportPacket
+import com.example.myapplication.retrofitPacket.UserPacket
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -17,42 +19,56 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface FunInterface {
+    @GET("/")
+    fun getHomeInitData():Call<HomeInitPacket>
+    @GET("/homeScroll")
+    fun getScrollProject(@Body pageNum:Int):Call<List<ProjectDetail>>
+
+    /* ----------------------------------------*/
 
     @POST("/login")
     fun tryLogin(@Body loginCheckPacket: LoginCheckPacket) : Call<Boolean>
 
     @POST("/signIn")
-    fun signIn(@Body user:User) : Call<Boolean>
+    fun signIn(@Body user:UserPacket) : Call<Boolean>
 
     @GET("/user/{userId}")
-    fun getUser(@Path("userId") userId: Int) : Call<User>
+    fun getUser(@Path("userId") userId: Int) : Call<UserPacket>
 
     @POST("/logOut")
-    fun logOut(@Body user: User) : Call<Void>
+    fun logOut(@Body user: UserPacket) : Call<Void>
 
     /* ----------------------------------------*/
 
     // 상세 보기용
     @GET("/project/{projectId}")
-    fun getProjectDetail(@Path("projectId") projectId: Int) :Call<Project>
+    fun getProjectDetail(@Path("projectId") projectId: Int) :Call<ProjectDetail>
 
     @GET("/project/list")
-    fun getProjectList() :Call<List<Project>>
+    fun getProjectList() :Call<List<ProjectDetail>>
 
 
     // 프로젝트 인기순
     @GET("/project/list/ranking")
-    fun getProjectRankingList() : Call<List<Project>>
+    fun getProjectRankingList() : Call<List<ProjectDetail>>
+
+    @GET("/project/deadline")
+    fun getProjectDeadline() : Call<List<ProjectDetail>>
+
 
 
     // 검색 Key로 시작하는 title을 가진 프로젝트 리스트 (10 ~ 20)?
     @GET("/project/search")
-    fun getProjectSearch(@Body searchKey:String) : Call<List<Project>>
+    fun getProjectSearch(@Body searchKey:String) : Call<List<ProjectDetail>>
 
 
     //프로젝트 작성
     @POST("/project/write")
     fun writeProject(@Body project: ProjectWrite) :Call<Void>
+
+
+    @GET("/project/category/{categoryId}")
+    fun getProjectByCategory(@Path("categoryId") categoryId: Int) : Call<List<ProjectDetail>>
 
 
     /*-----------------------------------------*/

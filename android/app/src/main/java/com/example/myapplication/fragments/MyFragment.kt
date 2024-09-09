@@ -15,6 +15,7 @@ import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.adapters.AdapterForMy
 import com.example.myapplication.databinding.FragmentMyBinding
 import com.example.myapplication.dto.User
+import com.example.myapplication.retrofitPacket.UserPacket
 import com.example.myapplication.utils.Const
 import retrofit2.Call
 import retrofit2.Response
@@ -68,12 +69,13 @@ class MyFragment : Fragment() {
             binding.buttonLogin.visibility = View.GONE
 
             // user 정보 가져오기
-            FunClient.retrofit.getUser(userId!!).enqueue(object: retrofit2.Callback<User>{
-                override fun onResponse(call: Call<User>, response: Response<User>) {
+            FunClient.retrofit.getUser(userId!!).enqueue(object: retrofit2.Callback<UserPacket>{
+                override fun onResponse(call: Call<UserPacket>, response: Response<UserPacket>) {
                     binding.textViewId.setText(response.body()!!.name)
                 }
 
-                override fun onFailure(call: Call<User>, t: Throwable) {
+                override fun onFailure(call: Call<UserPacket>, t: Throwable) {
+
                 }
             })
 

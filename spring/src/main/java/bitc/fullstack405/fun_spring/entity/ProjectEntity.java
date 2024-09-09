@@ -1,6 +1,8 @@
 package bitc.fullstack405.fun_spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
@@ -37,10 +39,10 @@ public class ProjectEntity {
     private String contents; // 내용
 
     @Column(name = "start_date", nullable = false)
-    private LocalDate startDate; // 시작일
+    private LocalDateTime startDate; // 시작일
 
     @Column(name = "end_date", nullable = false)
-    private LocalDate endDate; // 종료일
+    private LocalDateTime endDate; // 종료일
 
     @Column(name = "per_price", nullable = false)
     private int perPrice; // 개당 금액
@@ -48,10 +50,12 @@ public class ProjectEntity {
     @Column(length = 2000, nullable = false)
     private String thumbnail; // 프로젝트 썸네일
 
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @ToString.Exclude
     private UserEntity user; // fk
+
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     @ToString.Exclude

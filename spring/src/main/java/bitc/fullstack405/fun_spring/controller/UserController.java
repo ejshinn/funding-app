@@ -1,5 +1,6 @@
 
 package bitc.fullstack405.fun_spring.controller;
+import bitc.fullstack405.fun_spring.dto.UserDto;
 import bitc.fullstack405.fun_spring.entity.UserEntity;
 import bitc.fullstack405.fun_spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,9 @@ public class UserController {
 
 // 화원가입 프로세스
     @PostMapping("/signIn")
-    public Object signInProcess (@RequestBody UserEntity user) throws Exception {
+    public Object signInProcess (@RequestBody UserDto user) throws Exception {
         // DB에 받은 userId를 가진 user가 있는지 확인
-        boolean result = userService.findByUserId(user.getUserId()) != null;
+        boolean result = userService.findByUserId(user.userId()) != null;
 
         // 중복 o
         if (result == true) {
@@ -48,11 +49,11 @@ public class UserController {
 
 // 회원 상세보기
     @GetMapping("/user/{userId}")
-    public UserEntity UserDetail(@PathVariable(name = "userId") String userId ) throws Exception {
+    public UserDto UserDetail(@PathVariable(name = "userId") String userId ) throws Exception {
         UserEntity user;
         user = userService.findByUserId(userId);
 
-        return user;
+        return UserDto.of(user);
     }
 
 }
