@@ -1,5 +1,6 @@
 package bitc.fullstack405.fun_spring.controller;
 
+import bitc.fullstack405.fun_spring.dto.ProjectDto;
 import bitc.fullstack405.fun_spring.entity.ProjectEntity;
 import bitc.fullstack405.fun_spring.entity.SupportEntity;
 import bitc.fullstack405.fun_spring.entity.UserEntity;
@@ -9,7 +10,10 @@ import bitc.fullstack405.fun_spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController()
 public class SupportController {
@@ -31,16 +35,16 @@ public class SupportController {
 
     // 자신이 후원한 프로젝트 리스트
     @GetMapping("/support/project")
-    public List<ProjectEntity> getSupportingProject(@RequestBody String userId) {
+    public List<ProjectDto> getSupportingProject(@RequestBody String userId) {
 //        List<SupportEntity> support = supportService.getSupportingListByProject(userId);
 
-        return userService.findByUserId(userId).getProjectList();
+        return userService.findByUserId(userId).getProjectList().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
     }
 
     // 후원하기
     @PostMapping("/support")
     public void CreateSupport(@RequestBody int projectId, @RequestBody String userId) {
-        UserEntity user = userService.findByUserId(userId);
+//        UserEntity user = userService.findByUserId(userId);
 //
 //        ProjectEntity projectEntity = projectService.getProjectDetail(projectId);
 //        projectEntity.setCurrentAmount(projectEntity.getCurrentAmount() + projectEntity.getPerPrice());

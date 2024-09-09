@@ -7,6 +7,7 @@ import com.example.myapplication.retrofitPacket.FavoritePacket
 import com.example.myapplication.retrofitPacket.LoginCheckPacket
 import com.example.myapplication.retrofitPacket.ProjectDetail
 import com.example.myapplication.retrofitPacket.SupportPacket
+import com.example.myapplication.retrofitPacket.UserPacket
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -20,13 +21,13 @@ interface FunInterface {
     fun tryLogin(@Body loginCheckPacket: LoginCheckPacket) : Call<Boolean>
 
     @POST("/signIn")
-    fun signIn(@Body user:User) : Call<Boolean>
+    fun signIn(@Body user:UserPacket) : Call<Boolean>
 
     @GET("/user/{userId}")
-    fun getUser(@Path("userId") userId: Int) : Call<User>
+    fun getUser(@Path("userId") userId: String) : Call<UserPacket>
 
     @POST("/logOut")
-    fun logOut(@Body user: User) : Call<Void>
+    fun logOut(@Body user: UserPacket) : Call<Void>
 
     /* ----------------------------------------*/
 

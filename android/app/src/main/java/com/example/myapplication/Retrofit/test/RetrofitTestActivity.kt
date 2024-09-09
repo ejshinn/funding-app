@@ -14,6 +14,7 @@ import com.example.myapplication.dto.Project
 import com.example.myapplication.dto.User
 import com.example.myapplication.retrofitPacket.FavoritePacket
 import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.example.myapplication.retrofitPacket.UserPacket
 import retrofit2.Call
 import retrofit2.Response
 
@@ -47,12 +48,22 @@ class RetrofitTestActivity : AppCompatActivity() {
 //        })
 
 
-        FunClient.retrofit.getProjectRankingList().enqueue(object : retrofit2.Callback<List<ProjectDetail>>{
-            override fun onResponse(call: Call<List<ProjectDetail>>, response: Response<List<ProjectDetail>>) {
+//        FunClient.retrofit.getProjectRankingList().enqueue(object : retrofit2.Callback<List<ProjectDetail>>{
+//            override fun onResponse(call: Call<List<ProjectDetail>>, response: Response<List<ProjectDetail>>) {
+//                Log.d("test", "Test")
+//            }
+//
+//            override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+//            }
+//
+//        })
+
+        FunClient.retrofit.getUser("test1").enqueue(object : retrofit2.Callback<UserPacket>{
+            override fun onResponse(call: Call<UserPacket>, response: Response<UserPacket>) {
                 Log.d("test", "Test")
             }
 
-            override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+            override fun onFailure(call: Call<UserPacket>, t: Throwable) {
             }
 
         })
