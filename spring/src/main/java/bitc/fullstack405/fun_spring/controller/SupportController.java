@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/support")
+@RestController()
 public class SupportController {
 
     @Autowired
@@ -41,29 +41,29 @@ public class SupportController {
     @PostMapping("/support")
     public void CreateSupport(@RequestBody int projectId, @RequestBody String userId) {
         UserEntity user = userService.findByUserId(userId);
+//
+//        ProjectEntity projectEntity = projectService.getProjectDetail(projectId);
+//        projectEntity.setCurrentAmount(projectEntity.getCurrentAmount() + projectEntity.getPerPrice());
+//        projectService.updateProject(projectEntity);
+//
 
-        ProjectEntity projectEntity = projectService.getProjectDetail(projectId);
-        projectEntity.setCurrentAmount(projectEntity.getCurrentAmount() + projectEntity.getPerPrice());
-        projectService.updateProject(projectEntity);
+//        SupportEntity supportEntity = new SupportEntity();
+//        supportEntity.setUser(user);
+//        supportEntity.setProject(projectEntity);
+//        supportEntity.setAmount(projectEntity.getPerPrice());
 
-
-        SupportEntity supportEntity = new SupportEntity();
-        supportEntity.setUser(user);
-        supportEntity.setProject(projectEntity);
-        supportEntity.setAmount(projectEntity.getPerPrice());
-
-        supportService.createSupport(supportEntity);
+//        supportService.createSupport(supportEntity);
     }
 
     // 후원 취소
     @DeleteMapping("/support/delete")
     public void getSupportDelete(@RequestBody int projectId, @RequestBody String userId) {
 
-        ProjectEntity project = projectService.getProjectDetail(projectId);
-        project.setCurrentAmount(project.getCurrentAmount() - project.getPerPrice());
-        projectService.updateProject(project);
-
-        supportService.getSupportDelete(projectId, userId);
+//        ProjectEntity project = projectService.getProjectDetail(projectId);
+//        project.setCurrentAmount(project.getCurrentAmount() - project.getPerPrice());
+//        projectService.updateProject(project);
+//
+//        supportService.getSupportDelete(projectId, userId);
     }
 
 }

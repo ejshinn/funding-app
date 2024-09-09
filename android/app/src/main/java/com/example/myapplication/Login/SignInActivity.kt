@@ -18,6 +18,7 @@ import com.example.myapplication.dto.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.Objects
 
 class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,6 +78,12 @@ class SignInActivity : AppCompatActivity() {
                 listOf<Support>(),
                 listOf<Favorite>()
             )
+
+
+
+            val obj:Objects?
+
+            Int
 
             FunClient.retrofit.signIn(user).enqueue(object : Callback<Boolean>{
                 override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {

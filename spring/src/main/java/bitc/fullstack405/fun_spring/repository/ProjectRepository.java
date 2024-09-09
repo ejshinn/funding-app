@@ -2,6 +2,8 @@ package bitc.fullstack405.fun_spring.repository;
 
 import bitc.fullstack405.fun_spring.entity.ProjectEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -14,5 +16,21 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
     ProjectEntity findByProjectId(int projectId);
 
     List<ProjectEntity> findAllByTitleStartingWith(String key);
+
+
+    List<ProjectEntity> findTop13ByOrderByStartDate();
+    //
+//    List<ProjectEntity> findTop13OrderBy();
+
+//    List<ProjectEntity> findTop13();
+
+    @Query("select p from ProjectEntity as p order by p.startDate")
+    List<ProjectEntity> querySelectAllOrderByStartDate();
+
+
+
+    // 마감 임박순으로 size 만큼
+    @Query(value = "select p from ProjectEntity as p order by (p.endDate - now())", nativeQuery = true)
+    List<ProjectEntity> findAllOrderByDeadLine(@Param("size") int size);
 
 }

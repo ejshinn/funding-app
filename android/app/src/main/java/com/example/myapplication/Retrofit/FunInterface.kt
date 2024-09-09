@@ -32,20 +32,24 @@ interface FunInterface {
 
     // 상세 보기용
     @GET("/project/{projectId}")
-    fun getProjectDetail(@Path("projectId") projectId: Int) :Call<Project>
+    fun getProjectDetail(@Path("projectId") projectId: Int) :Call<ProjectDetail>
 
     @GET("/project/list")
-    fun getProjectList() :Call<List<Project>>
+    fun getProjectList() :Call<List<ProjectDetail>>
 
 
     // 프로젝트 인기순
     @GET("/project/list/ranking")
-    fun getProjectRankingList() : Call<List<Project>>
+    fun getProjectRankingList() : Call<List<ProjectDetail>>
+
+    @GET("/project/deadline")
+    fun getProjectDeadline() : Call<List<ProjectDetail>>
+
 
 
     // 검색 Key로 시작하는 title을 가진 프로젝트 리스트 (10 ~ 20)?
     @GET("/project/search")
-    fun getProjectSearch(@Body searchKey:String) : Call<List<Project>>
+    fun getProjectSearch(@Body searchKey:String) : Call<List<ProjectDetail>>
 
 
     //프로젝트 작성
