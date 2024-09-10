@@ -49,20 +49,18 @@ public class ProjectController {
     }
 
     // 검색 Key로 시작하는 title을 가진 프로젝트 리스트
-    @GetMapping("/project/search")
-    public Object getProjectSearch(@RequestBody String project) {
+    @GetMapping("/project/search/{searchKey}")
+    public Object getProjectSearch(@PathVariable String searchKey) {
         List<ProjectDto> list;
-        list = projectService.getProjectListSearch(project);
+        list = projectService.getProjectListSearch(searchKey);
 
         return list;
     }
 
     // 프로젝트 작성
-    @GetMapping("/project/write")
+    @PostMapping("/project/write")
     public void writeProject(
             @RequestBody ProjectDto projectDto) {
-
-
 
         projectService.getWriteProject(projectDto);
     }

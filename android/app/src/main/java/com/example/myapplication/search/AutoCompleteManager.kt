@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import com.example.app_autocompletetextview.AutoCompleteClient
 import com.example.myapplication.Retrofit.FunClient
 import retrofit2.Call
 import retrofit2.Response
@@ -66,7 +65,11 @@ class AutoCompleteManager(var autoCompleteTextView: AutoCompleteTextView, val co
                 autoCompleteTextView.setAdapter(adapter)
             }
             else{
-                getNewSuggestList(keyValue.toString())
+                try {
+                    setNewSuggestList(keyValue.toString())
+                }catch (e:Exception){
+                    Log.d("Search Error", "${e.message}")
+                }
             }
         }
 
@@ -77,7 +80,7 @@ class AutoCompleteManager(var autoCompleteTextView: AutoCompleteTextView, val co
     }
 
     // 서버로 부터 key 값을 이용한 추천 String List 를 받아와 새로 적용
-    private fun getNewSuggestList(key:String) {
+    private fun setNewSuggestList(key:String) {
         FunClient.retrofit.getProjectSearch(key)
             .enqueue(object : retrofit2.Callback<List<String>> {
                 override fun onResponse(

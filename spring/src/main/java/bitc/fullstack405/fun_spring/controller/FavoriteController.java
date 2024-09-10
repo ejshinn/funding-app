@@ -19,14 +19,14 @@ public class FavoriteController {
     private UserService userService;
 
     // 좋아요 누른 유저 수
-    @GetMapping("/favorite/user")
-    public Object getFavoriteUserCount(@RequestBody int projectId) {
+    @GetMapping("/favorite/count/{projectId}")
+    public Object getFavoriteUserCount(@PathVariable int projectId) {
         return favoriteService.getFavoriteUserCount(projectId);
     }
 
     // 자신이 좋아요한 프로젝트 리스트
-    @GetMapping("/favorite/project")
-    public List<ProjectEntity> getFavoriteProject(@RequestBody String userId) {
+    @GetMapping("/favorite/project/{userId}")
+    public List<ProjectEntity> getFavoriteProject(@PathVariable String userId) {
 //        List<FavoriteEntity> project = favoriteService.getFavoriteListByUserId(userId);
 
         return userService.findByUserId(userId).getProjectList();

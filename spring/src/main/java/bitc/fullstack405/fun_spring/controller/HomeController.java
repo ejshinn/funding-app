@@ -7,6 +7,7 @@ import bitc.fullstack405.fun_spring.service.ProjectService;
 import bitc.fullstack405.fun_spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,13 +33,13 @@ public class HomeController {
         );
     }
 
-    @GetMapping({"/homeScroll"})
-    public List<ProjectDto> getHomeScrollProject(@RequestBody int pageNum){
+    @GetMapping({"/homeScroll/{pageNum}"})
+    public List<ProjectDto> getHomeScrollProject(@PathVariable int pageNum){
         return projectService.getHomeScrollProject(pageNum);
     }
 
-    @GetMapping("/page/favorite")
-    public UserFavoriteDto getUserFavorite(@RequestBody String userId){
+    @GetMapping("/page/favorite/{userId}")
+    public UserFavoriteDto getUserFavorite(@PathVariable String userId){
         return userService.getUserFavorite(userId);
     }
 }
