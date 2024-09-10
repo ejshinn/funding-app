@@ -13,7 +13,6 @@ import com.example.myapplication.R
 import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.adapters.AdapterForCategoryDetail
 import com.example.myapplication.databinding.ActivityCategoryBinding
-import com.example.myapplication.dto.Category
 import com.example.myapplication.retrofitPacket.CategoryPacket
 import com.example.myapplication.retrofitPacket.ProjectDetail
 import retrofit2.Call

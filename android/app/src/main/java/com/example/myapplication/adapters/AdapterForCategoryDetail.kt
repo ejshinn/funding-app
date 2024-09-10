@@ -1,11 +1,13 @@
 package com.example.myapplication.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.databinding.ActivityCategoryBinding
+import com.example.myapplication.activity.DetailActivity
 import com.example.myapplication.databinding.ItemCategoryDetailBinding
 import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.squareup.picasso.Picasso
 
 class AdapterForCategoryDetail(var projectList: MutableList<ProjectDetail>): RecyclerView.Adapter<AdapterForCategoryDetail.Holder>() {
     class Holder(val binding: ItemCategoryDetailBinding): RecyclerView.ViewHolder(binding.root)
@@ -25,6 +27,16 @@ class AdapterForCategoryDetail(var projectList: MutableList<ProjectDetail>): Rec
             textViewTitle.text = project.title
             textViewTotal.text = project.percent()
             textViewDeadline.text = project.calculateDday()
+        }
+        Picasso.get()
+            .load(project.thumbnail)
+            .into(holder.binding.imageView5)
+
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("project", project)
+            context.startActivity(intent)
         }
     }
 

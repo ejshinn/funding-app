@@ -23,6 +23,7 @@ import com.example.myapplication.databinding.FragmentHomeBinding
 import com.example.myapplication.retrofitPacket.CategoryPacket
 import com.example.myapplication.retrofitPacket.HomeInitPacket
 import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.example.myapplication.retrofitPacket.UserPacket
 import retrofit2.Call
 import retrofit2.Response
 
@@ -42,7 +43,7 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        FunClient.retrofit.getHomeInitData().enqueue(object :retrofit2.Callback<HomeInitPacket>{
+        FunClient.retrofit.getHomeInitData().enqueue(object : retrofit2.Callback<HomeInitPacket> {
             override fun onResponse(
                 call: Call<HomeInitPacket>,
                 response: Response<HomeInitPacket>
@@ -61,11 +62,12 @@ class HomeFragment : Fragment() {
                     populAdapter.projectList = popularProjectList
                     populAdapter.notifyDataSetChanged()
 
-                    val deadlineProjectList:List<ProjectDetail> = data.deadlineProjects
+                    val deadlineProjectList: List<ProjectDetail> = data.deadlineProjects
                     deadlineAdapter.projectList = deadlineProjectList
                     deadlineAdapter.notifyDataSetChanged()
 
-                    val scrollProjectList :MutableList<ProjectDetail> = data.scrollProjects.toMutableList()
+                    val scrollProjectList: MutableList<ProjectDetail> =
+                        data.scrollProjects.toMutableList()
                     allAdapter.projectList = scrollProjectList
                     allAdapter.notifyDataSetChanged()
                 }
@@ -93,17 +95,19 @@ class HomeFragment : Fragment() {
         setupAutoSlide()
 
         val categoryView = binding.categoryRecyclerView
-        val categoryList = listOf<CategoryPacket>()
+        val categoryList = listOf<CategoryPacket>(CategoryPacket(1, "없음"))
         categoryAdapter = AdapterForCategory(categoryList)
         categoryView.adapter = categoryAdapter
-        categoryView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+        categoryView.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
-        // 인기순
+//         인기순
         val populView = binding.populRecyclerView
         val productList = listOf<ProjectDetail>()
         populAdapter = AdapterForProduct(productList)
         populView.adapter = populAdapter
-        populView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+        populView.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
         // 마감순
         val productHorizView = binding.productRecycleViewHoriental
@@ -141,22 +145,23 @@ class HomeFragment : Fragment() {
 
     fun loadMoreData(page: Int) {
 
-        FunClient.retrofit.getScrollProject(page).enqueue(object :retrofit2.Callback<List<ProjectDetail>>{
-            override fun onResponse(
-                call: Call<List<ProjectDetail>>,
-                response: Response<List<ProjectDetail>>
-            ) {
-                response.body()?.let { newData ->
-                    allAdapter.projectList.addAll(newData)
-                    allAdapter.notifyDataSetChanged()
-                    Log.d("resultData", "${newData}")
+        FunClient.retrofit.getScrollProject(page)
+            .enqueue(object : retrofit2.Callback<List<ProjectDetail>> {
+                override fun onResponse(
+                    call: Call<List<ProjectDetail>>,
+                    response: Response<List<ProjectDetail>>
+                ) {
+                    response.body()?.let { newData ->
+                        allAdapter.projectList.addAll(newData)
+                        allAdapter.notifyDataSetChanged()
+                        Log.d("resultData", "${newData}")
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
-                Log.e("RetrofitError", "Failed to load more data: ${t.message}")
-            }
-        })
+                override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+                    Log.e("RetrofitError", "Failed to load more data: ${t.message}")
+                }
+            })
     }
 
     private fun setupAutoSlide() {
@@ -171,7 +176,6 @@ class HomeFragment : Fragment() {
         // 자동 슬라이드 시작
         handler.postDelayed(runnable, 3000)
     }
-
 
 
 }
