@@ -35,7 +35,6 @@ class AdapterForCategory(var categoryList: List<CategoryPacket>): RecyclerView.A
             intent.putExtra("category", category)
             context.startActivity(intent)
         }
-
     }
 
     fun imageResource(num: Int): Int {
