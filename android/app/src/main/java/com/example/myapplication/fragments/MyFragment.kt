@@ -3,7 +3,6 @@ package com.example.myapplication.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import com.example.myapplication.R
 import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.adapters.AdapterForMy
 import com.example.myapplication.databinding.FragmentMyBinding
-import com.example.myapplication.dto.User
 import com.example.myapplication.retrofitPacket.UserPacket
 import com.example.myapplication.utils.Const
 import retrofit2.Call

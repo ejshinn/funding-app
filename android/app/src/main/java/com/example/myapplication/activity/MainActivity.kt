@@ -1,11 +1,14 @@
 package com.example.myapplication.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
 import com.example.myapplication.adapters.AdapterForMain
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.utils.Const
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
@@ -31,9 +34,17 @@ class MainActivity : AppCompatActivity() {
             }
         }.attach()
 
+        val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
+        val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
+
+        if(isLoggedIn) {
+            binding.floatingActionButton.visibility = View.VISIBLE
+        } else {
+            binding.floatingActionButton.visibility = View.GONE
+        }
+
         binding.floatingActionButton.setOnClickListener {
             startActivity(Intent(this, MessageActivity::class.java))
         }
-
     }
 }

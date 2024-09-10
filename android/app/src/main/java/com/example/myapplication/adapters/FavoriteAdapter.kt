@@ -4,15 +4,10 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Login.LoginActivity
-import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.activity.DetailActivity
 import com.example.myapplication.databinding.ItemFavoriteBinding
 import com.example.myapplication.retrofitPacket.ProjectDetail
-import com.example.myapplication.retrofitPacket.UserPacket
 import com.squareup.picasso.Picasso
-import retrofit2.Call
-import retrofit2.Response
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -45,11 +40,14 @@ class FavoriteAdapter(var projectList: MutableList<ProjectDetail>): RecyclerView
         holder.binding.progressBar.progress = progressPercentage
 
         // 클릭 시 프로젝트 상세 페이지로 이동
-//        holder.itemView.setOnClickListener {
-//            // DetailActivity로 갈 때 project 넘겨주면 됨
-//            val intent = Intent(activity, DetailActivity::class.java)
-//            startActivity(intent)
-//        }
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, DetailActivity::class.java)
+
+            intent.putExtra("project", project)
+
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {

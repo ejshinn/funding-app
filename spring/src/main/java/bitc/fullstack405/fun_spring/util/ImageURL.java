@@ -14,12 +14,10 @@ public class ImageURL {
     private String baseUrl;
 
     public ArrayList<String> bannerImages() {
-//        String img1 = baseUrl + "bannerList/" + "1.jpg";
-//        String img2 = baseUrl + "bannerList/" + "2.jpg";
-//        String img3 = baseUrl + "bannerList/" + "3.jpg";
-//        return new ArrayList<>(List.of(img1, img2, img3));
-        String img1 = baseUrl + "bannerList/" + "1.png";
-        return new ArrayList<>(List.of(img1));
+        String img1 = baseUrl + "bannerList/" + "1.jpg";
+        String img2 = baseUrl + "bannerList/" + "2.jpg";
+        String img3 = baseUrl + "bannerList/" + "3.jpg";
+        return new ArrayList<>(List.of(img1, img2, img3));
     }
 
     public String projectImg(String imgName) {

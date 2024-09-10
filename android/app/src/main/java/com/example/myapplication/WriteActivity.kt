@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.Retrofit.FunClient
+import com.example.myapplication.activity.MainActivity
 import com.example.myapplication.databinding.ActivityWriteBinding
 import com.example.myapplication.retrofitPacket.CategoryPacket
 import com.example.myapplication.retrofitPacket.ProjectWrite
@@ -28,8 +29,6 @@ import com.example.myapplication.retrofitPacket.UserPacket
 import com.example.myapplication.utils.Const
 import retrofit2.Call
 import retrofit2.Response
-
-
 
 class WriteActivity : AppCompatActivity() {
     lateinit var binding:ActivityWriteBinding
@@ -188,11 +187,15 @@ class WriteActivity : AppCompatActivity() {
 
                                     FunClient.retrofit.writeProject(projectWrite).enqueue(object : retrofit2.Callback<Void> {
                                         override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                                            Toast.makeText(this@WriteActivity, "작성 완료", Toast.LENGTH_SHORT).show()
+                                            if (response.isSuccessful) {
+                                                Toast.makeText(this@WriteActivity, "작성 완료", Toast.LENGTH_SHORT).show()
+
+                                                val intent = Intent(this@WriteActivity, MainActivity::class.java)
+                                                startActivity(intent)
+                                            }
                                         }
 
                                         override fun onFailure(call: Call<Void>, t: Throwable) {
-                                            Log.e("Submit", "Error: ${t.message}")
                                         }
                                     })
                                 }
