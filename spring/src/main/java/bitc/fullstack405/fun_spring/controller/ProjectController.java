@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/project")
 public class ProjectController {
 
     @Autowired
@@ -22,7 +23,7 @@ public class ProjectController {
     private UserService userService;
 
     // 상세보기
-    @GetMapping("/project/{projectId}")
+    @GetMapping("/{projectId}")
     public ProjectDto getProjectDetail(@PathVariable(name = "projectId") int projectId) {
         ProjectDto project;
         project = projectService.getProjectDetail(projectId);
@@ -31,7 +32,7 @@ public class ProjectController {
     }
 
     // 리스트
-    @GetMapping("/project/list")
+    @GetMapping("/list")
     public Object getProjectList() {
         List<ProjectDto> list;
         list = projectService.getProjectList();
@@ -40,7 +41,7 @@ public class ProjectController {
     }
 
     // 프로젝트 인기순
-    @GetMapping("/project/list/ranking")
+    @GetMapping("/list/ranking")
     public Object getProjectRankingList() {
         List<ProjectDto> list;
         list = projectService.getProjectListRanking();
@@ -49,7 +50,7 @@ public class ProjectController {
     }
 
     // 검색 Key로 시작하는 title을 가진 프로젝트 리스트
-    @GetMapping("/project/search/{searchKey}")
+    @GetMapping("/search/{searchKey}")
     public Object getProjectSearch(@PathVariable String searchKey) {
         List<ProjectDto> list;
         list = projectService.getProjectListSearch(searchKey);
@@ -58,14 +59,14 @@ public class ProjectController {
     }
 
     // 프로젝트 작성
-    @PostMapping("/project/write")
+    @PostMapping("/write")
     public void writeProject(
             @RequestBody ProjectDto projectDto) {
 
         projectService.getWriteProject(projectDto);
     }
 
-    @GetMapping("/project/deadline")
+    @GetMapping("/deadline")
     public List<ProjectDto> deadlineProject(){
         var list = projectService.getProjectListByDeadLine();
         return list;
