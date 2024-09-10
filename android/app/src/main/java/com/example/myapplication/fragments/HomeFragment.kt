@@ -20,9 +20,7 @@ import com.example.myapplication.adapters.AdapterForCategory
 import com.example.myapplication.adapters.AdapterForProduct
 import com.example.myapplication.adapters.AdapterForProductHoriz
 import com.example.myapplication.databinding.FragmentHomeBinding
-import com.example.myapplication.dto.Category
-import com.example.myapplication.dto.CategoryManager
-import com.example.myapplication.dto.Project
+import com.example.myapplication.retrofitPacket.CategoryPacket
 import com.example.myapplication.retrofitPacket.HomeInitPacket
 import com.example.myapplication.retrofitPacket.ProjectDetail
 import retrofit2.Call
@@ -34,13 +32,12 @@ class HomeFragment : Fragment() {
     private lateinit var bannerView: ViewPager2
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var imageSliderAdapter: AdapterForBanner
-
+    private lateinit var categoryAdapter: AdapterForCategory
     private lateinit var populAdapter: AdapterForProduct
     private lateinit var deadlineAdapter: AdapterForProductHoriz
     private lateinit var allAdapter: AdapterForAll
 
     var currentPage = 0
-    val productAllList = mutableListOf<ProjectDetail>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,27 +51,28 @@ class HomeFragment : Fragment() {
 
                     val bannerDataList: List<String> = data.bannerUrl
 //                    imageSliderAdapter.imageList = bannerDataList
-                    imageSliderAdapter.notifyDataSetChanged()
+//                    imageSliderAdapter.notifyDataSetChanged()
+
+                    val categoryList: List<CategoryPacket> = data.categorys
+                    categoryAdapter.categoryList = categoryList
+                    categoryAdapter.notifyDataSetChanged()
 
                     val popularProjectList: List<ProjectDetail> = data.popularProjects
                     populAdapter.projectList = popularProjectList
-                    Log.d("popularProjectList", "${popularProjectList}")
                     populAdapter.notifyDataSetChanged()
 
                     val deadlineProjectList:List<ProjectDetail> = data.deadlineProjects
                     deadlineAdapter.projectList = deadlineProjectList
-                    Log.d("deadlineProjectList", "${deadlineProjectList}")
                     deadlineAdapter.notifyDataSetChanged()
 
                     val scrollProjectList :MutableList<ProjectDetail> = data.scrollProjects.toMutableList()
                     allAdapter.projectList = scrollProjectList
-                    Log.d("scrollProjectList", "${scrollProjectList}")
                     allAdapter.notifyDataSetChanged()
                 }
             }
 
             override fun onFailure(call: Call<HomeInitPacket>, t: Throwable) {
-                Log.e("API_ERROR", "Failed to fetch data: ${t.message}", t)
+                Log.e("home data fetch failed", "Failed to fetch data: ${t.message}", t)
             }
 
         })
@@ -95,10 +93,9 @@ class HomeFragment : Fragment() {
         setupAutoSlide()
 
         val categoryView = binding.categoryRecyclerView
-
-
-
-        categoryView.adapter = AdapterForCategory(CategoryManager.categoryList)
+        val categoryList = listOf<CategoryPacket>()
+        categoryAdapter = AdapterForCategory(categoryList)
+        categoryView.adapter = categoryAdapter
         categoryView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
         // 인기순
@@ -120,6 +117,7 @@ class HomeFragment : Fragment() {
         // 전체
         val productAllView = binding.allProductRecyclerView
         val gridLayoutManager2 = GridLayoutManager(this.context, 2)
+        val productAllList = mutableListOf<ProjectDetail>()
         productAllView.layoutManager = gridLayoutManager2
         allAdapter = AdapterForAll(productAllList)
         productAllView.adapter = allAdapter

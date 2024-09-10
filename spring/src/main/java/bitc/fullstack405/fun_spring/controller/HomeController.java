@@ -3,6 +3,7 @@ package bitc.fullstack405.fun_spring.controller;
 import bitc.fullstack405.fun_spring.dto.HomeInitDto;
 import bitc.fullstack405.fun_spring.dto.ProjectDto;
 import bitc.fullstack405.fun_spring.dto.UserFavoriteDto;
+import bitc.fullstack405.fun_spring.service.CategoryService;
 import bitc.fullstack405.fun_spring.service.ProjectService;
 import bitc.fullstack405.fun_spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class HomeController {
     private ProjectService projectService;
 
     @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
     private UserService userService;
 
     @GetMapping({"", "/"})
@@ -25,6 +29,7 @@ public class HomeController {
 
         return HomeInitDto.of(
                 new ArrayList<String>(),
+                categoryService.getAllCategory(),
                 projectService.getProjectListRanking(),
                 projectService.getProjectListByDeadLine(),
                 projectService.getHomeScrollProject(0)
