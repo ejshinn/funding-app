@@ -32,7 +32,10 @@ public class FavoriteController {
     public List<ProjectDto> getFavoriteProject(@PathVariable String userId) {
 //        List<FavoriteEntity> project = favoriteService.getFavoriteListByUserId(userId);
 
-        return userService.findByUserId(userId).getProjectList().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
+        return favoriteService.getFavoriteListByUserId(userId).stream()
+                .map(favoriteEntity -> {
+                    return ProjectDto.of(favoriteEntity.getProject());
+                }).collect(Collectors.toCollection(LinkedList::new));
     }
 
     // 좋아요 생성
