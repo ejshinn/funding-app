@@ -69,18 +69,25 @@ class RetrofitTestActivity : AppCompatActivity() {
 //
 //        })
 
-        FunClient.retrofit.getHomeInitData().enqueue(object :retrofit2.Callback<HomeInitPacket>{
-            override fun onResponse(
-                call: Call<HomeInitPacket>,
-                response: Response<HomeInitPacket>
-            ) {
-                Log.d("test", "Test")
-            }
+        try {
+            FunClient.retrofit.getScrollProject(1)
+                .enqueue(object : retrofit2.Callback<List<ProjectDetail>> {
+                    override fun onResponse(
+                        call: Call<List<ProjectDetail>>,
+                        response: Response<List<ProjectDetail>>
+                    ) {
+                        Log.d("test", "Test")
+                    }
 
-            override fun onFailure(call: Call<HomeInitPacket>, t: Throwable) {
-            }
+                    override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+                        Log.d("test", "Test")
+                    }
 
-        })
+                })
+        }
+        catch(e:Exception){
+            Log.d("Error Check", "${e.message}")
+        }
 
 //        FunClient.retrofit.getUser(1).enqueue(object: retrofit2.Callback<User>{
 //            override fun onResponse(call: Call<User>, response: Response<User>) {

@@ -3,6 +3,9 @@ package bitc.fullstack405.fun_spring.dto;
 import bitc.fullstack405.fun_spring.entity.CategoryEntity;
 import bitc.fullstack405.fun_spring.entity.ProjectEntity;
 import bitc.fullstack405.fun_spring.entity.UserEntity;
+import bitc.fullstack405.fun_spring.util.ImageURL;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
@@ -32,7 +35,7 @@ public record ProjectDto(
                                 UserDto user,
                                 CategoryDto category) {
 
-        return new ProjectDto(0, goalAmount, currentAmount, title, content, startDate, endDate, perPrice, thumbnail, user, category, 0,0);
+        return new ProjectDto(0, goalAmount, currentAmount, title, content, startDate, endDate, perPrice, ImageURL.projectImg2(thumbnail), user, category, 0,0);
     }
 
     public static ProjectDto of(int id,
@@ -49,7 +52,7 @@ public record ProjectDto(
                                 int numOfSupport,
                                 int numOfFavorite) {
 
-        return new ProjectDto(id, goalAmount, currentAmount, title, content, startDate, endDate, perPrice, thumbnail, userDto, categoryDto, numOfSupport, numOfFavorite);
+        return new ProjectDto(id, goalAmount, currentAmount, title, content, startDate, endDate, perPrice, ImageURL.projectImg2(thumbnail), userDto, categoryDto, numOfSupport, numOfFavorite);
     }
 
     public static ProjectDto of(ProjectEntity entity){
@@ -62,7 +65,7 @@ public record ProjectDto(
                 entity.getStartDate(),
                 entity.getEndDate(),
                 entity.getPerPrice(),
-                entity.getThumbnail(),
+                ImageURL.projectImg2(entity.getThumbnail()),
                 UserDto.of(entity.getUser()),
                 CategoryDto.of(entity.getCategory()),
                 entity.getSupportList().size(),

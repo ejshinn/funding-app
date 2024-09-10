@@ -184,5 +184,13 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn_search_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="25dp"
+        tools:layout_editor_absoluteY="6dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

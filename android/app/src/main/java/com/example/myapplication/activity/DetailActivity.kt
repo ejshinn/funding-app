@@ -35,8 +35,8 @@ class DetailActivity : AppCompatActivity() {
         // 툴바 타이틀 설정 (필요한 문자열로 변경)
         supportActionBar?.title = "상세 페이지"
 
-        val detailImages = listOf(R.drawable.home1, R.drawable.home2, R.drawable.home3)
-        binding.viewPager2.adapter = AdapterForBanner(detailImages)
+//        val detailImages = listOf(R.drawable.home1, R.drawable.home2, R.drawable.home3)
+//        binding.viewPager2.adapter = AdapterForBanner(detailImages)
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.setCustomView(R.layout.custom_tabl)

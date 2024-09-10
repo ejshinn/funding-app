@@ -8,32 +8,54 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="16dp"
-            android:background="#f0f0f0"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:clickable="true"
-            app:iconifiedByDefault="false"
-            app:queryHint="검색어를 입력하세요"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout2" />
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_margin="16dp"
+        android:background="#f0f0f0"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
+        android:hint="검색어를 입력하세요"
+        app:iconifiedByDefault="false"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2" />
+
+<!--    <androidx.appcompat.widget.SearchView-->
+<!--            android:id="@+id/search_view"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_margin="16dp"-->
+<!--            android:background="#f0f0f0"-->
+<!--            android:focusable="true"-->
+<!--            android:focusableInTouchMode="true"-->
+<!--            android:clickable="true"-->
+<!--            app:iconifiedByDefault="false"-->
+<!--            app:queryHint="검색어를 입력하세요"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="32dp"-->
+<!--            android:layout_marginBottom="32dp"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/linearLayout2" >-->
+
+<!--    </androidx.appcompat.widget.SearchView>-->
 
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:id="@+id/linearLayout2"
-            app:layout_constraintTop_toBottomOf="@+id/search_view"
+            app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -52,7 +74,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/recyclerView"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp" >
+
+        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

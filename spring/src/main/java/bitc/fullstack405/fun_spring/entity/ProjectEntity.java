@@ -50,7 +50,6 @@ public class ProjectEntity {
     @Column(length = 2000, nullable = false)
     private String thumbnail; // 프로젝트 썸네일
 
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @ToString.Exclude

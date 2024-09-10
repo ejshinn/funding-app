@@ -11,7 +11,6 @@ import org.springframework.data.projection.EntityProjection;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/project")
@@ -51,10 +50,10 @@ public class ProjectController {
     }
 
     // 검색 Key로 시작하는 title을 가진 프로젝트 리스트
-    @GetMapping("/search")
-    public Object getProjectSearch(@RequestBody String project) {
+    @GetMapping("/search/{searchKey}")
+    public Object getProjectSearch(@PathVariable String searchKey) {
         List<ProjectDto> list;
-        list = projectService.getProjectListSearch(project);
+        list = projectService.getProjectListSearch(searchKey);
 
         return list;
     }
@@ -64,13 +63,18 @@ public class ProjectController {
     public void writeProject(
             @RequestBody ProjectDto projectDto) {
 
-
-
         projectService.getWriteProject(projectDto);
     }
 
     @GetMapping("/deadline")
     public List<ProjectDto> deadlineProject(){
-        return projectService.getProjectListByDeadLine();
+        var list = projectService.getProjectListByDeadLine();
+        return list;
     }
+
+    @GetMapping("/category/{categoryId}")
+    public List<ProjectDto> getProjectByCategory(@PathVariable int categoryId){
+        return projectService.getProjectListByCategory(categoryId);
+    }
+
 }

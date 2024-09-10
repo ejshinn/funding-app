@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ActivityCategoryBinding
 import com.example.myapplication.databinding.ItemCategoryDetailBinding
+import com.example.myapplication.retrofitPacket.ProjectDetail
 
-class AdapterForCategoryDetail(val projectList: List<String>): RecyclerView.Adapter<AdapterForCategoryDetail.Holder>() {
+class AdapterForCategoryDetail(var projectList: MutableList<ProjectDetail>): RecyclerView.Adapter<AdapterForCategoryDetail.Holder>() {
     class Holder(val binding: ItemCategoryDetailBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -14,12 +15,17 @@ class AdapterForCategoryDetail(val projectList: List<String>): RecyclerView.Adap
     }
 
     override fun getItemCount(): Int {
-        return 30
-//        return projectList.size
+        return projectList.size
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-//        val project = projectList[position]
+        val project = projectList[position]
+        holder.binding.apply {
+            textViewUser.text = project.user.name
+            textViewTitle.text = project.title
+            textViewTotal.text = project.percent()
+            textViewDeadline.text = project.calculateDday()
+        }
     }
 
 

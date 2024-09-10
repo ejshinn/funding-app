@@ -22,8 +22,8 @@ public class FavoriteController {
     private UserService userService;
 
     // 좋아요 누른 유저 수
-    @GetMapping("/favorite/user")
-    public Object getFavoriteUserCount(@RequestBody int projectId) {
+    @GetMapping("/favorite/count/{projectId}")
+    public Object getFavoriteUserCount(@PathVariable int projectId) {
         return favoriteService.getFavoriteUserCount(projectId);
     }
 

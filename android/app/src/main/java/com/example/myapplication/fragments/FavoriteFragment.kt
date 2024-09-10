@@ -77,21 +77,16 @@ class FavoriteFragment : Fragment() {
                         binding.frameLayout.visibility = View.GONE
                         val favoriteProjects = response.body() as MutableList<ProjectDetail>
 
-//                        Log.d("FavoriteFragment", "어댑터 설정")
-//                        val adapter = FavoriteAdapter(favoriteProjects)
-//                        binding.recyclerView.adapter = adapter
-//                        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-//
-//                        // 데이터 업데이트
-//                        adapter.updateData(favoriteProjects)
-
-
+                        Log.d("FavoriteFragment", "어댑터 설정")
+                        val adapter = FavoriteAdapter(favoriteProjects)
+                        binding.recyclerView.adapter = adapter
+                        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+                        adapter.notifyDataSetChanged()
 
                         // 어댑터 설정
-                        Log.d("FavoriteFragment", "어댑터 설정")
-                        binding.recyclerView.adapter = FavoriteAdapter(favoriteProjects)
-                        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-
+//                        Log.d("FavoriteFragment", "어댑터 설정")
+//                        binding.recyclerView.adapter = FavoriteAdapter(favoriteProjects)
+//                        binding.recyclerView.layoutManager = LinearLayoutManager(context)
                     }
                 }
 
