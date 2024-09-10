@@ -38,8 +38,12 @@ class DetailActivity : AppCompatActivity() {
 
         val project = intent.getSerializableExtra("project") as ProjectDetail
 
-//        val detailImages = listOf(R.drawable.home1, R.drawable.home2, R.drawable.home3)
-//        binding.viewPager2.adapter = AdapterForBanner(detailImages)
+        var detailImages = listOf("http://10.100.105.203:8080/projectList/1.jpg")
+        if (project != null) {
+            detailImages = listOf(project.thumbnail)
+        }
+
+            binding.viewPager2.adapter = AdapterForBanner(detailImages)
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.setCustomView(R.layout.custom_tabl)

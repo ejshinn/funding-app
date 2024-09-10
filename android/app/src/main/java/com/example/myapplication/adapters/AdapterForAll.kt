@@ -31,5 +31,11 @@ class AdapterForAll(var projectList: MutableList<ProjectDetail>): RecyclerView.A
             textViewTotal.text = project.percent()
             textViewDeadline.text = project.calculateDday()
         }
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("project", project)
+            context.startActivity(intent)
+        }
     }
 }

@@ -23,6 +23,7 @@ import com.example.myapplication.databinding.FragmentHomeBinding
 import com.example.myapplication.retrofitPacket.CategoryPacket
 import com.example.myapplication.retrofitPacket.HomeInitPacket
 import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.example.myapplication.retrofitPacket.UserPacket
 import retrofit2.Call
 import retrofit2.Response
 
@@ -42,7 +43,7 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        FunClient.retrofit.getHomeInitData().enqueue(object :retrofit2.Callback<HomeInitPacket>{
+        FunClient.retrofit.getHomeInitData().enqueue(object : retrofit2.Callback<HomeInitPacket> {
             override fun onResponse(
                 call: Call<HomeInitPacket>,
                 response: Response<HomeInitPacket>
@@ -61,11 +62,12 @@ class HomeFragment : Fragment() {
                     populAdapter.projectList = popularProjectList
                     populAdapter.notifyDataSetChanged()
 
-                    val deadlineProjectList:List<ProjectDetail> = data.deadlineProjects
+                    val deadlineProjectList: List<ProjectDetail> = data.deadlineProjects
                     deadlineAdapter.projectList = deadlineProjectList
                     deadlineAdapter.notifyDataSetChanged()
 
-                    val scrollProjectList :MutableList<ProjectDetail> = data.scrollProjects.toMutableList()
+                    val scrollProjectList: MutableList<ProjectDetail> =
+                        data.scrollProjects.toMutableList()
                     allAdapter.projectList = scrollProjectList
                     allAdapter.notifyDataSetChanged()
                 }
@@ -93,21 +95,46 @@ class HomeFragment : Fragment() {
         setupAutoSlide()
 
         val categoryView = binding.categoryRecyclerView
-        val categoryList = listOf<CategoryPacket>()
+        val categoryList = listOf<CategoryPacket>(CategoryPacket(1, "없음"))
         categoryAdapter = AdapterForCategory(categoryList)
         categoryView.adapter = categoryAdapter
-        categoryView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+        categoryView.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
-        // 인기순
+        val dummyProject = ProjectDetail(
+            1,
+            123,
+            "empty",
+            "empty",
+            "2024-06-06 00:00:00",
+            "2024-06-09 00:00:00",
+            1234,
+            "http://10.100.105.203:8080/projectList/1.jpg",
+            UserPacket(
+                "no",
+                "no",
+                "no",
+                "no",
+                "no",
+            ),
+            CategoryPacket(
+                1,
+                "cate"
+            ),
+            3,
+            3
+        )
+//         인기순
         val populView = binding.populRecyclerView
-        val productList = listOf<ProjectDetail>()
+        val productList = listOf<ProjectDetail>(dummyProject)
         populAdapter = AdapterForProduct(productList)
         populView.adapter = populAdapter
-        populView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+        populView.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
         // 마감순
         val productHorizView = binding.productRecycleViewHoriental
-        val deadlineList = listOf<ProjectDetail>()
+        val deadlineList = listOf<ProjectDetail>(dummyProject)
         val gridLayoutManager = GridLayoutManager(this.context, 3)
         gridLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         productHorizView.layoutManager = gridLayoutManager
@@ -117,7 +144,7 @@ class HomeFragment : Fragment() {
         // 전체
         val productAllView = binding.allProductRecyclerView
         val gridLayoutManager2 = GridLayoutManager(this.context, 2)
-        val productAllList = mutableListOf<ProjectDetail>()
+        val productAllList = mutableListOf<ProjectDetail>(dummyProject)
         productAllView.layoutManager = gridLayoutManager2
         allAdapter = AdapterForAll(productAllList)
         productAllView.adapter = allAdapter
@@ -141,22 +168,23 @@ class HomeFragment : Fragment() {
 
     fun loadMoreData(page: Int) {
 
-        FunClient.retrofit.getScrollProject(page).enqueue(object :retrofit2.Callback<List<ProjectDetail>>{
-            override fun onResponse(
-                call: Call<List<ProjectDetail>>,
-                response: Response<List<ProjectDetail>>
-            ) {
-                response.body()?.let { newData ->
-                    allAdapter.projectList.addAll(newData)
-                    allAdapter.notifyDataSetChanged()
-                    Log.d("resultData", "${newData}")
+        FunClient.retrofit.getScrollProject(page)
+            .enqueue(object : retrofit2.Callback<List<ProjectDetail>> {
+                override fun onResponse(
+                    call: Call<List<ProjectDetail>>,
+                    response: Response<List<ProjectDetail>>
+                ) {
+                    response.body()?.let { newData ->
+                        allAdapter.projectList.addAll(newData)
+                        allAdapter.notifyDataSetChanged()
+                        Log.d("resultData", "${newData}")
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
-                Log.e("RetrofitError", "Failed to load more data: ${t.message}")
-            }
-        })
+                override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+                    Log.e("RetrofitError", "Failed to load more data: ${t.message}")
+                }
+            })
     }
 
     private fun setupAutoSlide() {
@@ -171,7 +199,6 @@ class HomeFragment : Fragment() {
         // 자동 슬라이드 시작
         handler.postDelayed(runnable, 3000)
     }
-
 
 
 }

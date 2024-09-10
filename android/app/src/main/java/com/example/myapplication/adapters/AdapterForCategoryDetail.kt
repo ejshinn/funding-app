@@ -28,7 +28,6 @@ class AdapterForCategoryDetail(var projectList: MutableList<ProjectDetail>): Rec
             textViewDeadline.text = project.calculateDday()
         }
 
-        val project = projectList[position]
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, DetailActivity::class.java)

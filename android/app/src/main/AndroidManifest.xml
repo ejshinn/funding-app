@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+        xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -24,9 +24,8 @@
                 android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
 
         <activity
-            android:name=".WriteActivity"
-            android:exported="false" >
-        </activity>
+                android:name=".WriteActivity"
+                android:exported="false"></activity>
         <!-- <activity -->
         <!-- android:name=".Login.SignInActivity" -->
         <!-- android:exported="false"> -->
@@ -41,20 +40,16 @@
         <!-- </activity> -->
         <activity
                 android:name=".activity.DetailActivity"
-                android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                android:exported="false">
         </activity>
 
         <activity
                 android:name=".activity.MainActivity"
                 android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
