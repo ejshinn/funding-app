@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ItemBannerBinding
+import com.squareup.picasso.Picasso
 
-class AdapterForBanner(val imageList: List<Int>): RecyclerView.Adapter<AdapterForBanner.Holder>() {
+class AdapterForBanner(var imageList: List<String>): RecyclerView.Adapter<AdapterForBanner.Holder>() {
     class Holder(val binding: ItemBannerBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -18,7 +19,10 @@ class AdapterForBanner(val imageList: List<Int>): RecyclerView.Adapter<AdapterFo
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val image = imageList[position]
-        holder.binding.imageView.setImageResource(image)
+
+        Picasso.get()
+            .load(image)
+            .into(holder.binding.imageView)
     }
 
 
