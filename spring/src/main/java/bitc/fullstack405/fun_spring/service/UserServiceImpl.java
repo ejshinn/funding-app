@@ -1,11 +1,13 @@
 package bitc.fullstack405.fun_spring.service;
 
 import bitc.fullstack405.fun_spring.dto.UserDto;
+import bitc.fullstack405.fun_spring.dto.UserFavoriteDto;
 import bitc.fullstack405.fun_spring.entity.UserEntity;
 import bitc.fullstack405.fun_spring.repository.UserRepository;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,6 +34,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity findByUserId(String userId) {
         return userRepository.findByUserId(userId);
+    }
+
+    @Override
+    public UserFavoriteDto getUserFavorite(String userId) {
+        UserEntity user = userRepository.findByUserId(userId);
+
+        return UserFavoriteDto.of(user);
     }
 
 

@@ -28,14 +28,14 @@ public class SupportController {
     private ProjectService projectService;
 
     // 후원한 유저 수
-    @GetMapping("/support/user")
-    public Object getSupportUserCount(@RequestBody int projectId) {
+    @GetMapping("/support/count/{projectId}")
+    public Object getSupportUserCount(@PathVariable int projectId) {
         return supportService.getSupportUserCount(projectId);
     }
 
     // 자신이 후원한 프로젝트 리스트
-    @GetMapping("/support/project")
-    public List<ProjectDto> getSupportingProject(@RequestBody String userId) {
+    @GetMapping("/support/project/{userId}")
+    public List<ProjectDto> getSupportingProject(@PathVariable String userId) {
 //        List<SupportEntity> support = supportService.getSupportingListByProject(userId);
 
         return userService.findByUserId(userId).getProjectList().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));

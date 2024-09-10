@@ -44,11 +44,11 @@ class LoginActivity : AppCompatActivity() {
                     val editor = shared.edit()
                     editor.putString(Const.SHARED_PREF_LOGIN_KEY, "true")
                     editor.commit()
-                    Log.d("retrofit getProjectList", "-------")
+                    Log.d("retrofit tryLogin", "-------")
                 }
 
                 override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                    Log.d("retrofit getProjectList", "${t.message}")
+                    Log.d("retrofit tryLogin", "${t.message}")
                 }
             })
 
