@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.activity.DetailActivity
 import com.example.myapplication.databinding.ItemCategoryDetailBinding
 import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.squareup.picasso.Picasso
 
 class AdapterForCategoryDetail(var projectList: MutableList<ProjectDetail>): RecyclerView.Adapter<AdapterForCategoryDetail.Holder>() {
     class Holder(val binding: ItemCategoryDetailBinding): RecyclerView.ViewHolder(binding.root)
@@ -27,6 +28,9 @@ class AdapterForCategoryDetail(var projectList: MutableList<ProjectDetail>): Rec
             textViewTotal.text = project.percent()
             textViewDeadline.text = project.calculateDday()
         }
+        Picasso.get()
+            .load(project.thumbnail)
+            .into(holder.binding.imageView5)
 
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context

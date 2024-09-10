@@ -9,6 +9,7 @@ import com.example.myapplication.databinding.ItemProductBinding
 import com.example.myapplication.databinding.ItemProductHorizonBinding
 import com.example.myapplication.dto.Project
 import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.squareup.picasso.Picasso
 
 class AdapterForProductHoriz(var projectList: List<ProjectDetail>): RecyclerView.Adapter<AdapterForProductHoriz.Holder>() {
     class Holder(val binding: ItemProductHorizonBinding):RecyclerView.ViewHolder(binding.root)
@@ -29,6 +30,9 @@ class AdapterForProductHoriz(var projectList: List<ProjectDetail>): RecyclerView
             textViewTotal.text = project.percent()
             textViewDeadline.text = project.calculateDday()
         }
+        Picasso.get()
+            .load(project.thumbnail)
+            .into(holder.binding.imageView4)
 
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context

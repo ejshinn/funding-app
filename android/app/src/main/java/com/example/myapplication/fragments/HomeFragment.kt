@@ -101,32 +101,9 @@ class HomeFragment : Fragment() {
         categoryView.layoutManager =
             LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
-        val dummyProject = ProjectDetail(
-            1,
-            123,
-            "empty",
-            "empty",
-            "2024-06-06 00:00:00",
-            "2024-06-09 00:00:00",
-            1234,
-            "http://10.100.105.203:8080/projectList/1.jpg",
-            UserPacket(
-                "no",
-                "no",
-                "no",
-                "no",
-                "no",
-            ),
-            CategoryPacket(
-                1,
-                "cate"
-            ),
-            3,
-            3
-        )
 //         인기순
         val populView = binding.populRecyclerView
-        val productList = listOf<ProjectDetail>(dummyProject)
+        val productList = listOf<ProjectDetail>()
         populAdapter = AdapterForProduct(productList)
         populView.adapter = populAdapter
         populView.layoutManager =
@@ -134,7 +111,7 @@ class HomeFragment : Fragment() {
 
         // 마감순
         val productHorizView = binding.productRecycleViewHoriental
-        val deadlineList = listOf<ProjectDetail>(dummyProject)
+        val deadlineList = listOf<ProjectDetail>()
         val gridLayoutManager = GridLayoutManager(this.context, 3)
         gridLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         productHorizView.layoutManager = gridLayoutManager
@@ -144,7 +121,7 @@ class HomeFragment : Fragment() {
         // 전체
         val productAllView = binding.allProductRecyclerView
         val gridLayoutManager2 = GridLayoutManager(this.context, 2)
-        val productAllList = mutableListOf<ProjectDetail>(dummyProject)
+        val productAllList = mutableListOf<ProjectDetail>()
         productAllView.layoutManager = gridLayoutManager2
         allAdapter = AdapterForAll(productAllList)
         productAllView.adapter = allAdapter
