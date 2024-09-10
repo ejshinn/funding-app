@@ -42,7 +42,6 @@ class DetailActivity : AppCompatActivity() {
         binding.viewPager2.adapter = AdapterForBanner(detailImages)
 
 
-
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.setCustomView(R.layout.custom_tabl)
         }.attach()
