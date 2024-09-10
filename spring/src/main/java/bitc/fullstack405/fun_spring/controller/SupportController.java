@@ -1,5 +1,6 @@
 package bitc.fullstack405.fun_spring.controller;
 
+import bitc.fullstack405.fun_spring.dto.ProjectDto;
 import bitc.fullstack405.fun_spring.entity.ProjectEntity;
 import bitc.fullstack405.fun_spring.entity.SupportEntity;
 import bitc.fullstack405.fun_spring.entity.UserEntity;
@@ -9,9 +10,12 @@ import bitc.fullstack405.fun_spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@RestController("/support")
+@RestController()
 public class SupportController {
 
     @Autowired
@@ -24,46 +28,46 @@ public class SupportController {
     private ProjectService projectService;
 
     // 후원한 유저 수
-    @GetMapping("/support/user")
-    public Object getSupportUserCount(@RequestBody int projectId) {
+    @GetMapping("/support/count/{projectId}")
+    public Object getSupportUserCount(@PathVariable int projectId) {
         return supportService.getSupportUserCount(projectId);
     }
 
     // 자신이 후원한 프로젝트 리스트
-    @GetMapping("/support/project")
-    public List<ProjectEntity> getSupportingProject(@RequestBody String userId) {
+    @GetMapping("/support/project/{userId}")
+    public List<ProjectDto> getSupportingProject(@PathVariable String userId) {
 //        List<SupportEntity> support = supportService.getSupportingListByProject(userId);
 
-        return userService.findByUserId(userId).getProjectList();
+        return userService.findByUserId(userId).getProjectList().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
     }
 
     // 후원하기
     @PostMapping("/support")
     public void CreateSupport(@RequestBody int projectId, @RequestBody String userId) {
-        UserEntity user = userService.findByUserId(userId);
+//        UserEntity user = userService.findByUserId(userId);
+//
+//        ProjectEntity projectEntity = projectService.getProjectDetail(projectId);
+//        projectEntity.setCurrentAmount(projectEntity.getCurrentAmount() + projectEntity.getPerPrice());
+//        projectService.updateProject(projectEntity);
+//
 
-        ProjectEntity projectEntity = projectService.getProjectDetail(projectId);
-        projectEntity.setCurrentAmount(projectEntity.getCurrentAmount() + projectEntity.getPerPrice());
-        projectService.updateProject(projectEntity);
+//        SupportEntity supportEntity = new SupportEntity();
+//        supportEntity.setUser(user);
+//        supportEntity.setProject(projectEntity);
+//        supportEntity.setAmount(projectEntity.getPerPrice());
 
-
-        SupportEntity supportEntity = new SupportEntity();
-        supportEntity.setUser(user);
-        supportEntity.setProject(projectEntity);
-        supportEntity.setAmount(projectEntity.getPerPrice());
-
-        supportService.createSupport(supportEntity);
+//        supportService.createSupport(supportEntity);
     }
 
     // 후원 취소
     @DeleteMapping("/support/delete")
     public void getSupportDelete(@RequestBody int projectId, @RequestBody String userId) {
 
-        ProjectEntity project = projectService.getProjectDetail(projectId);
-        project.setCurrentAmount(project.getCurrentAmount() - project.getPerPrice());
-        projectService.updateProject(project);
-
-        supportService.getSupportDelete(projectId, userId);
+//        ProjectEntity project = projectService.getProjectDetail(projectId);
+//        project.setCurrentAmount(project.getCurrentAmount() - project.getPerPrice());
+//        projectService.updateProject(project);
+//
+//        supportService.getSupportDelete(projectId, userId);
     }
 
 }

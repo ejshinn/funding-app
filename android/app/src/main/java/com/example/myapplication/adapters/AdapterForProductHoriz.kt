@@ -8,9 +8,10 @@ import com.example.myapplication.activity.DetailActivity
 import com.example.myapplication.databinding.ItemProductBinding
 import com.example.myapplication.databinding.ItemProductHorizonBinding
 import com.example.myapplication.dto.Project
+import com.example.myapplication.retrofitPacket.ProjectDetail
 
-class AdapterForProductHoriz(var projectList: List<Project>): RecyclerView.Adapter<AdapterForProductHoriz.Holder>() {
-    class Holder(binding: ItemProductHorizonBinding):RecyclerView.ViewHolder(binding.root)
+class AdapterForProductHoriz(var projectList: List<ProjectDetail>): RecyclerView.Adapter<AdapterForProductHoriz.Holder>() {
+    class Holder(val binding: ItemProductHorizonBinding):RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(ItemProductHorizonBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -21,14 +22,21 @@ class AdapterForProductHoriz(var projectList: List<Project>): RecyclerView.Adapt
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-
         val project = projectList[position]
+        holder.binding.apply {
+            textViewUser.text = project.user.name
+            textViewTitle.text = project.title
+            textViewTotal.text = project.percent()
+            textViewDeadline.text = project.calculateDday()
+        }
+
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, DetailActivity::class.java)
             intent.putExtra("project", project)
             context.startActivity(intent)
         }
+
     }
 
 }

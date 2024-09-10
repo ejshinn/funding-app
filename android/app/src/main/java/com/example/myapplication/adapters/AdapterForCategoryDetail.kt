@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.activity.DetailActivity
-import com.example.myapplication.databinding.ActivityCategoryBinding
 import com.example.myapplication.databinding.ItemCategoryDetailBinding
-import com.example.myapplication.dto.Project
+import com.example.myapplication.retrofitPacket.ProjectDetail
 
-class AdapterForCategoryDetail(val projectList: List<Project>): RecyclerView.Adapter<AdapterForCategoryDetail.Holder>() {
+class AdapterForCategoryDetail(var projectList: MutableList<ProjectDetail>): RecyclerView.Adapter<AdapterForCategoryDetail.Holder>() {
     class Holder(val binding: ItemCategoryDetailBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -21,6 +20,14 @@ class AdapterForCategoryDetail(val projectList: List<Project>): RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        val project = projectList[position]
+        holder.binding.apply {
+            textViewUser.text = project.user.name
+            textViewTitle.text = project.title
+            textViewTotal.text = project.percent()
+            textViewDeadline.text = project.calculateDday()
+        }
+
         val project = projectList[position]
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context

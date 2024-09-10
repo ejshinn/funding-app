@@ -1,20 +1,28 @@
 package bitc.fullstack405.fun_spring.service;
 
+import bitc.fullstack405.fun_spring.dto.ProjectDto;
 import bitc.fullstack405.fun_spring.entity.ProjectEntity;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 public interface ProjectService {
-    ProjectEntity getProjectDetail(int project);
+    ProjectDto getProjectDetail(int project);
 
-    List<ProjectEntity> getProjectList();
+    List<ProjectDto> getProjectList();
 
-    List<ProjectEntity> getProjectListRanking();
+    List<ProjectDto> getProjectListRanking();
 
-    List<ProjectEntity> getProjectListSearch(String project);
+    List<ProjectDto> getProjectListSearch(String project);
 
-    void getWriteProject(ProjectEntity project);
+    void getWriteProject(ProjectDto project);
 
 
-    void updateProject(ProjectEntity project);
+    void updateProject(ProjectDto project);
+
+    List<ProjectDto> getProjectListByDeadLine();
+
+    List<ProjectDto> getHomeScrollProject(int pageNum);
+
+    List<ProjectDto> getProjectListByCategory(int categoryId);
 }
