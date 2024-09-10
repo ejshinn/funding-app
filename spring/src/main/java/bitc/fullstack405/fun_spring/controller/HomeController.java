@@ -6,6 +6,7 @@ import bitc.fullstack405.fun_spring.dto.UserFavoriteDto;
 import bitc.fullstack405.fun_spring.service.CategoryService;
 import bitc.fullstack405.fun_spring.service.ProjectService;
 import bitc.fullstack405.fun_spring.service.UserService;
+import bitc.fullstack405.fun_spring.util.ImageURL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,11 +27,14 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ImageURL imageURL;
+
     @GetMapping({"", "/"})
     public HomeInitDto getHomeInitData(){
 
         return HomeInitDto.of(
-                new ArrayList<String>(),
+                imageURL.bannerImages(),
                 categoryService.getAllCategory(),
                 projectService.getProjectListRanking(),
                 projectService.getProjectListByDeadLine(),

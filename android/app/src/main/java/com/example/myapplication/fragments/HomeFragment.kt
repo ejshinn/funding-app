@@ -50,8 +50,8 @@ class HomeFragment : Fragment() {
                 response.body()?.let { data ->
 
                     val bannerDataList: List<String> = data.bannerUrl
-//                    imageSliderAdapter.imageList = bannerDataList
-//                    imageSliderAdapter.notifyDataSetChanged()
+                    imageSliderAdapter.imageList = bannerDataList
+                    imageSliderAdapter.notifyDataSetChanged()
 
                     val categoryList: List<CategoryPacket> = data.categorys
                     categoryAdapter.categoryList = categoryList
@@ -87,7 +87,7 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
         bannerView = binding.bannerView
-        val imageList = listOf(R.drawable.home1, R.drawable.home2, R.drawable.home3)
+        val imageList = listOf<String>()
         imageSliderAdapter = AdapterForBanner(imageList)
         bannerView.adapter = imageSliderAdapter
         setupAutoSlide()

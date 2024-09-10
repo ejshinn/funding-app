@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ItemProductBinding
 import com.example.myapplication.dto.Project
 import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.squareup.picasso.Picasso
 
 class AdapterForProduct(var projectList: List<ProjectDetail>): RecyclerView.Adapter<AdapterForProduct.Holder>() {
     class Holder(val binding: ItemProductBinding): RecyclerView.ViewHolder(binding.root)
@@ -26,5 +27,8 @@ class AdapterForProduct(var projectList: List<ProjectDetail>): RecyclerView.Adap
             textViewTotal.text = project.percent()
             textViewDeadline.text = project.calculateDday()
         }
+        Picasso.get()
+            .load(project.thumbnail)
+            .into(holder.binding.imageView4)
     }
 }

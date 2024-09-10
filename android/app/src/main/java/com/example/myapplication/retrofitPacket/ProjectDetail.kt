@@ -15,6 +15,7 @@ data class ProjectDetail(
     val startDate: String,
     val endDate: String,
     val perPrice:Int,
+    val thumbnail: String,
     val user:UserPacket,
     val category:CategoryPacket,
     val numOfSupport:Int,
