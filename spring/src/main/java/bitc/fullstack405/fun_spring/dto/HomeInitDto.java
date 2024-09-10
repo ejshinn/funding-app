@@ -6,16 +6,18 @@ import java.util.List;
 
 public record HomeInitDto(
         List<String> bannerUrl,
+        List<CategoryDto> categorys,
         List<ProjectDto> popularProjects,
         List<ProjectDto> deadlineProjects,
         List<ProjectDto> scrollProjects
 ) {
     public static HomeInitDto of(
             List<String> bannerUrl,
+            List<CategoryDto> categorys,
             List<ProjectDto> popularProjects,
             List<ProjectDto> deadlineProjects,
             List<ProjectDto> scrollProjects){
 
-        return new HomeInitDto(bannerUrl, popularProjects, deadlineProjects, scrollProjects);
+        return new HomeInitDto(bannerUrl, categorys, popularProjects, deadlineProjects, scrollProjects);
     }
 }
