@@ -73,4 +73,10 @@ public class ProjectController {
     public List<ProjectDto> deadlineProject(){
         return projectService.getProjectListByDeadLine();
     }
+
+    @GetMapping("project/category/{categoryId}")
+    public List<ProjectDto> getProjectByCategory(@PathVariable int categoryId){
+        return projectService.getProjectListByCategory(categoryId);
+    }
+
 }

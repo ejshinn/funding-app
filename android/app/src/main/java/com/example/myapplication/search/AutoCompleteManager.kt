@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import com.example.app_autocompletetextview.AutoCompleteClient
+import com.example.myapplication.Retrofit.FunClient
 import retrofit2.Call
 import retrofit2.Response
 
@@ -17,7 +18,7 @@ import retrofit2.Response
         autoComplete.setAutoCompleteAdapter()
  */
 
-class AutoCompleteManager(var autoCompleteTextView: AutoCompleteTextView, val context: Context) :TextWatcher{
+class AutoCompleteManager(var autoCompleteTextView: AutoCompleteTextView, val context: Context?) :TextWatcher{
 
     lateinit var suggestTextList:Array<String>
     lateinit var adapter:ArrayAdapter<String>
@@ -32,8 +33,9 @@ class AutoCompleteManager(var autoCompleteTextView: AutoCompleteTextView, val co
 
     fun setAutoCompleteAdapter(){
         suggestTextList = suggestText_S
-        adapter = ArrayAdapter(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, suggestTextList)
+        adapter = ArrayAdapter(context!!, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, suggestTextList)
 
+        autoCompleteTextView.threshold = 1
         autoCompleteTextView.setAdapter(adapter)
         autoCompleteTextView.addTextChangedListener(this)
     }
@@ -52,19 +54,19 @@ class AutoCompleteManager(var autoCompleteTextView: AutoCompleteTextView, val co
             if(keyValue == 'k'){
 
                 Log.d("onTextChanged", "key is k")
-                adapter = ArrayAdapter(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, suggestText_K)
+                adapter = ArrayAdapter(context!!, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, suggestText_K)
 
                 autoCompleteTextView.setAdapter(adapter)
             }
             else  if(keyValue == 's'){
 
                 Log.d("onTextChanged", "key is s")
-                adapter = ArrayAdapter(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, suggestText_S)
+                adapter = ArrayAdapter(context!!, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, suggestText_S)
 
                 autoCompleteTextView.setAdapter(adapter)
             }
             else{
-//                getNewSuggestList(keyValue.toString())
+                getNewSuggestList(keyValue.toString())
             }
         }
 
@@ -76,7 +78,7 @@ class AutoCompleteManager(var autoCompleteTextView: AutoCompleteTextView, val co
 
     // 서버로 부터 key 값을 이용한 추천 String List 를 받아와 새로 적용
     private fun getNewSuggestList(key:String) {
-        AutoCompleteClient.retrofit.getSuggestList(key)
+        FunClient.retrofit.getProjectSearch(key)
             .enqueue(object : retrofit2.Callback<List<String>> {
                 override fun onResponse(
                     call: Call<List<String>>,
@@ -84,7 +86,7 @@ class AutoCompleteManager(var autoCompleteTextView: AutoCompleteTextView, val co
                 ) {
                     val result = response.body() as List<String>
                     suggestTextList = result.toTypedArray()
-                    adapter = ArrayAdapter(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, suggestTextList)
+                    adapter = ArrayAdapter(context!!, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, suggestTextList)
                     autoCompleteTextView.setAdapter(adapter)
                 }
 

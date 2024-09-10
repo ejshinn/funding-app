@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -33,6 +34,18 @@ class SignInActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            if(it.resultCode == RESULT_OK){
+                Log.d("search address", "${it.data!!.getStringExtra("data")}")
+                binding.edUserAddress.setText(it.data!!.getStringExtra("data"))
+            }
+        }
+
+        binding.btnSearchAddress.setOnClickListener{
+            val intent = Intent(this@SignInActivity, SearchAddressActivity::class.java)
+            launcher.launch(intent)
         }
 
         binding.btnSignIn.setOnClickListener{
@@ -77,11 +90,6 @@ class SignInActivity : AppCompatActivity() {
                 address
             )
 
-
-
-            val obj:Objects?
-
-            Int
 
             FunClient.retrofit.signIn(user).enqueue(object : Callback<Boolean>{
                 override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
