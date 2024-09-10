@@ -46,17 +46,17 @@ interface FunInterface {
     fun getProjectList() :Call<List<ProjectDetail>>
 
     @GET("projects")
-    fun getProjectList(@Path("page") page: Int, @Path("size") size: Int): Call<List<Project>>
+    fun getProjectList(@Path("page") page: Int, @Path("size") size: Int): Call<List<ProjectDetail>>
 
 
     // 프로젝트 인기순
     @GET("/project/list/ranking")
-    fun getProjectRankingList() : Call<List<Project>>
+    fun getProjectRankingList() : Call<List<ProjectDetail>>
 
 
     // 검색 Key로 시작하는 title을 가진 프로젝트 리스트 (10 ~ 20)?
     @GET("/project/search")
-    fun getProjectSearch(@Body searchKey:String) : Call<List<Project>>
+    fun getProjectSearch(@Body searchKey:String) : Call<List<ProjectDetail>>
 
 
     //프로젝트 작성
@@ -75,8 +75,8 @@ interface FunInterface {
     fun getFavoriteUserCount(@Body projectId:Int) : Call<Int>
 
     // 자신이 좋아요 누른 프로젝트 리스트
-    @GET("/favorite/project")
-    fun getFavoriteProject(@Query("userId") userId: String): Call<List<Project>>
+    @GET("/favorite/project/{userId}")
+    fun getFavoriteProject(@Path("userId") userId: String): Call<List<ProjectDetail>>
 
     @POST("/favorite")
     fun createFavorite(@Body favoritePacket: FavoritePacket) :Call<Void>
@@ -93,7 +93,7 @@ interface FunInterface {
 
     // 자신이 후원한 프로젝트 리스트
     @GET("/support/project")
-    fun getSupportingProject(@Body userId:Int) : Call<List<Project>>
+    fun getSupportingProject(@Body userId:Int) : Call<List<ProjectDetail>>
 
     @POST("/support")
     fun createSupport(@Body supportPacket: SupportPacket) : Call<Void>

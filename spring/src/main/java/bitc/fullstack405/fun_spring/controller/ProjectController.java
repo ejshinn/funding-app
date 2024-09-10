@@ -60,7 +60,7 @@ public class ProjectController {
     }
 
     // 프로젝트 작성
-    @GetMapping("/write")
+    @PostMapping("/write")
     public void writeProject(
             @RequestBody ProjectDto projectDto) {
 

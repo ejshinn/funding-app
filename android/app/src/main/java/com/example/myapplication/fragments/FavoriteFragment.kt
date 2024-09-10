@@ -15,10 +15,12 @@ import androidx.transition.Visibility
 import com.example.myapplication.Login.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.Retrofit.FunClient
+import com.example.myapplication.adapters.AdapterForMy
 import com.example.myapplication.adapters.FavoriteAdapter
 import com.example.myapplication.databinding.FragmentFavoriteBinding
 import com.example.myapplication.databinding.FragmentMyBinding
 import com.example.myapplication.dto.Project
+import com.example.myapplication.retrofitPacket.ProjectDetail
 import com.example.myapplication.utils.Const
 import retrofit2.Call
 import retrofit2.Response
@@ -56,45 +58,63 @@ class FavoriteFragment : Fragment() {
         val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
         val userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false")
 
-        // 로그인 상태
+        // 로그인 상태 확인
         if(isLoggedIn) {
-            val recyclerView = binding.recyclerView
-            val emptyLayout = binding.frameLayout
-            Log.d("FavoriteFragment", "User ID: $userId")
+            binding.buttonLogin.visibility = View.GONE
 
-            FunClient.retrofit.getFavoriteProject(userId!!).enqueue(object : retrofit2.Callback<List<Project>> {
-                override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
+            FunClient.retrofit.getFavoriteProject(userId!!).enqueue(object : retrofit2.Callback<List<ProjectDetail>> {
+                override fun onResponse(call: Call<List<ProjectDetail>>, response: Response<List<ProjectDetail>>) {
                     if (response.body().isNullOrEmpty()) {
-                        // 프로젝트 목록이 비어있으면 빈 레이아웃을 보여줌
-                        recyclerView.visibility = View.GONE
-                        emptyLayout.visibility = View.VISIBLE
-                        Log.d("FavoriteFragment", "관심 목록 비어있음")
+                        // 프로젝트 목록이 비어있으면 빈 레이아웃 보여줌
+                        binding.recyclerView.visibility = View.GONE
+                        binding.frameLayout.visibility = View.VISIBLE
                     } else {
-                        // 프로젝트 목록이 있으면 리사이클러뷰를 보여줌
-                        recyclerView.visibility = View.VISIBLE
-                        emptyLayout.visibility = View.GONE
+                        Log.d("FavoriteFragment", "${response.body()}")
 
-                        val favoriteProjects = response.body() as MutableList<Project>
 
-                        // 리사이클러뷰에 데이터 바인딩 (어댑터 설정)
-                        recyclerView.adapter = FavoriteAdapter(favoriteProjects)
+                        // 프로젝트 목록이 있으면 리사이클러뷰 보여줌
+                        binding.recyclerView.visibility = View.VISIBLE
+                        binding.frameLayout.visibility = View.GONE
+                        val favoriteProjects = response.body() as MutableList<ProjectDetail>
+
+//                        Log.d("FavoriteFragment", "어댑터 설정")
+//                        val adapter = FavoriteAdapter(favoriteProjects)
+//                        binding.recyclerView.adapter = adapter
+//                        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+//
+//                        // 데이터 업데이트
+//                        adapter.updateData(favoriteProjects)
+
+
+
+                        // 어댑터 설정
+                        Log.d("FavoriteFragment", "어댑터 설정")
+                        binding.recyclerView.adapter = FavoriteAdapter(favoriteProjects)
                         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-                        recyclerView.adapter?.notifyDataSetChanged()
+
                     }
                 }
 
-                override fun onFailure(call: Call<List<Project>>, t: Throwable) {
+                override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+                    Log.e("FavoriteFragment", "Failed to fetch favorite projects", t)
+                    binding.recyclerView.visibility = View.GONE
+                    binding.frameLayout.visibility = View.VISIBLE
                 }
-
             })
-        } else{
-            // 로그인 상태가 아니라면 LoginActivity 열기
-            val intent = Intent(activity, LoginActivity::class.java)
-            startActivity(intent)
-            activity?.finish() // 현재 Fragment가 포함된 Activity를 종료하여 로그인 후 다시 돌아오지 않도록 함
+        } else {
+            // 로그인 안 한 상태면 로그인 버튼만 화면에 띄우기
+            binding.buttonLogin.visibility = View.VISIBLE
+            binding.recyclerView.visibility = View.GONE
+            binding.frameLayout.visibility = View.GONE
+
+            // 로그인 버튼 클릭 시 로그인 화면으로 이동
+            binding.buttonLogin.setOnClickListener {
+                val intent = Intent(activity, LoginActivity::class.java)
+                startActivity(intent)
+            }
         }
 
-        return inflater.inflate(R.layout.fragment_favorite, container, false)
+        return binding.root
     }
 
     companion object {

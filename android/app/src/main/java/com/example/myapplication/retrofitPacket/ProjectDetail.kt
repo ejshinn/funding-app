@@ -9,6 +9,8 @@ import java.time.temporal.ChronoUnit
 
 data class ProjectDetail(
     val projectId: Int,
+    val goalAmount: Int,
+    val thumbnail: String,
     val currentAmount:Int,
     val title:String,
     val contents:String,

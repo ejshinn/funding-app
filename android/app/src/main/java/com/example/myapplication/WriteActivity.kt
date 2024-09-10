@@ -83,22 +83,16 @@ class WriteActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                1
-            )
+        // 권한 확인
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
         }
 
         // 현재 선택된 ImageView를 저장할 변수
         var selectedImageView: ImageView? = null
 
         // 이미지 선택
-        val requestGalleryLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
+        val requestGalleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 val imageUri: Uri? = result.data?.data
 
@@ -164,79 +158,52 @@ class WriteActivity : AppCompatActivity() {
 
         // 작성 완료 버튼 클릭
         binding.btnSubmit.setOnClickListener {
-            // 카테고리 값 확인
-            Log.d("button click", "category: $selectedCategory!!")
-
-            // 프로젝트 제목
             title = binding.edtTitle.text.toString()
-            Log.d("button click", "title: $title")
-
-            // 이미지 절대 경로
-            if(imagePath != null) {
-                Log.d("button click", "imagePath: $imagePath")
-            }
-
-            // 프로젝트 내용(텍스트)
             contentText = binding.edtContents.getText().toString()
-            Log.d("button click", "contentText: $contentText")
-
-            // 펀딩 일정(시작일)
             startDate = binding.tvStartDate.getText().toString() + "T00:00:00"
-            Log.d("button click", "startDate: $startDate")
-
-            // 펀딩 일정(종료일)
             endDate = binding.tvEndDate.getText().toString() + "T00:00:00"
-            Log.d("button click", "endDate: $endDate")
-
-            // 목표 금액
             goalAmount = binding.edtGoalAmount.text.toString()
-            Log.d("button click", "goalAmount: $goalAmount")
-
-            // 후원 금액(개당 금액)
             perPrice = binding.edtPerPrice.text.toString()
-            Log.d("button click", "perPrice: $perPrice")
 
-            val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
-            val userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false")
+            if(title == "" || imagePath == null || contentText == "" || startDate == "T00:00:00" || endDate == "T00:00:00" || goalAmount == "" || perPrice == "") {
+                Toast.makeText(this@WriteActivity, "내용을 모두 입력해 주세요", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
+                val userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false")
 
-            // userId가 유효한지 확인
-            if (userId != "false") {
-                // User 정보를 서버에서 가져옴
-                FunClient.retrofit.getUser(userId!!).enqueue(object : retrofit2.Callback<UserPacket> {
-                    override fun onResponse(call: Call<UserPacket>, response: Response<UserPacket>) {
-                        if (response.isSuccessful) {
-                            val user = response.body()
-                            if (user != null) {
-                                // User 정보가 정상적으로 반환된 경우
-                                val projectWrite = ProjectWrite(
-                                    0, goalAmount.toInt(), 0, title, contentText, startDate, endDate, perPrice.toInt(), imagePath!!, user, selectedCategory!!
-                                )
+                // userId가 유효한지 확인
+                if (userId != "false") {
+                    // user 정보 가져옴
+                    FunClient.retrofit.getUser(userId!!).enqueue(object : retrofit2.Callback<UserPacket> {
+                        override fun onResponse(call: Call<UserPacket>, response: Response<UserPacket>) {
+                            if (response.isSuccessful) {
+                                val user = response.body()
 
-                                FunClient.retrofit.writeProject(projectWrite).enqueue(object : retrofit2.Callback<Void> {
-                                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                                        Toast.makeText(this@WriteActivity, "작성 완료", Toast.LENGTH_SHORT).show()
-                                    }
+                                // user 정보가 정상적으로 반환된 경우
+                                if (user != null) {
+                                    val projectWrite = ProjectWrite(
+                                        0, goalAmount.toInt(), 0, title, contentText, startDate, endDate, perPrice.toInt(), imagePath!!, user, selectedCategory!!
+                                    )
 
-                                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                                        Log.e("Submit", "Error: ${t.message}")
-                                        Toast.makeText(this@WriteActivity, "서버와의 연결이 실패했습니다", Toast.LENGTH_SHORT).show()
-                                    }
-                                })
-                            } else {
-                                Toast.makeText(this@WriteActivity, "사용자 정보를 가져올 수 없습니다", Toast.LENGTH_SHORT).show()
+                                    FunClient.retrofit.writeProject(projectWrite).enqueue(object : retrofit2.Callback<Void> {
+                                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                                            Toast.makeText(this@WriteActivity, "작성 완료", Toast.LENGTH_SHORT).show()
+                                        }
+
+                                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                                            Log.e("Submit", "Error: ${t.message}")
+                                        }
+                                    })
+                                }
                             }
-                        } else {
-                            Toast.makeText(this@WriteActivity, "서버 응답 오류", Toast.LENGTH_SHORT).show()
                         }
-                    }
 
-                    override fun onFailure(call: Call<UserPacket>, t: Throwable) {
-                        Log.e("Submit", "Error: ${t.message}")
-                        Toast.makeText(this@WriteActivity, "서버와의 연결이 실패했습니다", Toast.LENGTH_SHORT).show()
-                    }
-                })
-            } else {
-                Toast.makeText(this, "로그인 정보가 없습니다", Toast.LENGTH_SHORT).show()
+                        override fun onFailure(call: Call<UserPacket>, t: Throwable) {
+                            Log.e("Submit", "Error: ${t.message}")
+                        }
+                    })
+                }
             }
         }
     }
