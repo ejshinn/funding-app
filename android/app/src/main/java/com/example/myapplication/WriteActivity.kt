@@ -20,10 +20,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.Retrofit.FunClient
+import com.example.myapplication.activity.DetailActivity
 import com.example.myapplication.activity.MainActivity
+import com.example.myapplication.adapters.FavoriteAdapter
 import com.example.myapplication.databinding.ActivityWriteBinding
 import com.example.myapplication.retrofitPacket.CategoryPacket
+import com.example.myapplication.retrofitPacket.ProjectDetail
 import com.example.myapplication.retrofitPacket.ProjectWrite
 import com.example.myapplication.retrofitPacket.UserPacket
 import com.example.myapplication.utils.Const
@@ -190,8 +194,19 @@ class WriteActivity : AppCompatActivity() {
                                             if (response.isSuccessful) {
                                                 Toast.makeText(this@WriteActivity, "작성 완료", Toast.LENGTH_SHORT).show()
 
-                                                val intent = Intent(this@WriteActivity, MainActivity::class.java)
-                                                startActivity(intent)
+                                                // 프로젝트 디테일 화면으로 이동
+                                                val intent = Intent(this@WriteActivity, DetailActivity::class.java)
+                                                FunClient.retrofit.getProjectDetail(94).enqueue(object : retrofit2.Callback<ProjectDetail> {
+                                                    override fun onResponse(call: Call<ProjectDetail>, response: Response<ProjectDetail>) {
+                                                        val detailProject = response.body()
+                                                        Log.d("WriteActivity", "${detailProject}")
+                                                        intent.putExtra("project", detailProject)
+                                                        startActivity(intent)
+                                                    }
+
+                                                    override fun onFailure(call: Call<ProjectDetail>, t: Throwable) {
+                                                    }
+                                                })
                                             }
                                         }
 
