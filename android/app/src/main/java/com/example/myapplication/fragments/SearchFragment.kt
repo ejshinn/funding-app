@@ -6,10 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.adapters.AdapterForSearch
 import com.example.myapplication.databinding.FragmentSearchBinding
+import com.example.myapplication.retrofitPacket.ProjectDetail
 import com.example.myapplication.search.AutoCompleteManager
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,6 +66,30 @@ class SearchFragment : Fragment() {
 
         val autoComplete = AutoCompleteManager(binding.autoCompleteTextView, requireContext())
         autoComplete.setAutoCompleteAdapter()
+
+
+        binding.btnSearchProjects.setOnClickListener{
+            val searchKey = autoComplete.keyValue
+            if(searchKey.isBlank()){
+                Toast.makeText(this.context, "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+
+            FunClient.retrofit.getProjectBySearchKey(searchKey).enqueue(object: Callback<List<ProjectDetail>> {
+                override fun onResponse(
+                    call: Call<List<ProjectDetail>>,
+                    response: Response<List<ProjectDetail>>
+                ) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+                }
+            })
+
+
+        }
 
         return binding.root
     }

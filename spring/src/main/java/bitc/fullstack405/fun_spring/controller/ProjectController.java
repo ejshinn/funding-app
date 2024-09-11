@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.projection.EntityProjection;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class ProjectController {
@@ -50,11 +52,16 @@ public class ProjectController {
 
     // 검색 Key로 시작하는 title을 가진 프로젝트 리스트
     @GetMapping("/project/search/{searchKey}")
-    public Object getProjectSearch(@PathVariable String searchKey) {
+    public Object getSearchSuggestList(@PathVariable String searchKey) {
         List<ProjectDto> list;
         list = projectService.getProjectListSearch(searchKey);
+        List<String> searchResult = list.stream().map(ProjectDto::title).collect(Collectors.toCollection(LinkedList::new));
+        return searchResult;
+    }
 
-        return list;
+    @GetMapping("/project/search/result/{searchKey}")
+    public Object getProjectsBySearchKey(@PathVariable String searchKey){
+        return projectService.getProjectListSearch(searchKey);
     }
 
     // 프로젝트 작성

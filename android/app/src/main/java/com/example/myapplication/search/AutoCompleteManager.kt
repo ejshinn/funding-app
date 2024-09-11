@@ -23,15 +23,11 @@ class AutoCompleteManager(var autoCompleteTextView: AutoCompleteTextView, val co
     lateinit var adapter:ArrayAdapter<String>
 
 
-    var keyValue:Char? = null
-
-    // 서버 연결 전 테스용 더미 데이터
-    val suggestText_S = arrayOf("SM3", "SM5", "SM7", "SONATA", "SOUL")
-    val suggestText_K = arrayOf("K5", "K7")
+    var keyValue = ""
 
 
     fun setAutoCompleteAdapter(){
-        suggestTextList = suggestText_S
+        suggestTextList = arrayOf()
         adapter = ArrayAdapter(context!!, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, suggestTextList)
 
         autoCompleteTextView.threshold = 1
@@ -45,32 +41,16 @@ class AutoCompleteManager(var autoCompleteTextView: AutoCompleteTextView, val co
     }
 
     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        if(p0?.length == 1 && keyValue != p0[0]){
+        if((p0?.length == 1 || p0?.length == 2) && keyValue != p0.toString()) {
 
-            keyValue = p0[0]
+            keyValue = p0.toString()
 
-            //테스트 용 코드
-            if(keyValue == 'k'){
-
-                Log.d("onTextChanged", "key is k")
-                adapter = ArrayAdapter(context!!, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, suggestText_K)
-
-                autoCompleteTextView.setAdapter(adapter)
+            try {
+                setNewSuggestList(keyValue)
+            } catch (e: Exception) {
+                Log.d("Search Error", "${e.message}")
             }
-            else  if(keyValue == 's'){
 
-                Log.d("onTextChanged", "key is s")
-                adapter = ArrayAdapter(context!!, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, suggestText_S)
-
-                autoCompleteTextView.setAdapter(adapter)
-            }
-            else{
-                try {
-                    setNewSuggestList(keyValue.toString())
-                }catch (e:Exception){
-                    Log.d("Search Error", "${e.message}")
-                }
-            }
         }
 
         Log.d("onTextChanged", "${p0} length : ${p0?.length}")
@@ -81,13 +61,17 @@ class AutoCompleteManager(var autoCompleteTextView: AutoCompleteTextView, val co
 
     // 서버로 부터 key 값을 이용한 추천 String List 를 받아와 새로 적용
     private fun setNewSuggestList(key:String) {
-        FunClient.retrofit.getProjectSearch(key)
+        FunClient.retrofit.getSearchSuggestList(key)
             .enqueue(object : retrofit2.Callback<List<String>> {
                 override fun onResponse(
                     call: Call<List<String>>,
                     response: Response<List<String>>
                 ) {
                     val result = response.body() as List<String>
+                    if(result.isEmpty()){
+                        return
+                    }
+
                     suggestTextList = result.toTypedArray()
                     adapter = ArrayAdapter(context!!, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, suggestTextList)
                     autoCompleteTextView.setAdapter(adapter)

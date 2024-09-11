@@ -1,7 +1,6 @@
 package com.example.myapplication.Retrofit
 
 import com.example.myapplication.dto.Category
-import com.example.myapplication.dto.Project
 import com.example.myapplication.retrofitPacket.FavoritePacket
 import com.example.myapplication.retrofitPacket.HomeInitPacket
 import com.example.myapplication.retrofitPacket.LoginCheckPacket
@@ -11,7 +10,6 @@ import com.example.myapplication.retrofitPacket.UserFavoritePacket
 import com.example.myapplication.retrofitPacket.UserPacket
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.POST
@@ -65,8 +63,10 @@ interface FunInterface {
 
     // 검색 Key로 시작하는 title을 가진 프로젝트 리스트 (10 ~ 20)?
     @GET("/project/search/{searchKey}")
-    fun getProjectSearch(@Path("searchKey") searchKey:String) : Call<List<String>>
+    fun getSearchSuggestList(@Path("searchKey") searchKey:String) : Call<List<String>>
 
+    @GET("project/search/result/{searchKey}")
+    fun getProjectBySearchKey(@Path("searchKey") searchKey: String) : Call<List<ProjectDetail>>
 
     //프로젝트 작성
     @POST("/project/write")

@@ -85,8 +85,8 @@ class SignInActivity : AppCompatActivity() {
             val user = UserPacket(
                 userId,
                 userPw,
-                userEmail,
                 userName,
+                userEmail,
                 address
             )
 
