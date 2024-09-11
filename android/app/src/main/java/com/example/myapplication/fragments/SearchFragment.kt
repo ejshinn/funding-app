@@ -71,7 +71,7 @@ class SearchFragment : Fragment() {
 
 
         binding.btnSearchProjects.setOnClickListener{
-            val searchKey = autoComplete.keyValue
+            val searchKey = autoComplete.autoCompleteTextView.text.toString()
             if(searchKey.isBlank()){
                 Toast.makeText(this.context, "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
