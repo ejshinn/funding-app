@@ -35,17 +35,17 @@ class WriteActivity : AppCompatActivity() {
     lateinit var user: UserPacket
 
     val categoryMap = mapOf(
-        0 to CategoryPacket(1, "전체"),
-        1 to CategoryPacket(2, "캐릭터 · 굿즈"),
-        2 to CategoryPacket(3, "홈 · 리빙"),
-        3 to CategoryPacket(4, "테크 · 가전"),
-        4 to CategoryPacket(5, "반려동물"),
-        5 to CategoryPacket(6, "향수 · 뷰티"),
-        6 to CategoryPacket(7, "의류"),
-        7 to CategoryPacket(8, "잡화"),
-        8 to CategoryPacket(9, "음악"),
-        9 to CategoryPacket(10, "푸드"),
-        10 to CategoryPacket(11, "주얼리")
+        0 to CategoryPacket(0, "전체"),
+        1 to CategoryPacket(1, "캐릭터 · 굿즈"),
+        2 to CategoryPacket(2, "홈 · 리빙"),
+        3 to CategoryPacket(3, "테크 · 가전"),
+        4 to CategoryPacket(4, "반려동물"),
+        5 to CategoryPacket(5, "향수 · 뷰티"),
+        6 to CategoryPacket(6, "의류"),
+        7 to CategoryPacket(7, "잡화"),
+        8 to CategoryPacket(8, "음악"),
+        9 to CategoryPacket(9, "푸드"),
+        10 to CategoryPacket(10, "주얼리")
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -178,7 +178,7 @@ class WriteActivity : AppCompatActivity() {
                         override fun onResponse(call: Call<UserPacket>, response: Response<UserPacket>) {
                             if (response.isSuccessful) {
                                 val user = response.body()
-
+                                Log.d("WriteActivity", "${response.body()}")
                                 // user 정보가 정상적으로 반환된 경우
                                 if (user != null) {
                                     val projectWrite = ProjectWrite(
