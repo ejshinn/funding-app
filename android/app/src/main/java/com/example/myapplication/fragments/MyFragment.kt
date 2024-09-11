@@ -97,7 +97,7 @@ class MyFragment : Fragment() {
                 }
             })
 
-            binding.imageViewProfile.setImageResource(R.drawable.profile_temp)
+            binding.imageViewProfile.setImageResource(R.drawable.profile)
         } else {
             // 로그아웃 상태
             binding.buttonLogout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
