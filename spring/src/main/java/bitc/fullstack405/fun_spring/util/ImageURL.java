@@ -25,6 +25,6 @@ public class ImageURL {
     }
 
     public static String projectImg2(String imgName) {
-        return "http://10.100.105.203:8080/" + "projectList/" + imgName;
+        return "http://10.100.105.168:8080/" + "projectList/" + imgName;
     }
 }

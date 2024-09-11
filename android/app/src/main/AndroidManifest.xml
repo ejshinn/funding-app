@@ -24,8 +24,13 @@
                 android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
 
         <activity
-                android:name=".WriteActivity"
-                android:exported="false"></activity>
+            android:name=".WriteActivity"
+            android:exported="false" >
+        </activity>
+        <activity
+            android:name=".Login.LoginActivity"
+            android:exported="false" >
+        </activity>
         <!-- <activity -->
         <!-- android:name=".Login.SignInActivity" -->
         <!-- android:exported="false"> -->

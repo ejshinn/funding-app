@@ -2,10 +2,12 @@ package com.example.myapplication.Retrofit
 
 import com.example.myapplication.dto.Category
 import com.example.myapplication.dto.Project
+import com.example.myapplication.dto.User
 import com.example.myapplication.retrofitPacket.FavoritePacket
 import com.example.myapplication.retrofitPacket.HomeInitPacket
 import com.example.myapplication.retrofitPacket.LoginCheckPacket
 import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.example.myapplication.retrofitPacket.ProjectWrite
 import com.example.myapplication.retrofitPacket.SupportPacket
 import com.example.myapplication.retrofitPacket.UserFavoritePacket
 import com.example.myapplication.retrofitPacket.UserPacket
@@ -16,6 +18,7 @@ import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface FunInterface {
     @GET("/")
@@ -53,14 +56,13 @@ interface FunInterface {
     @GET("/project/list")
     fun getProjectList() :Call<List<ProjectDetail>>
 
+    @GET("projects")
+    fun getProjectList(@Path("page") page: Int, @Path("size") size: Int): Call<List<ProjectDetail>>
+
 
     // 프로젝트 인기순
     @GET("/project/list/ranking")
     fun getProjectRankingList() : Call<List<ProjectDetail>>
-
-    @GET("/project/deadline")
-    fun getProjectDeadline() : Call<List<ProjectDetail>>
-
 
 
     // 검색 Key로 시작하는 title을 가진 프로젝트 리스트 (10 ~ 20)?
@@ -70,13 +72,11 @@ interface FunInterface {
 
     //프로젝트 작성
     @POST("/project/write")
-    fun writeProject(@Body project: ProjectDetail) :Call<Void>
+    fun writeProject(@Body project: ProjectWrite) :Call<Void>
 
 
     @GET("/project/category/{categoryId}")
     fun getProjectByCategory(@Path("categoryId") categoryId: Int) : Call<List<ProjectDetail>>
-
-
 
 
     /*-----------------------------------------*/
@@ -87,7 +87,7 @@ interface FunInterface {
 
     // 자신이 좋아요 누른 프로젝트 리스트
     @GET("/favorite/project/{userId}")
-    fun getFavoriteProject(@Path("userId") userId:String) : Call<List<Project>>
+    fun getFavoriteProject(@Path("userId") userId: String): Call<List<ProjectDetail>>
 
     @POST("/favorite")
     fun createFavorite(@Body favoritePacket: FavoritePacket) :Call<Void>
@@ -103,8 +103,8 @@ interface FunInterface {
     fun getSupportUserCount(@Path("projectId") projectId: Int) : Call<Int>
 
     // 자신이 후원한 프로젝트 리스트
-    @GET("/support/project/{userId}")
-    fun getSupportingProject(@Path("userId") userId:Int) : Call<List<Project>>
+    @GET("/support/project")
+    fun getSupportingProject(@Body userId:Int) : Call<List<ProjectDetail>>
 
     @POST("/support")
     fun createSupport(@Body supportPacket: SupportPacket) : Call<Void>

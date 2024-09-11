@@ -1,5 +1,6 @@
 package bitc.fullstack405.fun_spring.controller;
 
+import bitc.fullstack405.fun_spring.dto.ProjectDto;
 import bitc.fullstack405.fun_spring.entity.FavoriteEntity;
 import bitc.fullstack405.fun_spring.entity.ProjectEntity;
 import bitc.fullstack405.fun_spring.service.FavoriteService;
@@ -7,7 +8,9 @@ import bitc.fullstack405.fun_spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController()
 public class FavoriteController {
@@ -26,10 +29,14 @@ public class FavoriteController {
 
     // 자신이 좋아요한 프로젝트 리스트
     @GetMapping("/favorite/project/{userId}")
-    public List<ProjectEntity> getFavoriteProject(@PathVariable String userId) {
+    public List<ProjectDto> getFavoriteProject(@PathVariable(name = "userId") String userId) {
 //        List<FavoriteEntity> project = favoriteService.getFavoriteListByUserId(userId);
 
-        return userService.findByUserId(userId).getProjectList();
+        return favoriteService.getFavoriteListByUserId(userId)
+                .stream()
+                .map(favoriteEntity -> {
+                    return ProjectDto.of(favoriteEntity.getProject());
+                }).collect(Collectors.toCollection(LinkedList::new));
     }
 
     // 좋아요 생성

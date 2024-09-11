@@ -1,13 +1,22 @@
 package com.example.myapplication.fragments
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.Login.LoginActivity
+import com.example.myapplication.R
+import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.adapters.AdapterForMy
 import com.example.myapplication.databinding.FragmentMyBinding
+import com.example.myapplication.retrofitPacket.UserPacket
+import com.example.myapplication.utils.Const
+import retrofit2.Call
+import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,6 +50,41 @@ class MyFragment : Fragment() {
 
         binding.recyclerView2.adapter = AdapterForMy()
         binding.recyclerView2.layoutManager = LinearLayoutManager(this.context)
+
+
+        val shared = activity?.getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
+        val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
+        val userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false")
+
+        if (isLoggedIn) {
+            // 로그인 상태면 constraintLayout 보여주고 로그인 버튼은 숨김
+            binding.constraintLayout.visibility = View.VISIBLE
+            binding.recyclerView2.visibility = View.VISIBLE
+            binding.buttonLogin.visibility = View.GONE
+
+            // user 정보 가져오기
+            FunClient.retrofit.getUser(userId!!).enqueue(object: retrofit2.Callback<UserPacket>{
+                override fun onResponse(call: Call<UserPacket>, response: Response<UserPacket>) {
+                    binding.textViewId.setText(response.body()!!.name)
+                }
+
+                override fun onFailure(call: Call<UserPacket>, t: Throwable) {
+
+                }
+            })
+
+            binding.imageViewProfile.setImageResource(R.drawable.profile_temp)
+        } else {
+            // 로그인 상태가 아니라면 로그인 버튼만 보임
+            binding.constraintLayout.visibility = View.GONE
+            binding.recyclerView2.visibility = View.GONE
+            binding.buttonLogin.visibility = View.VISIBLE
+
+            binding.buttonLogin.setOnClickListener {
+                val intent = Intent(activity, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
 
         return binding.root
     }

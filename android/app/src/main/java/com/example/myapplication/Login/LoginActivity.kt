@@ -43,12 +43,14 @@ class LoginActivity : AppCompatActivity() {
                     val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
                     val editor = shared.edit()
                     editor.putString(Const.SHARED_PREF_LOGIN_KEY, "true")
+                    editor.putString(Const.SHARED_PREF_LOGIN_ID, binding.edUserId.text.toString())
                     editor.commit()
-                    Log.d("retrofit tryLogin", "-------")
+                    Log.d("retrofit getProjectList", "-------")
+                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                 }
 
                 override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                    Log.d("retrofit tryLogin", "${t.message}")
+                    Log.d("retrofit getProjectList", "${t.message}")
                 }
             })
 
