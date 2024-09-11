@@ -1,6 +1,7 @@
 package bitc.fullstack405.fun_spring.service;
 
 import bitc.fullstack405.fun_spring.dto.ProjectDto;
+import bitc.fullstack405.fun_spring.dto.SupportCD_Dto;
 import bitc.fullstack405.fun_spring.entity.SupportEntity;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface SupportService {
 
     List<ProjectDto> getSupportingListByUserId(String userId);
 
-    void supportCancel(int projectId, String userId);
+    void supportCancel(SupportCD_Dto supportCDDto);
 
-    void createSupport(int projectId, String userId);
+    void createSupport(SupportCD_Dto supportCDDto);
 }

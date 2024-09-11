@@ -1,6 +1,7 @@
 package bitc.fullstack405.fun_spring.controller;
 
 import bitc.fullstack405.fun_spring.dto.ProjectDto;
+import bitc.fullstack405.fun_spring.dto.SupportCD_Dto;
 import bitc.fullstack405.fun_spring.entity.ProjectEntity;
 import bitc.fullstack405.fun_spring.entity.SupportEntity;
 import bitc.fullstack405.fun_spring.entity.UserEntity;
@@ -41,17 +42,17 @@ public class SupportController {
 
     // 후원하기
     @PostMapping("/support")
-    public void CreateSupport(@RequestBody int projectId, @RequestBody String userId) {
+    public void CreateSupport(@RequestBody SupportCD_Dto supportCDDto) {
 
-        supportService.createSupport(projectId, userId);
+        supportService.createSupport(supportCDDto);
 
     }
 
     // 후원 취소
     @DeleteMapping("/support/delete")
-    public void supportCancel(@RequestBody int projectId, @RequestBody String userId) {
+    public void supportCancel(@RequestBody SupportCD_Dto support) {
 
-        supportService.supportCancel(projectId, userId);
+        supportService.supportCancel(support);
     }
 
 }
