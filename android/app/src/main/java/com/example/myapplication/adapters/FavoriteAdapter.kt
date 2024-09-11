@@ -53,4 +53,10 @@ class FavoriteAdapter(var projectList: MutableList<ProjectDetail>): RecyclerView
     override fun getItemCount(): Int {
         return projectList.size
     }
+
+    fun updateData(newData: List<ProjectDetail>) {
+        projectList.clear()
+        projectList.addAll(newData)
+        notifyDataSetChanged()
+    }
 }

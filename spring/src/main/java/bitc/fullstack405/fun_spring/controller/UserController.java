@@ -14,18 +14,17 @@ public class UserController {
 
 // 로그인 프로세스
     @PostMapping("/login")
-    public Object loginProcess(@RequestBody String userId, @RequestBody String userPw) throws Exception {
-        Boolean result = userService.isUserInfo(userId, userPw);
-        UserEntity user = null;
+    public Object loginProcess(@RequestBody UserDto user) throws Exception {
+        UserEntity userEntity = null;
 
-        if (userId != null && userPw != null && result) {
-            user = userService.findByUserId(userId);
+        if (user.userId() != null && user.userPw() != null) {
+            userEntity = userService.findUserByUserIdAndPw(user.userId(), user.userPw());
         }
-        if (user != null) {
-            return false;
+        if (userEntity != null) {
+            return true;
         }
         else {
-            return true;
+            return false;
         }
     }
 

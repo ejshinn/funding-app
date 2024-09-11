@@ -73,7 +73,7 @@ class MyFragment : Fragment() {
                 }
             })
 
-            binding.imageViewProfile.setImageResource(R.drawable.profile_temp)
+            binding.imageViewProfile.setImageResource(R.drawable.profile)
         } else {
             // 로그인 상태가 아니라면 로그인 버튼만 보임
             binding.constraintLayout.visibility = View.GONE

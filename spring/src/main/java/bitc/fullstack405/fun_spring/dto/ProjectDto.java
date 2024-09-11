@@ -4,13 +4,11 @@ import bitc.fullstack405.fun_spring.entity.CategoryEntity;
 import bitc.fullstack405.fun_spring.entity.ProjectEntity;
 import bitc.fullstack405.fun_spring.entity.UserEntity;
 import bitc.fullstack405.fun_spring.util.ImageURL;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 public record ProjectDto(
-        int id,
+        int projectId,
         int goalAmount,
         int currentAmount,
         String title,
@@ -75,7 +73,7 @@ public record ProjectDto(
 
     public ProjectEntity toEntity(UserEntity user, CategoryEntity category){
         return new ProjectEntity(
-                id,
+                projectId,
                 goalAmount,
                 currentAmount,
                 title,

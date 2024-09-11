@@ -33,7 +33,7 @@
         app:layout_constraintBottom_toTopOf="@+id/recyclerView2">
 
         <ImageView
-            android:src="@drawable/profile_temp"
+            android:src="@drawable/profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/imageViewProfile"
