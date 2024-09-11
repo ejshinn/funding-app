@@ -6,10 +6,12 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/messageTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_message_sent"
-        android:padding="8dp"
-        android:textColor="#FFFFFF" />
+            android:id="@+id/messageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_message_sent"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:text="send"
+            android:textSize="20sp" />
 </LinearLayout>

@@ -28,6 +28,9 @@ class MessageActivity : AppCompatActivity() {
         binding = ActivityMessageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "상담원과의 채팅"
+
         database = FirebaseDatabase.getInstance().reference.child("messages")
 
         // 메시지 리스트 초기화 및 어댑터 설정
@@ -66,6 +69,11 @@ class MessageActivity : AppCompatActivity() {
         binding.sendButton.setOnClickListener {
             sendMessage()
         }
+    }
+
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        finish()
+        return true
     }
 
     private fun sendMessage() {

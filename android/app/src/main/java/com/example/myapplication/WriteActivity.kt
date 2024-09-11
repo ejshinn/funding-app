@@ -56,6 +56,9 @@ class WriteActivity : AppCompatActivity() {
         binding = ActivityWriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "프로젝트 만들기"
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -222,4 +225,10 @@ class WriteActivity : AppCompatActivity() {
         }
         return null
     }
+
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        finish()
+        return true
+    }
+
 }

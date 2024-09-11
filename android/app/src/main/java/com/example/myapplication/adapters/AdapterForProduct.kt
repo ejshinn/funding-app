@@ -1,13 +1,17 @@
 package com.example.myapplication.adapters
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
 import com.example.myapplication.activity.DetailActivity
 import com.example.myapplication.databinding.ItemProductBinding
 import com.example.myapplication.retrofitPacket.ProjectDetail
 import com.squareup.picasso.Picasso
+import java.lang.Exception
 
 class AdapterForProduct(var projectList: List<ProjectDetail>): RecyclerView.Adapter<AdapterForProduct.Holder>() {
     class Holder(val binding: ItemProductBinding): RecyclerView.ViewHolder(binding.root)
