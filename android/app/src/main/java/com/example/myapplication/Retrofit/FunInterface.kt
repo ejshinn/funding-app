@@ -26,7 +26,7 @@ interface FunInterface {
     /* ----------------------------------------*/
 
     @POST("/login")
-    fun tryLogin(@Body loginCheckPacket: LoginCheckPacket) : Call<Boolean>
+    fun tryLogin(@Body user: UserPacket) : Call<Boolean>
 
     @POST("/signIn")
     fun signIn(@Body user:UserPacket) : Call<Boolean>

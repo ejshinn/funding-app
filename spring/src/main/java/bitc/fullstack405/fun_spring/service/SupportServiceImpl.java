@@ -1,6 +1,7 @@
 package bitc.fullstack405.fun_spring.service;
 
 import bitc.fullstack405.fun_spring.dto.ProjectDto;
+import bitc.fullstack405.fun_spring.dto.SupportCD_Dto;
 import bitc.fullstack405.fun_spring.entity.ProjectEntity;
 import bitc.fullstack405.fun_spring.entity.SupportEntity;
 import bitc.fullstack405.fun_spring.entity.UserEntity;
@@ -43,29 +44,24 @@ public class SupportServiceImpl implements SupportService {
     }
 
     @Override
-    public void createSupport(int projectId, String userId) {
-        ProjectEntity project = projectRepository.findByProjectId(projectId);
-        UserEntity user = userRepository.findByUserId(userId);
+    public void createSupport(SupportCD_Dto supportCDDto) {
+        ProjectEntity project = projectRepository.findByProjectId(supportCDDto.projectId());
+        UserEntity user = userRepository.findByUserId(supportCDDto.userId());
 
         project.setCurrentAmount(project.getCurrentAmount() + project.getPerPrice());
         projectService.updateProject(project);
 
-        SupportEntity support = new SupportEntity();
-        support.setAmount(project.getPerPrice());
-        support.setUser(user);
-        support.setProject(project);
-
-        supportRepository.save(support);
+        supportRepository.save(supportCDDto.toEntity(user, project));
     }
 
     @Override
-    public void supportCancel(int projectId, String userId) {
-        ProjectEntity project = projectRepository.findByProjectId(projectId);
+    public void supportCancel(SupportCD_Dto supportCDDto) {
+        ProjectEntity project = projectRepository.findByProjectId(supportCDDto.projectId());
 
         project.setCurrentAmount(project.getCurrentAmount() - project.getPerPrice());
         projectService.updateProject(project);
 
-        supportRepository.deleteByProject_ProjectIdAndUser_UserId(projectId, userId);
+        supportRepository.deleteByProject_ProjectIdAndUser_UserId(supportCDDto.projectId(), supportCDDto.userId());
     }
 
 

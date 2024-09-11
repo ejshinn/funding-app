@@ -1,5 +1,7 @@
 package bitc.fullstack405.fun_spring.controller;
 
+import bitc.fullstack405.fun_spring.dto.FavoriteCD_Dto;
+import bitc.fullstack405.fun_spring.dto.FavoriteDto;
 import bitc.fullstack405.fun_spring.dto.ProjectDto;
 import bitc.fullstack405.fun_spring.entity.FavoriteEntity;
 import bitc.fullstack405.fun_spring.service.FavoriteService;
@@ -40,15 +42,15 @@ public class FavoriteController {
 
     // 좋아요 생성
     @PostMapping("/favorite")
-    public void createFavorite(@RequestBody FavoriteEntity favorite) {
+    public void createFavorite(@RequestBody FavoriteCD_Dto favorite) {
 
         favoriteService.createFavorite(favorite);
     }
 
     // 좋아요 삭제
     @DeleteMapping("favorite/delete")
-    public void deleteFavorite(@RequestBody int projectId, @RequestBody String userId) {
+    public void deleteFavorite(@RequestBody FavoriteCD_Dto favorite) {
 
-        favoriteService.deleteFavorite(projectId, userId);
+        favoriteService.deleteFavorite(favorite);
     }
 }

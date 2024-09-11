@@ -33,13 +33,14 @@ public class HomeController {
     @GetMapping({"", "/"})
     public HomeInitDto getHomeInitData(){
 
-        return HomeInitDto.of(
+        var homeInfo = HomeInitDto.of(
                 imageURL.bannerImages(),
                 categoryService.getAllCategory(),
                 projectService.getProjectListRanking(),
                 projectService.getProjectListByDeadLine(),
-                projectService.getHomeScrollProject(0)
-        );
+                projectService.getHomeScrollProject(0));
+
+        return homeInfo;
     }
 
     @GetMapping({"/homeScroll/{pageNum}"})
