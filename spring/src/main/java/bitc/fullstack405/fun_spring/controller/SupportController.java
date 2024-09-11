@@ -34,10 +34,16 @@ public class SupportController {
         return supportService.getSupportUserCount(projectId);
     }
 
+
     // 자신이 후원한 프로젝트 리스트
     @GetMapping("/support/project/{userId}")
     public List<ProjectDto> getSupportingProject(@PathVariable String userId) {
         return supportService.getSupportingListByUserId(userId);
+    }
+
+    @PostMapping("/support/check")
+    public Boolean checkSupporting(@RequestBody SupportCD_Dto supportCDDto){
+        return supportService.checkSupporting(supportCDDto);
     }
 
     // 후원하기

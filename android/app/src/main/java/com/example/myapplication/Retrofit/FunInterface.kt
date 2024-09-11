@@ -88,6 +88,7 @@ interface FunInterface {
     @GET("/favorite/project/{userId}")
     fun getFavoriteProject(@Path("userId") userId:String) : Call<List<ProjectDetail>>
 
+
     @POST("/favorite")
     fun createFavorite(@Body favoritePacket: FavoritePacket) :Call<Void>
 
@@ -104,6 +105,9 @@ interface FunInterface {
     // 자신이 후원한 프로젝트 리스트
     @GET("/support/project/{userId}")
     fun getSupportingProject(@Path("userId") userId:Int) : Call<List<ProjectDetail>>
+
+    @POST("/support/check")
+    fun checkSupporting(@Body support:SupportPacket) : Call<Boolean>
 
     @POST("/support")
     fun createSupport(@Body supportPacket: SupportPacket) : Call<Void>
