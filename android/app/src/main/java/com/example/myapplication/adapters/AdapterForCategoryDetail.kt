@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.Retrofit.FunClient
 import com.example.myapplication.activity.DetailActivity
 import com.example.myapplication.databinding.ItemCategoryDetailBinding
 import com.example.myapplication.retrofitPacket.ProjectDetail
@@ -26,6 +27,7 @@ class AdapterForCategoryDetail(var projectList: MutableList<ProjectDetail>): Rec
             textViewUser.text = project.user.name
             textViewTitle.text = project.title
             textViewTotal.text = project.percent()
+            progressBar.progress = project.progress()
             textViewDeadline.text = project.calculateDday()
         }
         Picasso.get()
@@ -38,6 +40,7 @@ class AdapterForCategoryDetail(var projectList: MutableList<ProjectDetail>): Rec
             intent.putExtra("project", project)
             context.startActivity(intent)
         }
+
     }
 
 
