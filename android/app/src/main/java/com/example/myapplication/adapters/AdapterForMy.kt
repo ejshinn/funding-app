@@ -4,7 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.WriteActivity
+import com.example.myapplication.activity.WriteActivity
 import com.example.myapplication.databinding.ItemMyBinding
 
 class AdapterForMy(var myList: List<String>): RecyclerView.Adapter<AdapterForMy.Holder>() {

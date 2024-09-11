@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.activity
 
 import android.app.DatePickerDialog
 import android.content.Context
@@ -20,11 +20,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.R
 import com.example.myapplication.Retrofit.FunClient
-import com.example.myapplication.activity.DetailActivity
-import com.example.myapplication.activity.MainActivity
-import com.example.myapplication.adapters.FavoriteAdapter
 import com.example.myapplication.databinding.ActivityWriteBinding
 import com.example.myapplication.retrofitPacket.CategoryPacket
 import com.example.myapplication.retrofitPacket.ProjectDetail

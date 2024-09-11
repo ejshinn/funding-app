@@ -140,8 +140,6 @@ class HomeFragment : Fragment() {
                 val homeScrollY = binding.homeScrollView.scrollY
                 val diff = lastChild.bottom - (homeScrollHeight + homeScrollY )
 
-
-
                 Log.d("Scrolling", "$diff ${homeScrollHeight} ${homeScrollY}")
 
                 if (diff <= 25) {

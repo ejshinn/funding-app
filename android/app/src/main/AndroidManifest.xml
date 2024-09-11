@@ -20,21 +20,15 @@
             tools:targetApi="31">
 
         <activity
-                android:name=".dialog.DialogCardInfoActivity"
+                android:name=".Login.LoginActivity"
                 android:exported="false" />
 
         <activity
-                android:name=".Login.LoginActivity"
-                android:exported="false"
-                android:theme="@style/OrangeTheme" />
-
-        <activity
                 android:name=".Login.SignInActivity"
-                android:exported="false"
-                android:theme="@style/OrangeTheme" />
+                android:exported="false" />
 
         <activity
-                android:name=".WriteActivity"
+                android:name=".activity.WriteActivity"
                 android:exported="false"
                 android:theme="@style/OrangeTheme" />
 
