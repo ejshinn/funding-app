@@ -63,7 +63,7 @@ class DetailActivity : AppCompatActivity() {
         }.attach()
 
         // 좋아요 클릭
-        binding.button3.setOnClickListener {
+        binding.buttonFavorite.setOnClickListener {
             // user 정보 가져오기
             val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
             val userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false")
