@@ -18,28 +18,22 @@
             android:theme="@style/Theme.MyApplication"
             android:usesCleartextTraffic="true"
             tools:targetApi="31">
-        <activity
-                android:name=".activity.MessageActivity"
-                android:exported="false" />
-        <activity
-                android:name=".activity.CategoryActivity"
-                android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
 
-        <activity
-                android:name=".WriteActivity"
-                android:exported="false" />
 
         <activity
                 android:name=".Login.LoginActivity"
-                android:exported="false" />
-
-        <activity
-                android:name=".activity.DetailActivity"
-                android:exported="false" />
+                android:exported="false"
+                android:theme="@style/OrangeTheme"/>
 
         <activity
                 android:name=".Login.SignInActivity"
-                android:exported="false" />
+                android:exported="false"
+                android:theme="@style/OrangeTheme"/>
+
+        <activity
+                android:name=".WriteActivity"
+                android:exported="false"
+                android:theme="@style/OrangeTheme"/>
 
         <activity
                 android:name=".Login.SearchAddressActivity"
@@ -53,6 +47,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+                android:name=".activity.CategoryActivity"
+                android:theme="@style/OrangeTheme" />
+
+        <activity
+                android:name=".activity.DetailActivity"
+                android:exported="false" />
+
+        <activity
+                android:name=".activity.MessageActivity"
+                android:exported="false"
+                android:theme="@style/OrangeTheme"/>
+
     </application>
 
 </manifest>

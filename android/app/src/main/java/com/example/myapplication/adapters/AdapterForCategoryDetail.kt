@@ -1,6 +1,7 @@
 package com.example.myapplication.adapters
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -28,6 +29,7 @@ class AdapterForCategoryDetail(var projectList: MutableList<ProjectDetail>): Rec
             textViewTotal.text = project.percent()
             textViewDeadline.text = project.calculateDday()
         }
+
         Picasso.get()
             .load(project.thumbnail)
             .into(holder.binding.imageView5)

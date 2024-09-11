@@ -20,11 +20,10 @@
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="50dp"
                 android:background="?attr/colorPrimary"
                 android:theme="?attr/actionBarTheme"
-                app:layout_scrollFlags="scroll|enterAlways"
-                />
+                app:layout_scrollFlags="scroll|enterAlways" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -191,28 +190,56 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="bottom"
-            android:background="#FDFDFD">
+            android:background="#FDFDFD"
+            android:padding="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            >
 
-        <Button
-                android:text="좋아요"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button3"
-                android:layout_weight="1" />
+        <com.google.android.material.button.MaterialButton
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:id="@+id/buttonFavorite"
+                app:iconPadding="3dp"
+                android:padding="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                app:cornerRadius="2dp"
+                app:icon="@drawable/tab_favorite"
+                app:iconGravity="textTop"
+                app:iconTint="@color/gray"
+                android:backgroundTint="@android:color/transparent"
+                app:strokeColor="@color/gray"
+                app:strokeWidth="1dp"
+                android:text="" />
 
-        <Button
-                android:text="공유"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button4"
-                android:layout_weight="1" />
+        <com.google.android.material.button.MaterialButton
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:id="@+id/buttonShare"
+                app:iconPadding="3dp"
+                android:padding="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                app:cornerRadius="2dp"
+                app:icon="@android:drawable/ic_menu_share"
+                app:iconGravity="textTop"
+                app:iconTint="#626262"
+                android:backgroundTint="@android:color/transparent"
+                app:strokeColor="@color/gray"
+                app:strokeWidth="1dp"
+                android:text="" />
 
         <Button
                 android:text="이 프로젝트 후원하기"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/button5"
-                android:layout_weight="15" />
+                android:layout_weight="15"
+                app:cornerRadius="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

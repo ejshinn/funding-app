@@ -167,9 +167,11 @@ class HomeFragment : Fragment() {
     private fun setupAutoSlide() {
         val runnable = object : Runnable {
             override fun run() {
-                val nextItem = (bannerView.currentItem + 1) % imageSliderAdapter.itemCount
-                bannerView.setCurrentItem(nextItem, true)
-                handler.postDelayed(this, 3000)
+                if (imageSliderAdapter.itemCount != 0 && bannerView.currentItem != 0) {
+                    val nextItem = (bannerView.currentItem + 1) % imageSliderAdapter.itemCount
+                    bannerView.setCurrentItem(nextItem, true)
+                    handler.postDelayed(this, 3000)
+                }
             }
         }
 

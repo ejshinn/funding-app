@@ -7,17 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.WriteActivity
 import com.example.myapplication.databinding.ItemMyBinding
 
-class AdapterForMy(): RecyclerView.Adapter<AdapterForMy.Holder>() {
-
-    val myList = listOf<String>(
-        "내 후기",
-        "공지사항",
-        "헬프센터",
-        "문의하기",
-        "내가 만든 프로젝트",
-        "창작자 가이드",
-        "프로젝트 만들기"
-    )
+class AdapterForMy(var myList: List<String>): RecyclerView.Adapter<AdapterForMy.Holder>() {
 
     class Holder(val binding: ItemMyBinding): RecyclerView.ViewHolder(binding.root)
 
@@ -33,7 +23,7 @@ class AdapterForMy(): RecyclerView.Adapter<AdapterForMy.Holder>() {
         holder.binding.textView6.text = myList[position]
 
         holder.itemView.setOnClickListener {
-            if(position == 6) {
+            if(myList[position] === "프로젝트 만들기") {
                 val context = holder.itemView.context
                 val intent = Intent(context, WriteActivity::class.java)
                 context.startActivity(intent)
