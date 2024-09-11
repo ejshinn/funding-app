@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <!-- jquery -->
-    <script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
-    <script src="/javascript/popup_2.js"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <div id="layer" style="-webkit-overflow-scrolling: touch; display: block; overflow: hidden; position: fixed; z-index: 1;"></div>
+</head>
+<body>
+<div id="layer" style="display:block;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
 
-    <script>
+</div>
+
+
+<script type="text/javascript" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
 
     window.addEventListener("message", onReceivedPostMessage, false);
 
@@ -82,8 +83,6 @@
                     fullRoadAddr += extraRoadAddr;
                 }
 
-                fullRoadAddr += "/" + data.zonecode
-
                 window.Android.processDATA(fullRoadAddr); // data.zonecode + ", " +
             },
             width : '100%',
@@ -117,6 +116,7 @@
     }
 
 </script>
-</head>
 
+<button type="button" onclick="sample2_execDaumPostcode()">button</button>
+</body>
 </html>

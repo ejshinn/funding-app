@@ -1,16 +1,14 @@
 package bitc.fullstack405.fun_spring.controller;
 
 import bitc.fullstack405.fun_spring.dto.ProjectDto;
-import bitc.fullstack405.fun_spring.entity.ProjectEntity;
-import bitc.fullstack405.fun_spring.entity.UserEntity;
 import bitc.fullstack405.fun_spring.service.ProjectService;
-import bitc.fullstack405.fun_spring.service.ProjectServiceImpl;
 import bitc.fullstack405.fun_spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.projection.EntityProjection;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/project")
@@ -51,11 +49,16 @@ public class ProjectController {
 
     // 검색 Key로 시작하는 title을 가진 프로젝트 리스트
     @GetMapping("/search/{searchKey}")
-    public Object getProjectSearch(@PathVariable String searchKey) {
+    public Object getSearchSuggestList(@PathVariable String searchKey) {
         List<ProjectDto> list;
         list = projectService.getProjectListSearch(searchKey);
+        List<String> searchResult = list.stream().map(ProjectDto::title).collect(Collectors.toCollection(LinkedList::new));
+        return searchResult;
+    }
 
-        return list;
+    @GetMapping("/search/result/{searchKey}")
+    public Object getProjectsBySearchKey(@PathVariable String searchKey){
+        return projectService.getProjectListSearch(searchKey);
     }
 
     // 프로젝트 작성

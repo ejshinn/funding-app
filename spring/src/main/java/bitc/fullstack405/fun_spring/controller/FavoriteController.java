@@ -2,7 +2,6 @@ package bitc.fullstack405.fun_spring.controller;
 
 import bitc.fullstack405.fun_spring.dto.ProjectDto;
 import bitc.fullstack405.fun_spring.entity.FavoriteEntity;
-import bitc.fullstack405.fun_spring.entity.ProjectEntity;
 import bitc.fullstack405.fun_spring.service.FavoriteService;
 import bitc.fullstack405.fun_spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class FavoriteController {
 
     // 자신이 좋아요한 프로젝트 리스트
     @GetMapping("/favorite/project/{userId}")
-    public List<ProjectDto> getFavoriteProject(@PathVariable(name = "userId") String userId) {
+    public List<ProjectDto> getFavoriteProject(@PathVariable String userId) {
 //        List<FavoriteEntity> project = favoriteService.getFavoriteListByUserId(userId);
 
         return favoriteService.getFavoriteListByUserId(userId)

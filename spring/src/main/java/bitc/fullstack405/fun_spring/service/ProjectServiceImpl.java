@@ -98,4 +98,9 @@ public class ProjectServiceImpl implements ProjectService {
     public List<ProjectDto> getProjectListByCategory(int categoryId) {
         return projectRepository.findAllByCategory_CategoryId(categoryId).stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
     }
+
+    @Override
+    public void updateProject(ProjectEntity project) {
+        projectRepository.save(project);
+    }
 }
