@@ -8,3 +8,6 @@ retrofit - funClient
 스프링
 properties
 util - imageURL
+
+리엑트
+http://10.100.105.203:5173/
