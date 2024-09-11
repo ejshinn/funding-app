@@ -55,6 +55,11 @@ public class SupportServiceImpl implements SupportService {
     }
 
     @Override
+    public Boolean checkSupporting(SupportCD_Dto supportCDDto) {
+        return supportRepository.findByProject_ProjectIdAndUser_UserId(supportCDDto.projectId(), supportCDDto.userId()) != null;
+    }
+
+    @Override
     public void supportCancel(SupportCD_Dto supportCDDto) {
         ProjectEntity project = projectRepository.findByProjectId(supportCDDto.projectId());
 

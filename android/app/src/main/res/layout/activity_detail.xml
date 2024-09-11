@@ -235,7 +235,7 @@
                 android:text="이 프로젝트 후원하기"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:id="@+id/button5"
+                android:id="@+id/buttonSupport"
                 android:layout_weight="15"
                 app:cornerRadius="5dp"
                 android:layout_marginLeft="5dp"

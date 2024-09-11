@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.Retrofit.FunClient
+import com.example.myapplication.adapters.AdapterForCategory
+import com.example.myapplication.adapters.AdapterForCategoryDetail
 import com.example.myapplication.adapters.AdapterForSearch
 import com.example.myapplication.databinding.FragmentSearchBinding
 import com.example.myapplication.retrofitPacket.ProjectDetail
@@ -69,7 +71,7 @@ class SearchFragment : Fragment() {
 
 
         binding.btnSearchProjects.setOnClickListener{
-            val searchKey = autoComplete.keyValue
+            val searchKey = autoComplete.autoCompleteTextView.text.toString()
             if(searchKey.isBlank()){
                 Toast.makeText(this.context, "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -81,7 +83,7 @@ class SearchFragment : Fragment() {
                     call: Call<List<ProjectDetail>>,
                     response: Response<List<ProjectDetail>>
                 ) {
-                    TODO("Not yet implemented")
+                    binding.recyclerView.adapter = AdapterForCategoryDetail(response.body() as MutableList<ProjectDetail>)
                 }
 
                 override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {

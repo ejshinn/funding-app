@@ -12,4 +12,6 @@ public interface SupportRepository extends JpaRepository<SupportEntity, Integer>
     void deleteByProject_ProjectIdAndUser_UserId(int projectId, String userId);
 
     int countByProject_ProjectId(int projectId);
+
+    SupportEntity findByProject_ProjectIdAndUser_UserId(int projectId, String userId);
 }

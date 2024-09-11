@@ -40,6 +40,8 @@ class HomeFragment : Fragment() {
 
     var currentPage = 0
 
+    var itemLoading = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -126,14 +128,24 @@ class HomeFragment : Fragment() {
         allAdapter = AdapterForAll(productAllList)
         productAllView.adapter = allAdapter
 
-        productAllView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
+        binding.homeScrollView.setOnScrollChangeListener(object : View.OnScrollChangeListener {
+            override fun onScrollChange(p0: View?, p1: Int, p2: Int, p3: Int, p4: Int) {
 
-                val totalItemCount = gridLayoutManager2.itemCount
-                val lastVisibleItemPosition = gridLayoutManager2.findLastVisibleItemPosition()
+                if(itemLoading){
+                    return
+                }
+                val lastChild = binding.homeScrollView.getChildAt(binding.homeScrollView.childCount - 1)
 
-                if (lastVisibleItemPosition == totalItemCount - 1) {
+                val homeScrollHeight = binding.homeScrollView.height
+                val homeScrollY = binding.homeScrollView.scrollY
+                val diff = lastChild.bottom - (homeScrollHeight + homeScrollY )
+
+
+
+                Log.d("Scrolling", "$diff ${homeScrollHeight} ${homeScrollY}")
+
+                if (diff <= 25) {
+                    itemLoading = true
                     currentPage++
                     loadMoreData(currentPage)
                 }
@@ -156,10 +168,12 @@ class HomeFragment : Fragment() {
                         allAdapter.notifyDataSetChanged()
                         Log.d("resultData", "${newData}")
                     }
+                    itemLoading = false
                 }
 
                 override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
                     Log.e("RetrofitError", "Failed to load more data: ${t.message}")
+                    itemLoading = false
                 }
             })
     }

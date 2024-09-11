@@ -15,7 +15,7 @@ import java.util.Locale
 data class ProjectDetail(
     val projectId: Int,
     val goalAmount: Int,
-    val currentAmount: Int,
+    var currentAmount: Int,
     val title: String,
     val contents: String,
     val startDate: String,

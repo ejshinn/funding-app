@@ -15,4 +15,6 @@ public interface SupportService {
     void supportCancel(SupportCD_Dto supportCDDto);
 
     void createSupport(SupportCD_Dto supportCDDto);
+
+    Boolean checkSupporting(SupportCD_Dto supportCDDto);
 }

@@ -81,7 +81,7 @@ public class ProjectServiceImpl implements ProjectService {
     public List<ProjectDto> getProjectListByDeadLine() {
 //        projectRepository.findAll
 
-        return projectRepository.findTop9By().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
+        return projectRepository.findTop9By(PageRequest.of(0, 9)).stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
 //        return projectRepository.findAllOrderByDeadLine(size);
     }
 

@@ -22,8 +22,7 @@ class AutoCompleteManager(var autoCompleteTextView: AutoCompleteTextView, val co
     lateinit var suggestTextList:Array<String>
     lateinit var adapter:ArrayAdapter<String>
 
-
-    var keyValue = ""
+    private var keyValue = ""
 
 
     fun setAutoCompleteAdapter(){
@@ -41,6 +40,7 @@ class AutoCompleteManager(var autoCompleteTextView: AutoCompleteTextView, val co
     }
 
     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
         if((p0?.length == 1 || p0?.length == 2) && keyValue != p0.toString()) {
 
             keyValue = p0.toString()
