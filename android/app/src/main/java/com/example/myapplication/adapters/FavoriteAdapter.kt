@@ -1,6 +1,7 @@
 package com.example.myapplication.adapters
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +27,7 @@ class FavoriteAdapter(var projectList: MutableList<ProjectDetail>): RecyclerView
         Picasso.get()
             .load(project.thumbnail)
             .into(holder.binding.imageView)
+        Log.d("WriteActivity", "${project.thumbnail}")
 
         holder.binding.txtUserName.text = project.user.name // 작성자
         holder.binding.txtTitle.text = project.title // 프로젝트 제목
