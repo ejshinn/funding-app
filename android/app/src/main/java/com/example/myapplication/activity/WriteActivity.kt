@@ -162,7 +162,8 @@ class WriteActivity : AppCompatActivity() {
         // 작성 완료 버튼 클릭
         binding.btnSubmit.setOnClickListener {
             title = binding.edtTitle.text.toString()
-            contentText = binding.edtContents.getText().toString()
+//            contentText = binding.edtContents.getText().toString()
+            contentText = "없음"
             startDate = binding.tvStartDate.getText().toString() + "T00:00:00"
             endDate = binding.tvEndDate.getText().toString() + "T00:00:00"
             goalAmount = binding.edtGoalAmount.text.toString()

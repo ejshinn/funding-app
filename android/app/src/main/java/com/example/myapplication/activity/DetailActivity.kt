@@ -24,7 +24,9 @@ import com.example.myapplication.retrofitPacket.FavoritePacket
 import com.example.myapplication.retrofitPacket.ProjectDetail
 import com.example.myapplication.retrofitPacket.SupportPacket
 import com.example.myapplication.utils.Const
+import com.example.myapplication.utils.Const.SERVER_BASE_URL
 import com.google.android.material.tabs.TabLayoutMediator
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -67,6 +69,10 @@ class DetailActivity : AppCompatActivity() {
         binding.textViewSupport.text = project.formattedAmount()
         binding.textViewPercent.text = project.percent()
         binding.progressBar.progress = project.progress()
+
+        Picasso.get()
+            .load("http://10.100.105.168:8080/projectList/" + project.contents)
+            .into(binding.imageView5)
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.setCustomView(R.layout.custom_tabl)
