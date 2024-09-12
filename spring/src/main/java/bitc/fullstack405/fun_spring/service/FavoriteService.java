@@ -17,4 +17,5 @@ public interface FavoriteService {
 
     List<FavoriteEntity> getFavoriteListByUserId(String userId);
 
+    boolean checkFavorite(FavoriteCD_Dto favorite);
 }

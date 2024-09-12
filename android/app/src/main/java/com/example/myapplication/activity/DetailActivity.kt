@@ -37,6 +37,8 @@ class DetailActivity : AppCompatActivity() {
     lateinit var binding:ActivityDetailBinding
     lateinit var project:ProjectDetail
 
+    var isFavorite = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -83,12 +85,16 @@ class DetailActivity : AppCompatActivity() {
         val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
         if(isLoggedIn == true){
             userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
-
         }
 
 
         // 좋아요 클릭
         binding.buttonFavorite.setOnClickListener {
+            if(isLoggedIn == false){
+                displayRequiredLoginDialog()
+                return@setOnClickListener
+            }
+
             // user 정보 가져오기
             val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
             val userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false")
@@ -96,19 +102,44 @@ class DetailActivity : AppCompatActivity() {
 
             val FavoritePacket = FavoritePacket(project.projectId, userId!!)
 
-            // favorite db에 저장
-            FunClient.retrofit.createFavorite(FavoritePacket).enqueue(object : retrofit2.Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.isSuccessful) {
-                        Log.d("DetailActivity", "${response.body()}")
-                        Toast.makeText(this@DetailActivity, "좋아요를 눌렀습니다.", Toast.LENGTH_SHORT).show()
-                    }
-                }
 
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Log.d("DetailActivity", "좋아요 실패")
-                }
-            })
+
+            // 좋아요 여부에 따라 추가 및 제거
+            if(isFavorite){
+                // favorite db에서 제거
+                FunClient.retrofit.deleteFavorite(FavoritePacket).enqueue(object :retrofit2.Callback<Void>{
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        isFavorite = false
+                        binding.buttonFavorite.setIconResource(R.drawable.tab_favorite)
+                        Toast.makeText(this@DetailActivity, "좋아요를 취소했습니다", Toast.LENGTH_LONG).show()
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                    }
+
+                })
+            }else {
+                // favorite db에 저장
+                FunClient.retrofit.createFavorite(FavoritePacket)
+                    .enqueue(object : retrofit2.Callback<Void> {
+                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            if (response.isSuccessful) {
+                                Log.d("DetailActivity", "${response.body()}")
+                                binding.buttonFavorite.setIconResource(R.drawable.heart_icon)
+                                Toast.makeText(
+                                    this@DetailActivity,
+                                    "좋아요를 눌렀습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                isFavorite = true
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                            Log.d("DetailActivity", "좋아요 실패")
+                        }
+                    })
+            }
         }
 
 
@@ -184,22 +215,39 @@ class DetailActivity : AppCompatActivity() {
         }
 
 
-        // 후원 여부 확인
-        FunClient.retrofit.checkSupporting(SupportPacket(project.projectId, userId)).enqueue(object : retrofit2.Callback<Boolean>{
-            override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-                val isSupporting = response.body() as Boolean
-                if(isSupporting){
-                    binding.buttonSupport.text = "이미 후원한 프로젝트입니다"
-                }
-                else{
-                    binding.buttonSupport.isEnabled = true
-                }
-            }
+        if(isLoggedIn) {
+            // 후원 여부 확인
+            FunClient.retrofit.checkSupporting(SupportPacket(project.projectId, userId))
+                .enqueue(object : retrofit2.Callback<Boolean> {
+                    override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                        val isSupporting = response.body() as Boolean
+                        if (isSupporting) {
+                            binding.buttonSupport.text = "이미 후원한 프로젝트입니다"
+                        } else {
+                            binding.buttonSupport.isEnabled = true
+                        }
+                    }
 
-            override fun onFailure(call: Call<Boolean>, t: Throwable) {
-            }
+                    override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                    }
 
-        })
+                })
+
+            // 좋아요 여부 확인
+            FunClient.retrofit.checkFavorite(FavoritePacket(project.projectId, userId)).enqueue(object : retrofit2.Callback<Boolean>{
+                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                    isFavorite = response.body() as Boolean
+                    if(isFavorite){
+                        binding.buttonFavorite.setIconResource(R.drawable.heart_icon)
+                    }
+                }
+
+                override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                }
+
+            })
+        }
+    }
 
         binding.buttonShare.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND).apply {

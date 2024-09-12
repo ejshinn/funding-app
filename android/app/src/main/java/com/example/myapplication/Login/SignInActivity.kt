@@ -39,7 +39,13 @@ class SignInActivity : AppCompatActivity() {
         val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             if(it.resultCode == RESULT_OK){
                 Log.d("search address", "${it.data!!.getStringExtra("data")}")
-                binding.edUserAddress.setText(it.data!!.getStringExtra("data"))
+
+                var addressInfo = it.data!!.getStringExtra("data")!!.split("/")
+                val zoneCode = addressInfo[1] // 우편번호
+                val roadAddress = addressInfo[0] // 도로주소
+
+                binding.tvPostNumber.setText(zoneCode)
+                binding.tvUserAddress.setText(roadAddress)
             }
         }
 
@@ -53,7 +59,8 @@ class SignInActivity : AppCompatActivity() {
             val userPw = binding.edUserPw.text.toString()
             val userEmail = binding.edUserEmail.text.toString()
             val userName = binding.edUserName.text.toString()
-            val address = binding.edUserAddress.text.toString()
+            val address = binding.tvUserAddress.text.toString()
+            val detailAddr = binding.edUserDetailAddress.text.toString()
 
 
             if(userId.isEmpty()){
@@ -81,13 +88,20 @@ class SignInActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if(detailAddr.isEmpty()){
+                displayWarningDialog("상세 주소를 입력해주세요")
+                return@setOnClickListener
+            }
+
+
+            val fullAddress = "$address $detailAddr" // 전체 주소 = 도로명 주소 + 상세 주소
 
             val user = UserPacket(
                 userId,
                 userPw,
                 userName,
                 userEmail,
-                address
+                fullAddress
             )
 
 

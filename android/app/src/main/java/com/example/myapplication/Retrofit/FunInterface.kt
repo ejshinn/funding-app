@@ -88,6 +88,8 @@ interface FunInterface {
     @GET("/favorite/project/{userId}")
     fun getFavoriteProject(@Path("userId") userId:String) : Call<List<ProjectDetail>>
 
+    @POST("/favorite/check")
+    fun checkFavorite(@Body favoritePacket: FavoritePacket) :Call<Boolean>
 
     @POST("/favorite")
     fun createFavorite(@Body favoritePacket: FavoritePacket) :Call<Void>
