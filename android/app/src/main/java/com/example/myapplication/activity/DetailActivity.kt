@@ -72,8 +72,11 @@ class DetailActivity : AppCompatActivity() {
         binding.textViewPercent.text = project.percent()
         binding.progressBar.progress = project.progress()
 
+        Log.d("detailData", "${project}")
+
         Picasso.get()
-            .load("http://10.100.105.168:8080/projectList/" + project.contents)
+            .load(project.contents)
+            .error(R.drawable.detail_ex2)
             .into(binding.imageView5)
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
@@ -87,6 +90,15 @@ class DetailActivity : AppCompatActivity() {
             userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
         }
 
+        fun fillFavorite(fill: Boolean) {
+            if (fill) {
+                binding.buttonFavorite.setIconResource(R.drawable.heart_icon)
+                binding.buttonFavorite.setIconTintResource(R.color.orange)
+            } else {
+                binding.buttonFavorite.setIconResource(R.drawable.tab_favorite)
+                binding.buttonFavorite.setIconTintResource(R.color.gray)
+            }
+        }
 
         // 좋아요 클릭
         binding.buttonFavorite.setOnClickListener {
@@ -110,7 +122,7 @@ class DetailActivity : AppCompatActivity() {
                 FunClient.retrofit.deleteFavorite(FavoritePacket).enqueue(object :retrofit2.Callback<Void>{
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         isFavorite = false
-                        binding.buttonFavorite.setIconResource(R.drawable.tab_favorite)
+                        fillFavorite(false)
                         Toast.makeText(this@DetailActivity, "좋아요를 취소했습니다", Toast.LENGTH_LONG).show()
                     }
 
@@ -125,7 +137,8 @@ class DetailActivity : AppCompatActivity() {
                         override fun onResponse(call: Call<Void>, response: Response<Void>) {
                             if (response.isSuccessful) {
                                 Log.d("DetailActivity", "${response.body()}")
-                                binding.buttonFavorite.setIconResource(R.drawable.heart_icon)
+                                fillFavorite(true)
+
                                 Toast.makeText(
                                     this@DetailActivity,
                                     "좋아요를 눌렀습니다.",
@@ -249,7 +262,9 @@ class DetailActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                     isFavorite = response.body() as Boolean
                     if(isFavorite){
-                        binding.buttonFavorite.setIconResource(R.drawable.heart_icon)
+                        fillFavorite(true)
+                    } else {
+                        fillFavorite(false)
                     }
                 }
 
