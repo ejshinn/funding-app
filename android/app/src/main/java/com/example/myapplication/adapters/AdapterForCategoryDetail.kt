@@ -14,6 +14,8 @@ import com.example.myapplication.databinding.ItemCategoryDetailBinding
 import com.example.myapplication.retrofitPacket.FavoritePacket
 import com.example.myapplication.retrofitPacket.ProjectDetail
 import com.example.myapplication.utils.Const
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Response
@@ -45,6 +47,9 @@ class AdapterForCategoryDetail(var projectList: MutableList<ProjectDetail>): Rec
 
         Picasso.get()
             .load(project.thumbnail)
+            .networkPolicy(NetworkPolicy.NO_CACHE)
+            .memoryPolicy(MemoryPolicy.NO_CACHE)
+            .error(R.drawable.thumb)
             .into(holder.binding.imageView5)
 
         holder.itemView.setOnClickListener {

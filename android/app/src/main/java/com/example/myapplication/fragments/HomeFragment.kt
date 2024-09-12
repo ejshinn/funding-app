@@ -51,10 +51,10 @@ class HomeFragment : Fragment() {
                 response: Response<HomeInitPacket>
             ) {
                 response.body()?.let { data ->
-
                     val bannerDataList: List<String> = data.bannerUrl
                     imageSliderAdapter.imageList = bannerDataList
                     imageSliderAdapter.notifyDataSetChanged()
+                    bannerView.setCurrentItem(1, false)
 
                     val categoryList: List<CategoryPacket> = data.categorys
                     categoryAdapter.categoryList = categoryList
@@ -94,6 +94,7 @@ class HomeFragment : Fragment() {
         val imageList = listOf<String>()
         imageSliderAdapter = AdapterForBanner(imageList)
         bannerView.adapter = imageSliderAdapter
+
         setupAutoSlide()
 
         val categoryView = binding.categoryRecyclerView
@@ -177,18 +178,33 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupAutoSlide() {
-        val runnable = object : Runnable {
-            override fun run() {
-                if (imageSliderAdapter.itemCount != 0 && bannerView.currentItem != 0) {
-                    val nextItem = (bannerView.currentItem + 1) % imageSliderAdapter.itemCount
-                    bannerView.setCurrentItem(nextItem, true)
-                    handler.postDelayed(this, 3000)
+
+        bannerView.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
+                if (position == 0) {
+                    handler.postDelayed({
+                        bannerView.setCurrentItem(imageSliderAdapter.itemCount - 2, false)  // 실제 마지막 페이지로 이동
+                    }, 300)
+                }
+                else if (position == imageSliderAdapter.itemCount - 1) {
+                    handler.postDelayed({
+                        bannerView.setCurrentItem(1, false)  // 실제 첫 번째 페이지로 이동
+                    }, 300)
                 }
             }
-        }
+        })
 
-        // 자동 슬라이드 시작
+        val runnable = object : Runnable {
+            override fun run() {
+                val nextItem = bannerView.currentItem + 1
+                bannerView.setCurrentItem(nextItem, true)
+                handler.postDelayed(this, 3000)
+            }
+        }
         handler.postDelayed(runnable, 3000)
+
     }
 
 

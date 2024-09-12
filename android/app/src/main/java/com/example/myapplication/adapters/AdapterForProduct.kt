@@ -10,6 +10,8 @@ import com.example.myapplication.R
 import com.example.myapplication.activity.DetailActivity
 import com.example.myapplication.databinding.ItemProductBinding
 import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import java.lang.Exception
 
@@ -34,6 +36,9 @@ class AdapterForProduct(var projectList: List<ProjectDetail>): RecyclerView.Adap
         }
         Picasso.get()
             .load(project.thumbnail)
+            .networkPolicy(NetworkPolicy.NO_CACHE)
+            .memoryPolicy(MemoryPolicy.NO_CACHE)
+            .error(R.drawable.thumb)
             .into(holder.binding.imageView4)
 
         holder.itemView.setOnClickListener {

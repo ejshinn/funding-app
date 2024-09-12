@@ -26,6 +26,8 @@ import com.example.myapplication.retrofitPacket.SupportPacket
 import com.example.myapplication.utils.Const
 import com.example.myapplication.utils.Const.SERVER_BASE_URL
 import com.google.android.material.tabs.TabLayoutMediator
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -76,6 +78,8 @@ class DetailActivity : AppCompatActivity() {
 
         Picasso.get()
             .load(project.contents)
+            .networkPolicy(NetworkPolicy.NO_CACHE)
+            .memoryPolicy(MemoryPolicy.NO_CACHE)
             .error(R.drawable.detail_ex2)
             .into(binding.imageView5)
 

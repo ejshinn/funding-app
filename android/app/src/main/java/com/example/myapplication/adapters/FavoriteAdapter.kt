@@ -5,9 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
 import com.example.myapplication.activity.DetailActivity
 import com.example.myapplication.databinding.ItemFavoriteBinding
 import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import java.text.NumberFormat
 import java.util.Locale
@@ -26,6 +29,9 @@ class FavoriteAdapter(var projectList: MutableList<ProjectDetail>): RecyclerView
 
         Picasso.get()
             .load(project.thumbnail)
+            .networkPolicy(NetworkPolicy.NO_CACHE)
+            .memoryPolicy(MemoryPolicy.NO_CACHE)
+            .error(R.drawable.thumb)
             .into(holder.binding.imageView)
         Log.d("WriteActivity", "${project.thumbnail}")
 

@@ -5,10 +5,13 @@ import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
 import com.example.myapplication.activity.DetailActivity
 import com.example.myapplication.databinding.ItemProductAllBinding
 import com.example.myapplication.dto.Project
 import com.example.myapplication.retrofitPacket.ProjectDetail
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
 class AdapterForAll(var projectList: MutableList<ProjectDetail>): RecyclerView.Adapter<AdapterForAll.Holder>() {
@@ -34,6 +37,9 @@ class AdapterForAll(var projectList: MutableList<ProjectDetail>): RecyclerView.A
         }
         Picasso.get()
             .load(project.thumbnail)
+            .networkPolicy(NetworkPolicy.NO_CACHE)
+            .memoryPolicy(MemoryPolicy.NO_CACHE)
+            .error(R.drawable.thumb)
             .into(holder.bindng.imageView4)
 
         holder.itemView.setOnClickListener {
