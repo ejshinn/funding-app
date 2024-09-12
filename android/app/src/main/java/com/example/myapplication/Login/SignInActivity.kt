@@ -27,6 +27,9 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "회원가입"
+
         val binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -126,9 +129,9 @@ class SignInActivity : AppCompatActivity() {
             })
         }
 
-        binding.btnCancel.setOnClickListener{
-            startActivity(Intent(this@SignInActivity, LoginActivity::class.java))
-        }
+//        binding.btnCancel.setOnClickListener{
+//            startActivity(Intent(this@SignInActivity, LoginActivity::class.java))
+//        }
     }
 
 
@@ -139,4 +142,10 @@ class SignInActivity : AppCompatActivity() {
             show()
         }
     }
+
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        finish()
+        return true
+    }
+
 }

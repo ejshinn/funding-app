@@ -33,7 +33,7 @@ public record ProjectDto(
                                 UserDto user,
                                 CategoryDto category) {
 
-        return new ProjectDto(0, goalAmount, currentAmount, title, content, startDate, endDate, perPrice, ImageURL.projectImg2(thumbnail), user, category, 0,0);
+        return new ProjectDto(0, goalAmount, currentAmount, title, ImageURL.projectImg(content), startDate, endDate, perPrice, ImageURL.projectImg2(thumbnail), user, category, 0,0);
     }
 
     public static ProjectDto of(int id,
@@ -50,7 +50,7 @@ public record ProjectDto(
                                 int numOfSupport,
                                 int numOfFavorite) {
 
-        return new ProjectDto(id, goalAmount, currentAmount, title, content, startDate, endDate, perPrice, ImageURL.projectImg2(thumbnail), userDto, categoryDto, numOfSupport, numOfFavorite);
+        return new ProjectDto(id, goalAmount, currentAmount, title, ImageURL.projectImg(content), startDate, endDate, perPrice, ImageURL.projectImg2(thumbnail), userDto, categoryDto, numOfSupport, numOfFavorite);
     }
 
     public static ProjectDto of(ProjectEntity entity){
@@ -59,7 +59,7 @@ public record ProjectDto(
                 entity.getGoalAmount(),
                 entity.getCurrentAmount(),
                 entity.getTitle(),
-                entity.getContents(),
+                ImageURL.projectImg(entity.getContents()),
                 entity.getStartDate(),
                 entity.getEndDate(),
                 entity.getPerPrice(),

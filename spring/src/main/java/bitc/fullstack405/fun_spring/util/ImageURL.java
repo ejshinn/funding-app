@@ -20,7 +20,12 @@ public class ImageURL {
         return new ArrayList<>(List.of(img1, img2, img3));
     }
 
-    public static String projectImg2(String imgName) {
-        return "http://10.100.105.203:8080/" +"projectList/" + imgName;
+    public static String projectImg2(String thumbNail) {
+        return "http://10.100.105.203:8080/" +"projectList/" + thumbNail;
     }
+
+    public static String projectImg(String content) {
+        return "http://10.100.105.203:8080/" + "contentList/" + content;
+    }
+
 }

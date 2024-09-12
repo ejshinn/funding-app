@@ -59,6 +59,10 @@ class MyFragment : Fragment() {
         if (isLoggedIn) {
             // 로그인 상태
 
+            binding.imageViewProfile.visibility = View.VISIBLE
+            binding.textViewId.visibility = View.VISIBLE
+            binding.textViewFollow.visibility = View.VISIBLE
+
             binding.buttonLogout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.orange))
             binding.buttonLogout.setText("로그아웃")
 
@@ -100,7 +104,12 @@ class MyFragment : Fragment() {
             binding.imageViewProfile.setImageResource(R.drawable.profile)
         } else {
             // 로그아웃 상태
-            binding.buttonLogout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+
+            binding.imageViewProfile.visibility = View.GONE
+            binding.textViewId.visibility = View.GONE
+            binding.textViewFollow.visibility = View.GONE
+
+            binding.buttonLogout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.orange))
             binding.buttonLogout.setText("로그인")
 
             adapterForMy.myList = listOf(
