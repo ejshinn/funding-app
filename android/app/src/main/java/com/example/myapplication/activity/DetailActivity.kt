@@ -142,6 +142,17 @@ class DetailActivity : AppCompatActivity() {
             }
         }
 
+        // 공유 버튼
+        binding.buttonShare.setOnClickListener {
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"  // 공유할 데이터 타입 (텍스트, 이미지, 비디오 등)
+                val projectUrl = "${Const.SERVER_BASE_URL + "/project/" + project.projectId}"
+                putExtra(Intent.EXTRA_TEXT, "${projectUrl}")
+            }
+            val chooser = Intent.createChooser(shareIntent, "공유할 앱을 선택 해 주세요")  // 사용자에게 앱 선택 옵션을 제공
+            startActivity(chooser)
+        }
+
 
         // 후원 버튼
         binding.buttonSupport.isEnabled = false
@@ -246,17 +257,6 @@ class DetailActivity : AppCompatActivity() {
                 }
 
             })
-        }
-    }
-
-        binding.buttonShare.setOnClickListener {
-            val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                type = "text/plain"  // 공유할 데이터 타입 (텍스트, 이미지, 비디오 등)
-                val projectUrl = "${Const.SERVER_BASE_URL + "/project/" + project.projectId}"
-                putExtra(Intent.EXTRA_TEXT, "${projectUrl}")
-            }
-            val chooser = Intent.createChooser(shareIntent, "공유할 앱을 선택 해 주세요")  // 사용자에게 앱 선택 옵션을 제공
-            startActivity(chooser)
         }
     }
 
