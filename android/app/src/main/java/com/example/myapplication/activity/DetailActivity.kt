@@ -194,32 +194,15 @@ class DetailActivity : AppCompatActivity() {
             }
 
         })
-    }
 
-    // 클립보드 URL 복붙
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if(hasFocus){
-            binding.buttonShare.setOnClickListener{
-                val activityContext = this
+        binding.buttonShare.setOnClickListener {
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"  // 공유할 데이터 타입 (텍스트, 이미지, 비디오 등)
                 val projectUrl = "${Const.SERVER_BASE_URL + "/project/" + project.projectId}"
-                AlertDialog.Builder(this).run {
-                    setTitle("공유 하기")
-                    setMessage("url \n${projectUrl}")
-                    setNeutralButton("URL 복사", object : DialogInterface.OnClickListener{
-                        override fun onClick(p0: DialogInterface?, p1: Int) {
-                            val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                            val clip = ClipData.newPlainText("projectUrl", projectUrl)
-                            clipboardManager.setPrimaryClip(clip)
-
-                            Toast.makeText(activityContext, "url 복사 완료", Toast.LENGTH_SHORT).show()
-                        }
-
-                    })
-                    setNegativeButton("취소", null)
-                    show()
-                }
+                putExtra(Intent.EXTRA_TEXT, "${projectUrl}")
             }
+            val chooser = Intent.createChooser(shareIntent, "공유할 앱을 선택 해 주세요")  // 사용자에게 앱 선택 옵션을 제공
+            startActivity(chooser)
         }
     }
 
