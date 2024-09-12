@@ -12,4 +12,7 @@ public interface FavoriteRepository extends JpaRepository<FavoriteEntity, Intege
     int countByProject_ProjectId(int projectId);
 
     List<FavoriteEntity> findAllByUser_UserId(String userId);
+
+
+    FavoriteEntity findByProject_ProjectIdAndUser_UserId(int projectId, String userId);
 }

@@ -40,6 +40,11 @@ public class FavoriteController {
                 }).collect(Collectors.toCollection(LinkedList::new));
     }
 
+    @PostMapping("/favorite/check")
+    public boolean checkFavorite(@RequestBody FavoriteCD_Dto favorite){
+        return favoriteService.checkFavorite(favorite);
+    }
+
     // 좋아요 생성
     @PostMapping("/favorite")
     public void createFavorite(@RequestBody FavoriteCD_Dto favorite) {
