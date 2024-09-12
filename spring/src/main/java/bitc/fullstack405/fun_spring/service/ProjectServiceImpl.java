@@ -58,7 +58,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<ProjectDto> getProjectListSearch(String key) {
 
-        return projectRepository.findTop10ByTitleContaining(key).stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
+        return projectRepository.querySearchTitle(
+                PageRequest.of(0, 10),
+                key).stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
     }
 
     // 작성
@@ -107,7 +109,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectDto> getProjectListByCategory(int categoryId) {
-        return projectRepository.findAllByCategory_CategoryId(categoryId).stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
+        return projectRepository.findAllByContentsKeyCategory(categoryId).stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override
