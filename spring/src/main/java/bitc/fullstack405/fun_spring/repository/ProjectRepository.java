@@ -1,10 +1,10 @@
 package bitc.fullstack405.fun_spring.repository;
 
 import bitc.fullstack405.fun_spring.entity.ProjectEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -32,14 +32,15 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
     List<ProjectEntity> findTop6By();
 
 
-    @Query("select p from ProjectEntity as p order by p.startDate")
-    List<ProjectEntity> querySelectAllOrderByStartDate();
-
+    @Query("select p from ProjectEntity as p order by case when p.contents like '%png' then 0 else 1 end")
+    Page<ProjectEntity> findTopNOrderByContentsKey(Pageable pageable);
 
 
     // 마감 임박순으로 size 만큼
-    @Query(value = "select p from ProjectEntity as p order by (p.endDate - now())")
+    @Query(value = "select p from ProjectEntity as p order by case when p.contents like '%png' then 0 else 1 end , p.endDate - now() DESC")
     List<ProjectEntity> findTop9By(Pageable pageable);
+
+
 
     @Query("select p from ProjectEntity as p where p.title between :e1 and :e2")
     List<ProjectEntity> querySearchTitle(String e1, String e2);

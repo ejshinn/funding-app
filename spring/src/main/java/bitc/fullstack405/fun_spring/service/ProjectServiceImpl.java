@@ -44,7 +44,14 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<ProjectDto> getProjectListRanking() {
 
-        return projectRepository.findTop8ByOrderByStartDate().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedHashSet::new)).stream().toList();
+//        return projectRepository.findTop8ByOrderByStartDate().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedHashSet::new)).stream().toList();
+
+        Page<ProjectEntity> page = (Page<ProjectEntity>) projectRepository.findTopNOrderByContentsKey(
+                PageRequest.of(0, 8, Sort.Direction.ASC, "startDate")
+        );
+
+        return page.getContent().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
+
     }
 
     // 검색    (  임시로 만듦  )
@@ -87,7 +94,11 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectDto> getHomeScrollProject(int pageNum) {
-        Page<ProjectEntity> page = projectRepository.findAll(
+//        Page<ProjectEntity> page = projectRepository.findAll(
+//                PageRequest.of(pageNum, 6, Sort.Direction.ASC, "startDate")
+//        );
+
+        Page<ProjectEntity> page = projectRepository.findTopNOrderByContentsKey(
                 PageRequest.of(pageNum, 6, Sort.Direction.ASC, "startDate")
         );
 
