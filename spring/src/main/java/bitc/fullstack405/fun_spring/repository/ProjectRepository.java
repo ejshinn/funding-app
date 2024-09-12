@@ -17,7 +17,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
 
     ProjectEntity findByProjectId(int projectId);
 
-    List<ProjectEntity> findAllByTitleStartingWith(String key);
+    List<ProjectEntity> findTop10ByTitleContaining(String key);
 
 
     List<ProjectEntity> findTop8ByOrderByStartDate();
