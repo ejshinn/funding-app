@@ -24,7 +24,7 @@
         <item name="android:windowBackground">@android:color/white</item>
 
         <!-- 상태 표시줄 아이콘을 어둡게 설정 (밝은 상태 표시줄에서 사용) -->
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />

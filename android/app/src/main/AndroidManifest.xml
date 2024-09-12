@@ -21,11 +21,13 @@
 
         <activity
                 android:name=".Login.LoginActivity"
-                android:exported="false" />
+                android:exported="false"
+                android:theme="@style/OrangeTheme"/>
 
         <activity
                 android:name=".Login.SignInActivity"
-                android:exported="false" />
+                android:exported="false"
+                android:theme="@style/OrangeTheme"/>
 
         <activity
                 android:name=".activity.WriteActivity"

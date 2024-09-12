@@ -186,8 +186,7 @@ class DetailActivity : AppCompatActivity() {
             val cardDate = dialogView.findViewById<EditText>(R.id.ed_card_end_date)
             val cardCvc = dialogView.findViewById<EditText>(R.id.ed_cvc)
 
-            val cardOk = dialogView.findViewById<Button>(R.id.btn_card_dialog_ok)
-            val cardCancel = dialogView.findViewById<Button>(R.id.btn_card_dialog_cancel)
+            val cardOk = dialogView.findViewById<Button>(R.id.buttonPay)
 
             // 카드 입력 Dialog
             val cardInfoDialog = AlertDialog.Builder(this).run{
@@ -230,10 +229,6 @@ class DetailActivity : AppCompatActivity() {
                         cardInfoDialog.cancel()
                     }
                 })
-            }
-
-            cardCancel.setOnClickListener{
-                cardInfoDialog.cancel()
             }
 
         }
