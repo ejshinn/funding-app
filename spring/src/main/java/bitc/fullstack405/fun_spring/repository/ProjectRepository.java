@@ -32,7 +32,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
     List<ProjectEntity> findTop6By();
 
 
-    @Query("select p from ProjectEntity as p where p.category = :category order by case when p.contents like '%png' then 0 else 1 end")
+    @Query("select p from ProjectEntity as p where p.category.categoryId = :category order by case when p.contents like '%png' then 0 else 1 end")
     List<ProjectEntity> findAllByContentsKeyCategory(int category);
 
     @Query("select p from ProjectEntity as p order by case when p.contents like '%png' then 0 else 1 end")
@@ -42,7 +42,6 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
     // 마감 임박순으로 size 만큼
     @Query(value = "select p from ProjectEntity as p order by case when p.contents like '%png' then 0 else 1 end , p.endDate - now() DESC")
     Page<ProjectEntity> findTop9By(Pageable pageable);
-
 
 
     @Query("select p from ProjectEntity as p where p.title like concat('%', :key, '%') order by case when p.contents like '%png' then 0 else 1 end")
