@@ -1,5 +1,6 @@
 package com.example.myapplication.fragments
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,9 +16,11 @@ import com.example.myapplication.adapters.AdapterForSearch
 import com.example.myapplication.databinding.FragmentSearchBinding
 import com.example.myapplication.retrofitPacket.ProjectDetail
 import com.example.myapplication.search.AutoCompleteManager
+import com.example.myapplication.utils.Const
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.stream.Collectors
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,14 +79,39 @@ class SearchFragment : Fragment() {
                 Toast.makeText(this.context, "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
+            var userId = ""
+            val shared = this.context?.getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
+            val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
 
             FunClient.retrofit.getProjectBySearchKey(searchKey).enqueue(object: Callback<List<ProjectDetail>> {
                 override fun onResponse(
                     call: Call<List<ProjectDetail>>,
                     response: Response<List<ProjectDetail>>
                 ) {
-                    binding.recyclerView.adapter = AdapterForCategoryDetail(response.body() as MutableList<ProjectDetail>)
+                    val categoryDetailAdapter = AdapterForCategoryDetail(response.body() as MutableList<ProjectDetail>)
+                    binding.recyclerView.adapter = categoryDetailAdapter
+
+                    if(isLoggedIn == true){
+                        var favoriteProjectIdList:MutableList<Int>
+                        userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
+
+                        FunClient.retrofit.getFavoriteProject(userId).enqueue(object : retrofit2.Callback<List<ProjectDetail>>{
+                            override fun onResponse(
+                                call: Call<List<ProjectDetail>>,
+                                response: Response<List<ProjectDetail>>
+                            ) {
+                                val projectList = response.body() as MutableList<ProjectDetail>
+                                favoriteProjectIdList = projectList.stream().map { it.projectId }.collect(
+                                    Collectors.toList()).toMutableList()
+                                categoryDetailAdapter.favoriteList = favoriteProjectIdList;
+                                categoryDetailAdapter.userId = userId
+                            }
+
+                            override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+                            }
+
+                        })
+                    }
                 }
 
                 override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
