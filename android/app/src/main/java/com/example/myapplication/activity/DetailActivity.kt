@@ -74,8 +74,6 @@ class DetailActivity : AppCompatActivity() {
         binding.textViewPercent.text = project.percent()
         binding.progressBar.progress = project.progress()
 
-        Log.d("detailData", "${project}")
-
         Picasso.get()
             .load(project.contents)
             .networkPolicy(NetworkPolicy.NO_CACHE)

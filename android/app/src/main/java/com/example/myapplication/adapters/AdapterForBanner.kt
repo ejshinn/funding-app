@@ -38,8 +38,6 @@ class AdapterForBanner(var imageList: List<String>) :
 
         Picasso.get()
             .load(image)
-            .networkPolicy(NetworkPolicy.NO_CACHE)
-            .memoryPolicy(MemoryPolicy.NO_CACHE)
             .error(R.drawable.thumb)
             .into(holder.binding.imageView)
     }
