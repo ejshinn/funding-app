@@ -59,15 +59,15 @@ public class ProjectServiceImpl implements ProjectService {
 
 
         if( "남자 향수".contains(key.trim()) ||  "남자향수".contains(key.trim())){
-            manPurfumeList = projectRepository.getPurfumeList().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
+            manPurfumeList = projectRepository.getPurfumeList().stream()
+                    .map(ProjectDto::of)
+                    .collect(Collectors.toCollection(LinkedList::new));
         }
 
         var searchResult = projectRepository.querySearchTitle(
                 key).stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
 
         manPurfumeList.addAll(searchResult);
-        var filter = new HashSet<>(manPurfumeList);
-        manPurfumeList = new ArrayList<>(filter);
         return manPurfumeList;
     }
 

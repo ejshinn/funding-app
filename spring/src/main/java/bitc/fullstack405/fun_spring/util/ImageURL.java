@@ -21,11 +21,11 @@ public class ImageURL {
     }
 
     public static String projectImg2(String thumbNail) {
-        return "http://10.100.105.168:8080/" +"projectList/" + thumbNail;
+        return "http://10.100.105.203:8080/" +"projectList/" + thumbNail;
     }
 
     public static String projectImg(String content) {
-        return "http://10.100.105.168:8080/" + "contentList/" + content;
+        return "http://10.100.105.203:8080/" + "contentList/" + content;
     }
 
 }

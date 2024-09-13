@@ -65,6 +65,7 @@ class SearchFragment : Fragment() {
                         response: Response<List<ProjectDetail>>
                     ) {
                         val result = response.body() as MutableList<ProjectDetail>
+                        Log.d("getProjectBySearchKey", "result: ${response.body()}")
                         if(result.isEmpty()){
                             binding.recyclerView.adapter =AdapterForSearch()
                             binding.recyclerView.layoutManager = gridLayoutManager
@@ -83,9 +84,8 @@ class SearchFragment : Fragment() {
                         binding.recyclerView.layoutManager = linearLayoutManager
                     }
 
-
-
                     override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+                        Log.e("failed getProjectBySearchKey", "faild search key: ${t.message}", t)
                     }
 
                 })

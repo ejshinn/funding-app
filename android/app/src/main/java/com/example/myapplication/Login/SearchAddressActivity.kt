@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivitySearchAddressBinding
+import com.example.myapplication.utils.Const
 
 class SearchAddressActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +34,7 @@ class SearchAddressActivity : AppCompatActivity() {
                 view.loadUrl("javascript:sample2_execDaumPostcode();")
             }
         }
-        binding.webView.loadUrl("http://10.100.105.168:8080/search-address")
+        binding.webView.loadUrl(Const.SERVER_BASE_URL +"/search-address")
     }
 
     inner class MyJavaScriptInterface {

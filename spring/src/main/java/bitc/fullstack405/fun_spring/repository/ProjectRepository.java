@@ -47,6 +47,6 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
     @Query("select p from ProjectEntity as p where p.title like concat('%', :key, '%') order by case when p.contents like '%png' then 0 else 1 end")
     List<ProjectEntity> querySearchTitle(String key);
 
-    @Query("select p from ProjectEntity as p where p.projectId >= 101")
+    @Query("select p from ProjectEntity as p where p.projectId >= 101 order by p.projectId")
     List<ProjectEntity> getPurfumeList();
 }

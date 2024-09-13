@@ -58,7 +58,6 @@ public class ProjectController {
 
     @GetMapping("/search/result/{searchKey}")
     public Object getProjectsBySearchKey(@PathVariable String searchKey){
-        var list = projectService.getProjectListSearch(searchKey);
         return projectService.getProjectListSearch(searchKey);
     }
 
