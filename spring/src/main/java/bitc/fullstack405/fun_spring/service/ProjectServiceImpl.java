@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -57,10 +58,19 @@ public class ProjectServiceImpl implements ProjectService {
     // 검색    (  임시로 만듦  )
     @Override
     public List<ProjectDto> getProjectListSearch(String key) {
+        List<ProjectDto> manPurfumeList = new ArrayList<>();
 
-        return projectRepository.querySearchTitle(
+
+        if( "남자 향수".contains(key.trim()) ||  "남자향수".contains(key.trim())){
+            manPurfumeList = projectRepository.getPurfumeList().stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
+        }
+
+        var searchResult = projectRepository.querySearchTitle(
                 PageRequest.of(0, 10),
                 key).stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
+
+        manPurfumeList.addAll(searchResult);
+        return manPurfumeList;
     }
 
     // 작성
