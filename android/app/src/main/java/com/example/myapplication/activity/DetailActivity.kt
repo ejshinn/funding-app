@@ -48,6 +48,7 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        Log.d("detailOpen", "onCreate")
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -105,11 +106,8 @@ class DetailActivity : AppCompatActivity() {
             // user 정보 가져오기
             val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
             userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false").toString()
-            Log.d("DetailActivity", "${userId}")
 
             val FavoritePacket = FavoritePacket(project.projectId, userId!!)
-
-
 
             // 좋아요 여부에 따라 추가 및 제거
             if(isFavorite){
@@ -228,7 +226,15 @@ class DetailActivity : AppCompatActivity() {
 
         }
 
+    }
 
+    private fun logConfirm(){
+        var userId = ""
+        val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
+        val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
+        if(isLoggedIn == true){
+            userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
+        }
 
     }
 
@@ -236,7 +242,7 @@ class DetailActivity : AppCompatActivity() {
         super.onResume()
         var userId = ""
         val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
-        val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
+        isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
         if(isLoggedIn == true){
             userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
         }

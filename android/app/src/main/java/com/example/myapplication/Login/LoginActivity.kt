@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
                             binding.edUserId.text.toString()
                         )
                         editor.commit()
-                        Log.d("retrofit getProjectList", "-------")
+                        Log.d("retrofit getProjectList", "로그인 데이터 저장 완료")
                         finish()
                     }
                     else{
