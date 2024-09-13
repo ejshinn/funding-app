@@ -114,7 +114,6 @@ class SignInActivity : AppCompatActivity() {
 
                     if(result == true){
                         Log.d("retrofit try sign in", "successful")
-                        startActivity(Intent(this@SignInActivity, LoginActivity::class.java))
                         finish()
                         return
                     }
