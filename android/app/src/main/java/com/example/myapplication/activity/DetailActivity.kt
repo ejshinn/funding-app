@@ -273,7 +273,12 @@ class DetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
-        finish()
+        if(intent.getBooleanExtra("toHome", false)) {
+            startActivity(Intent(this, MainActivity::class.java))
+        } else {
+            finish()
+        }
+
         return true
     }
 

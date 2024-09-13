@@ -101,7 +101,7 @@ class WriteActivity : AppCompatActivity() {
 
                 imageUri?.let { uri ->
                     // 절대 경로 가져옴
-                    imagePath = getRealPathFromURI(uri).toString()
+                    //imagePath = getRealPathFromURI(uri).toString()
 
                     // 선택된 ImageView에 이미지 설정
                     selectedImageView?.setImageURI(uri)
@@ -169,10 +169,26 @@ class WriteActivity : AppCompatActivity() {
             goalAmount = binding.edtGoalAmount.text.toString()
             perPrice = binding.edtPerPrice.text.toString()
 
-            if(title == "" || imagePath == null || contentText == "" || startDate == "T00:00:00" || endDate == "T00:00:00" || goalAmount == "" || perPrice == "") {
-                Toast.makeText(this@WriteActivity, "내용을 모두 입력해 주세요", Toast.LENGTH_SHORT).show()
-            }
-            else {
+        //Toast.makeText(this@WriteActivity, "작성 완료", Toast.LENGTH_SHORT).show()
+//            // 프로젝트 디테일 화면으로 이동
+//            val intent = Intent(this@WriteActivity, DetailActivity::class.java)
+//            FunClient.retrofit.getProjectDetail(103).enqueue(object : retrofit2.Callback<ProjectDetail> {
+//                override fun onResponse(call: Call<ProjectDetail>, response: Response<ProjectDetail>) {
+//                    val detailProject = response.body()
+//                    Log.d("WriteActivity", "${detailProject}")
+//                    intent.putExtra("project", detailProject)
+//                    intent.putExtra("toHome", true)
+//                    startActivity(intent)
+//                }
+//
+//                override fun onFailure(call: Call<ProjectDetail>, t: Throwable) {
+//                }
+//            })
+
+//            if(title == "" || imagePath == null || contentText == "" || startDate == "T00:00:00" || endDate == "T00:00:00" || goalAmount == "" || perPrice == "") {
+//                Toast.makeText(this@WriteActivity, "내용을 모두 입력해 주세요", Toast.LENGTH_SHORT).show()
+//            }
+//            else {
                 val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
                 val userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false")
 
@@ -187,7 +203,7 @@ class WriteActivity : AppCompatActivity() {
                                 // user 정보가 정상적으로 반환된 경우
                                 if (user != null) {
                                     val projectWrite = ProjectWrite(
-                                        0, goalAmount.toInt(), 0, title, contentText, startDate, endDate, perPrice.toInt(), imagePath!!, user, selectedCategory!!
+                                        103, goalAmount.toInt(), 0, title, "103.png", startDate, endDate, perPrice.toInt(), "103.jpg", user, selectedCategory!!
                                     )
 
                                     FunClient.retrofit.writeProject(projectWrite).enqueue(object : retrofit2.Callback<Void> {
@@ -197,11 +213,12 @@ class WriteActivity : AppCompatActivity() {
 
                                                 // 프로젝트 디테일 화면으로 이동
                                                 val intent = Intent(this@WriteActivity, DetailActivity::class.java)
-                                                FunClient.retrofit.getProjectDetail(94).enqueue(object : retrofit2.Callback<ProjectDetail> {
+                                                FunClient.retrofit.getProjectDetail(103).enqueue(object : retrofit2.Callback<ProjectDetail> {
                                                     override fun onResponse(call: Call<ProjectDetail>, response: Response<ProjectDetail>) {
                                                         val detailProject = response.body()
                                                         Log.d("WriteActivity", "${detailProject}")
                                                         intent.putExtra("project", detailProject)
+                                                        intent.putExtra("toHome", true)
                                                         startActivity(intent)
                                                     }
 
@@ -223,21 +240,21 @@ class WriteActivity : AppCompatActivity() {
                         }
                     })
                 }
-            }
+//            }
         }
     }
 
     // 이미지 절대 경로
-    fun getRealPathFromURI(uri: Uri): String? {
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                return cursor.getString(columnIndex)
-            }
-        }
-        return null
-    }
+//    fun getRealPathFromURI(uri: Uri): String? {
+//        val projection = arrayOf(MediaStore.Images.Media.DATA)
+//        contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
+//            if (cursor.moveToFirst()) {
+//                val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+//                return cursor.getString(columnIndex)
+//            }
+//        }
+//        return null
+//    }
 
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
         finish()

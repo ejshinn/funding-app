@@ -33,7 +33,7 @@ class SearchAddressActivity : AppCompatActivity() {
                 view.loadUrl("javascript:sample2_execDaumPostcode();")
             }
         }
-        binding.webView.loadUrl("http://10.100.105.203:8080/search-address")
+        binding.webView.loadUrl("http://10.100.105.168:8080/search-address")
     }
 
     inner class MyJavaScriptInterface {
