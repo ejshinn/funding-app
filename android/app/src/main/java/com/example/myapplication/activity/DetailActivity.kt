@@ -40,10 +40,9 @@ class DetailActivity : AppCompatActivity() {
     lateinit var project:ProjectDetail
 
     var isFavorite = false
-
     var isLoggedIn = false
     var userId = ""
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -60,10 +59,7 @@ class DetailActivity : AppCompatActivity() {
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
 
-        // 뒤로 가기 버튼 활성화
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        // 툴바 타이틀 설정 (필요한 문자열로 변경)
         supportActionBar?.title = "상세 페이지"
 
         project = intent.getSerializableExtra("project") as ProjectDetail
@@ -87,12 +83,6 @@ class DetailActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.setCustomView(R.layout.custom_tabl)
         }.attach()
-
-        val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
-        isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
-        if(isLoggedIn == true){
-            userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
-        }
 
 
         // 좋아요 클릭
@@ -228,10 +218,9 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
-    private fun logConfirm(){
-        var userId = ""
+    private fun resumeMethod(){
         val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
-        val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
+        isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
         if(isLoggedIn == true){
             userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
         }
@@ -240,12 +229,8 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        var userId = ""
-        val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
-        isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
-        if(isLoggedIn == true){
-            userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
-        }
+
+        resumeMethod()
 
 
         if(isLoggedIn) {
@@ -281,8 +266,6 @@ class DetailActivity : AppCompatActivity() {
                 }
 
             })
-        }
-        else{
         }
     }
 
