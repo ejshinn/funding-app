@@ -41,6 +41,9 @@ class DetailActivity : AppCompatActivity() {
 
     var isFavorite = false
 
+    private var isLoggedIn = false
+    private var userId = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -85,9 +88,8 @@ class DetailActivity : AppCompatActivity() {
             tab.setCustomView(R.layout.custom_tabl)
         }.attach()
 
-        var userId = ""
         val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
-        val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
+        isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
         if(isLoggedIn == true){
             userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
         }
@@ -111,7 +113,7 @@ class DetailActivity : AppCompatActivity() {
 
             // user 정보 가져오기
             val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
-            val userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false")
+            userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false").toString()
             Log.d("DetailActivity", "${userId}")
 
             val FavoritePacket = FavoritePacket(project.projectId, userId!!)

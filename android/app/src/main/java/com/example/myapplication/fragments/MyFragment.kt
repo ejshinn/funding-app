@@ -24,6 +24,8 @@ import retrofit2.Response
 
 class MyFragment : Fragment() {
 
+
+    lateinit var binding:FragmentMyBinding
     lateinit var adapterForMy: AdapterForMy
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +38,7 @@ class MyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentMyBinding.inflate(layoutInflater)
+        binding = FragmentMyBinding.inflate(layoutInflater)
 
         val myList = listOf<String>(
             "내 후기",
@@ -52,6 +54,14 @@ class MyFragment : Fragment() {
         binding.recyclerView2.adapter = adapterForMy
         binding.recyclerView2.layoutManager = LinearLayoutManager(this.context)
 
+
+
+        return binding.root
+    }
+
+
+    override fun onResume() {
+        super.onResume()
         val shared = activity?.getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
         val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, null) == "true"
         val userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false")
@@ -126,8 +136,5 @@ class MyFragment : Fragment() {
                 startActivity(intent)
             }
         }
-
-        return binding.root
     }
-
 }
