@@ -59,6 +59,10 @@ class AdapterForCategoryDetail(var projectList: MutableList<ProjectDetail>): Rec
             holder.binding.imageButton.setImageResource(R.drawable.heart_icon)
             isFavorite = true
         }
+        else{
+            holder.binding.imageButton.setImageResource(R.drawable.tab_favorite)
+            isFavorite = false
+        }
 
         val imgBtn = holder.binding.imageButton
         imgBtn.setOnClickListener{
