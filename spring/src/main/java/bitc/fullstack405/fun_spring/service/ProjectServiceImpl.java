@@ -11,10 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,10 +63,11 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         var searchResult = projectRepository.querySearchTitle(
-                PageRequest.of(0, 10),
                 key).stream().map(ProjectDto::of).collect(Collectors.toCollection(LinkedList::new));
 
         manPurfumeList.addAll(searchResult);
+        var filter = new HashSet<>(manPurfumeList);
+        manPurfumeList = new ArrayList<>(filter);
         return manPurfumeList;
     }
 
