@@ -41,14 +41,13 @@ class DetailActivity : AppCompatActivity() {
 
     var isFavorite = false
 
-    private var isLoggedIn = false
-    private var userId = ""
-
+    var isLoggedIn = false
+    var userId = ""
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        Log.d("detailOpen", "onCreate")
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -105,7 +104,8 @@ class DetailActivity : AppCompatActivity() {
 
             // user 정보 가져오기
             val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
-            userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false").toString()
+            val userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "false")
+            Log.d("DetailActivity", "${userId}")
 
             val FavoritePacket = FavoritePacket(project.projectId, userId!!)
 
@@ -246,6 +246,7 @@ class DetailActivity : AppCompatActivity() {
         if(isLoggedIn == true){
             userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
         }
+
 
         if(isLoggedIn) {
             // 후원 여부 확인
