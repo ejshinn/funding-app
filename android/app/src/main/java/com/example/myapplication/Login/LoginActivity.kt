@@ -65,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
                         )
                         editor.commit()
                         Log.d("retrofit getProjectList", "-------")
-                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        finish()
                     }
                     else{
                         displayWarningDialog("아이디 또는 비밀번호를 확인해주세요")
@@ -84,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnCancel.setOnClickListener {
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            finish()
         }
     }
 

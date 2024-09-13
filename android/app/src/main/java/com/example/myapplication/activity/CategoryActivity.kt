@@ -95,31 +95,48 @@ class CategoryActivity : AppCompatActivity() {
             }
         }
 
-        var userId = ""
         val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
         val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
         if(isLoggedIn == true){
-            var favoriteProjectIdList:MutableList<Int>
-            userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
-
-            FunClient.retrofit.getFavoriteProject(userId).enqueue(object : retrofit2.Callback<List<ProjectDetail>>{
-                override fun onResponse(
-                    call: Call<List<ProjectDetail>>,
-                    response: Response<List<ProjectDetail>>
-                ) {
-                    val projectList = response.body() as MutableList<ProjectDetail>
-                    favoriteProjectIdList = projectList.stream().map { it.projectId }.collect(
-                        Collectors.toList()).toMutableList()
-                    categoryDetailAdapter.favoriteList = favoriteProjectIdList;
-                    categoryDetailAdapter.userId = userId
-                }
-
-                override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
-                }
-
-            })
+            loadFavorite()
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
+        val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
+        if(isLoggedIn == true) {
+            loadFavorite()
+        }
+    }
+
+
+    fun loadFavorite(){
+        var userId = ""
+        val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
+        var favoriteProjectIdList:MutableList<Int>
+        userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
+
+        FunClient.retrofit.getFavoriteProject(userId).enqueue(object : retrofit2.Callback<List<ProjectDetail>>{
+            override fun onResponse(
+                call: Call<List<ProjectDetail>>,
+                response: Response<List<ProjectDetail>>
+            ) {
+                val projectList = response.body() as MutableList<ProjectDetail>
+                favoriteProjectIdList = projectList.stream().map { it.projectId }.collect(
+                    Collectors.toList()).toMutableList()
+                categoryDetailAdapter.favoriteList = favoriteProjectIdList;
+                categoryDetailAdapter.userId = userId
+                categoryDetailAdapter.notifyDataSetChanged()
+            }
+
+            override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+            }
+
+        })
     }
 
     fun loadMoreData(page: Int) {

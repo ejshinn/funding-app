@@ -1,27 +1,20 @@
 package com.example.myapplication.fragments
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.Retrofit.FunClient
-import com.example.myapplication.adapters.AdapterForCategory
 import com.example.myapplication.adapters.AdapterForCategoryDetail
-import com.example.myapplication.adapters.AdapterForProduct
-import com.example.myapplication.adapters.AdapterForProductHoriz
 import com.example.myapplication.adapters.AdapterForSearch
 import com.example.myapplication.databinding.FragmentSearchBinding
 import com.example.myapplication.retrofitPacket.ProjectDetail
-import com.example.myapplication.search.AutoCompleteManager
 import com.example.myapplication.utils.Const
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,6 +24,8 @@ import java.util.stream.Collectors
 class SearchFragment : Fragment() {
 
     private lateinit var binding:FragmentSearchBinding
+
+    private lateinit var searchAdapter:AdapterForCategoryDetail
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +41,8 @@ class SearchFragment : Fragment() {
         val linearLayoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.layoutManager = gridLayoutManager
         binding.recyclerView.adapter = AdapterForSearch()
+        searchAdapter = AdapterForCategoryDetail((mutableListOf<ProjectDetail>()))
+
 
         val searchView = binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -56,6 +53,9 @@ class SearchFragment : Fragment() {
             // 텍스트 입력, 수정시 호출
             override fun onQueryTextChange(newText: String?): Boolean {
                 if(newText!!.isEmpty()){
+                    binding.recyclerView.layoutManager = gridLayoutManager
+                    binding.recyclerView.adapter = AdapterForSearch()
+                    binding.textView4.visibility = View.VISIBLE
                     return false
                 }
 
@@ -68,15 +68,19 @@ class SearchFragment : Fragment() {
                         if(result.isEmpty()){
                             binding.recyclerView.adapter =AdapterForSearch()
                             binding.recyclerView.layoutManager = gridLayoutManager
+                            binding.textView4.visibility = View.VISIBLE
                             return
                         }
-
-                        val suggestTextList = result.toMutableList()
-
-                        binding.recyclerView.adapter = AdapterForCategoryDetail(result)
+                        binding.textView4.visibility = View.GONE
+                        searchAdapter.projectList = result
+//                        searchAdapter.favoriteList = result.stream().map{it -> it.projectId}.collect(Collectors.toList()).toMutableList()
+                        val shared = context?.getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
+                        val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
+                        if(isLoggedIn == true) {
+                            loadFavorite()
+                        }
+                        binding.recyclerView.adapter = searchAdapter
                         binding.recyclerView.layoutManager = linearLayoutManager
-
-//                        binding.recyclerView.layoutManager = linearLayoutManager
                     }
 
 
@@ -94,53 +98,42 @@ class SearchFragment : Fragment() {
         }
 
 
-//        binding.btnSearchProjects.setOnClickListener{
-//            val searchKey = autoComplete.autoCompleteTextView.text.toString()
-//            if(searchKey.isBlank()){
-//                Toast.makeText(this.context, "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
-//            var userId = ""
-//            val shared = this.context?.getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
-//            val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
-//
-//            FunClient.retrofit.getProjectBySearchKey(searchKey).enqueue(object: Callback<List<ProjectDetail>> {
-//                override fun onResponse(
-//                    call: Call<List<ProjectDetail>>,
-//                    response: Response<List<ProjectDetail>>
-//                ) {
-//                    val categoryDetailAdapter = AdapterForCategoryDetail(response.body() as MutableList<ProjectDetail>)
-//                    binding.recyclerView.adapter = categoryDetailAdapter
-//
-//                    if(isLoggedIn == true){
-//                        var favoriteProjectIdList:MutableList<Int>
-//                        userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
-//
-//                        FunClient.retrofit.getFavoriteProject(userId).enqueue(object : retrofit2.Callback<List<ProjectDetail>>{
-//                            override fun onResponse(
-//                                call: Call<List<ProjectDetail>>,
-//                                response: Response<List<ProjectDetail>>
-//                            ) {
-//                                val projectList = response.body() as MutableList<ProjectDetail>
-//                                favoriteProjectIdList = projectList.stream().map { it.projectId }.collect(
-//                                    Collectors.toList()).toMutableList()
-//                                categoryDetailAdapter.favoriteList = favoriteProjectIdList;
-//                                categoryDetailAdapter.userId = userId
-//                            }
-//
-//                            override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
-//                            }
-//
-//                        })
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
-//                }
-//            })
-//        }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val shared = context?.getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
+        val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
+        if(isLoggedIn == true) {
+            loadFavorite()
+        }
+    }
+
+    fun loadFavorite(){
+        var userId = ""
+        val shared = context?.getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
+        var favoriteProjectIdList:MutableList<Int>
+        userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
+
+        FunClient.retrofit.getFavoriteProject(userId).enqueue(object : retrofit2.Callback<List<ProjectDetail>>{
+            override fun onResponse(
+                call: Call<List<ProjectDetail>>,
+                response: Response<List<ProjectDetail>>
+            ) {
+                val projectList = response.body() as MutableList<ProjectDetail>
+                favoriteProjectIdList = projectList.stream().map { it.projectId }.collect(
+                    Collectors.toList()).toMutableList()
+                searchAdapter.favoriteList = favoriteProjectIdList;
+                searchAdapter.userId = userId
+                searchAdapter.notifyDataSetChanged()
+            }
+
+            override fun onFailure(call: Call<List<ProjectDetail>>, t: Throwable) {
+            }
+
+        })
     }
 
 }
