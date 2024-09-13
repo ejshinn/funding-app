@@ -34,17 +34,20 @@ class MainActivity : AppCompatActivity() {
             }
         }.attach()
 
+
+        binding.floatingActionButton.setOnClickListener {
+            startActivity(Intent(this, MessageActivity::class.java))
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
         val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
         val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
-
         if(isLoggedIn) {
             binding.floatingActionButton.visibility = View.VISIBLE
         } else {
             binding.floatingActionButton.visibility = View.GONE
-        }
-
-        binding.floatingActionButton.setOnClickListener {
-            startActivity(Intent(this, MessageActivity::class.java))
         }
     }
 }
