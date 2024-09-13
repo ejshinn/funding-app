@@ -92,15 +92,6 @@ class DetailActivity : AppCompatActivity() {
             userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
         }
 
-        fun fillFavorite(fill: Boolean) {
-            if (fill) {
-                binding.buttonFavorite.setIconResource(R.drawable.heart_icon)
-                binding.buttonFavorite.setIconTintResource(R.color.orange)
-            } else {
-                binding.buttonFavorite.setIconResource(R.drawable.tab_favorite)
-                binding.buttonFavorite.setIconTintResource(R.color.gray)
-            }
-        }
 
         // 좋아요 클릭
         binding.buttonFavorite.setOnClickListener {
@@ -236,6 +227,18 @@ class DetailActivity : AppCompatActivity() {
         }
 
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        var userId = ""
+        val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
+        val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
+        if(isLoggedIn == true){
+            userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
+        }
+
         if(isLoggedIn) {
             // 후원 여부 확인
             FunClient.retrofit.checkSupporting(SupportPacket(project.projectId, userId))
@@ -270,6 +273,8 @@ class DetailActivity : AppCompatActivity() {
 
             })
         }
+        else{
+        }
     }
 
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
@@ -281,6 +286,17 @@ class DetailActivity : AppCompatActivity() {
 
         return true
     }
+
+    fun fillFavorite(fill: Boolean) {
+        if (fill) {
+            binding.buttonFavorite.setIconResource(R.drawable.heart_icon)
+            binding.buttonFavorite.setIconTintResource(R.color.orange)
+        } else {
+            binding.buttonFavorite.setIconResource(R.drawable.tab_favorite)
+            binding.buttonFavorite.setIconTintResource(R.color.gray)
+        }
+    }
+
 
     fun displayRequiredLoginDialog(){
         AlertDialog.Builder(this).run{

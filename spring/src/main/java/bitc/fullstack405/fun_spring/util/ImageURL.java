@@ -9,23 +9,29 @@ import java.util.List;
 
 @Component
 public class ImageURL {
+    
+
+    public static String BASE_URL = "";
 
     @Value("${image-base-url}")
-    private String baseUrl;
+    public void setBaseUrl(String url){
+        BASE_URL = url;
+    }
 
     public ArrayList<String> bannerImages() {
-        String img1 = baseUrl + "bannerList/" + "1.jpg";
-        String img2 = baseUrl + "bannerList/" + "2.jpg";
-        String img3 = baseUrl + "bannerList/" + "3.jpg";
+        String img1 = BASE_URL + "bannerList/" + "1.jpg";
+        String img2 = BASE_URL + "bannerList/" + "2.jpg";
+        String img3 = BASE_URL + "bannerList/" + "3.jpg";
         return new ArrayList<>(List.of(img1, img2, img3));
     }
 
-    public static String projectImg2(String thumbNail) {
-        return "http://10.100.105.168:8080/" +"projectList/" + thumbNail;
+    public static String projectImg2(String imgName) {
+        return BASE_URL +"projectList/" + imgName;
     }
 
+
     public static String projectImg(String content) {
-        return "http://10.100.105.168:8080/" + "contentList/" + content;
+        return BASE_URL + "contentList/" + content;
     }
 
 }
