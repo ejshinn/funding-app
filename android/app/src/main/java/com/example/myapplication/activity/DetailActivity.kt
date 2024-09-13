@@ -41,6 +41,8 @@ class DetailActivity : AppCompatActivity() {
 
     var isFavorite = false
 
+    var isLoggedIn = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -87,7 +89,7 @@ class DetailActivity : AppCompatActivity() {
 
         var userId = ""
         val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
-        val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
+        isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
         if(isLoggedIn == true){
             userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
         }
@@ -234,11 +236,12 @@ class DetailActivity : AppCompatActivity() {
         super.onResume()
         var userId = ""
         val shared = getSharedPreferences(Const.SHARED_PREF_LOGIN_NAME, Context.MODE_PRIVATE)
-        val isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
+        isLoggedIn = shared?.getString(Const.SHARED_PREF_LOGIN_KEY, "false") == "true"
         if(isLoggedIn == true){
             userId = shared?.getString(Const.SHARED_PREF_LOGIN_ID, "").toString()
         }
 
+        
         if(isLoggedIn) {
             // 후원 여부 확인
             FunClient.retrofit.checkSupporting(SupportPacket(project.projectId, userId))

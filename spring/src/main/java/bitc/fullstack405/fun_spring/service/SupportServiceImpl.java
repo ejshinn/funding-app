@@ -45,6 +45,13 @@ public class SupportServiceImpl implements SupportService {
 
     @Override
     public void createSupport(SupportCD_Dto supportCDDto) {
+        if(supportRepository.findByProject_ProjectIdAndUser_UserId(
+                supportCDDto.projectId(),
+                supportCDDto.userId()
+        ) != null){
+            return;
+        }
+
         ProjectEntity project = projectRepository.findByProjectId(supportCDDto.projectId());
         UserEntity user = userRepository.findByUserId(supportCDDto.userId());
 
