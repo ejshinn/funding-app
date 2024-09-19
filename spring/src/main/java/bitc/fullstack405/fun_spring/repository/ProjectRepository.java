@@ -40,7 +40,8 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
 
 
     // 마감 임박순으로 size 만큼
-    @Query(value = "select p from ProjectEntity as p order by case when p.contents like '%png' then 0 else 1 end , p.endDate - now() DESC")
+//    @Query(value = "select p from ProjectEntity as p order by case when p.contents like '%png' then 0 else 1 end , p.endDate - now() DESC")
+    @Query(value = "select p from ProjectEntity as p order by case when p.contents like '%png' then 0 else 1 end, p.endDate ASC")
     Page<ProjectEntity> findTop9By(Pageable pageable);
 
 
