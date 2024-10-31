@@ -31,14 +31,12 @@
 ## 📊 ERD
 ![ERD_screenshot](https://github.com/user-attachments/assets/d325304a-9fc3-407a-aff6-077593e7d3a3)
 
-
 ## 🙋 담당 영역
 - **ERD 설계**
 - **JPA 구축**
 - **안드로이드 개발**
   - 펀딩 글쓰기
   - 좋아요 기능 및 좋아요한 펀딩 목록 출력
-
 
 ## ▶️ 시연 영상
 https://github.com/user-attachments/assets/92ac3d4c-44d4-4003-81d5-de9681e40475
