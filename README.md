@@ -28,6 +28,10 @@
 * 펀딩 프로젝트 카테고리별 분류
 * 실시간 상담
 
+## 📊 ERD
+![ERD_screenshot](https://github.com/user-attachments/assets/d325304a-9fc3-407a-aff6-077593e7d3a3)
+
+
 ## 🙋 담당 영역
 - **ERD 설계**
 - **JPA 구축**
