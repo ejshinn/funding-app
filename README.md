@@ -29,7 +29,7 @@
 * 실시간 상담
 
 ## 📊 ERD
-![ERD_screenshot](https://github.com/user-attachments/assets/d325304a-9fc3-407a-aff6-077593e7d3a3)
+![erd](https://github.com/user-attachments/assets/c253579f-06f2-4a9b-92b3-7967d570a37d)
 
 ## 🙋 담당 영역
 - **ERD 설계**
